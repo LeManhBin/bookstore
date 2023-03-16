@@ -1,0 +1,92 @@
+footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 40px 80px;
+    border-top: 1px solid #eee;
+    margin-top: 100px;
+}
+
+footer .col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+footer .col span {
+    color: #000;
+}
+
+footer .logo {
+    margin-bottom: 30px;
+}
+
+footer h4 {
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+footer p {
+    font-size: 14px;
+    color: #B2B2B2;
+}
+
+footer a {
+    font-size: 13px;
+    text-decoration: none;
+    color: #B2B2B2;
+    margin-bottom: 10px;
+}
+
+footer a:hover {
+    color: #088178;
+}
+
+footer .follow {
+    margin-top: 20px;
+}
+footer .follow i {
+    color: #465b52;
+    padding-right: 4px;
+    cursor: pointer;
+}
+
+footer .follow i:nth-child(1):hover {
+    color: #3B5998;
+}
+
+footer .follow i:nth-child(2):hover {
+    color: #1DA1F2;
+}
+
+footer .follow i:nth-child(3):hover {
+    color: #E95950;
+}
+
+footer .follow i:nth-child(4):hover {
+    color: #DC3535;
+}
+
+footer .follow i:nth-child(5):hover {
+    color: #DC3535;
+}
+
+.footer .install .row {
+    display: flex;
+    flex-direction: column;
+}
+
+footer .install .row img {
+    border-radius: 6px;
+    width: 100px;
+    height: 50px;
+}
+
+.zalopay {
+    width: 100px;
+    height: 50px;
+}
+footer .install img {
+    margin: 10px 0 15px 0;
+}

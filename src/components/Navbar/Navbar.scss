@@ -1,0 +1,26 @@
+.navbar {
+    display: flex;
+    justify-content: flex-end !important;
+    height: 80px;
+    background: rgb(251,167,71);
+background: linear-gradient(20deg, rgba(251,167,71,1) 12%, rgba(219,83,59,1) 40%, rgba(255,142,64,1) 66%, rgba(240,91,17,1) 91%);
+
+    .navbar-content {
+        display: flex;
+        align-items: center;
+        padding: 0px 50px;
+        gap: 5px;
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+        }
+    }
+}

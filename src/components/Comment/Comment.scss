@@ -1,0 +1,39 @@
+.comment {
+    display: flex;
+    gap: 10px;
+
+    .avatar {
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+    }
+
+    &-desc {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        .star {
+
+        }
+
+        .comment-name {
+            display: flex;
+            gap: 10px;
+
+            .name  {
+                margin: 0;
+                font-size: 15px;
+                font-weight: 600;
+            }
+
+            .create-at {
+                color: #5a5a5a;
+            }
+        }
+
+        .comment-content {
+            font-size: 13px;
+        }
+    }
+}

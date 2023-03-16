@@ -1,0 +1,117 @@
+.card {
+    width: 205px;
+    height: 400px;
+    padding: 10px;
+    // border-right: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+    cursor: pointer;
+
+    &-img {
+        width: 170px;
+        height: 240px;
+        position: relative;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+        }
+
+        .card-action {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            right: -40px;
+            bottom: 50%;
+            transform: translate(0 , 50%);
+            transition: .5s;
+
+            .add-wish-list {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background-color: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .add-wish-list:hover {
+                color: #F65D4E;
+            }
+
+            .add-cart {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background-color: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .add-cart:hover {
+                color: #F65D4E;
+            }
+        }
+    }
+
+    &-desc {
+        display: flex;
+        flex-direction: column;
+        // margin-left: 20px;
+        gap: 10px;
+
+        .card-name {
+            margin: 0 auto;
+            margin-bottom: 0;
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 18px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            .star {
+                
+                i {
+                    color: yellow;
+                }
+            }
+
+            .quantity {
+                font-weight: 600;
+                font-size: 12px;
+            }
+        }
+
+        .card-author {
+            font-size: 14px;
+            color: #5a5a5a;
+            font-weight: 500;
+        }
+
+        .card-price {
+            font-size: 24px;
+            font-weight: 600;
+            color: #F65D4E;
+        }
+    }
+}
+
+.card:hover .card-action{
+    right: 10px;
+}

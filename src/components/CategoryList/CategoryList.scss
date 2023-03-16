@@ -1,0 +1,22 @@
+.category-list {
+    display: flex;
+
+    ul {
+        list-style: none;
+        font-size: 13px;
+        font-weight: 500;
+        color: #5a5a5a;
+        padding-right: 40px;
+        width: 100%;
+
+        li {
+            border-bottom: 1px solid #111;
+            width: 100%;
+            padding: 10px 0px;
+        }
+
+        li:hover {
+            color: #F65D4E;
+        }
+    }
+}
