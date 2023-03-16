@@ -61,6 +61,18 @@
                     border: 1px solid #eee;
                     width: 210px;
                 }
+                
+                .gender-container {
+                    width: 210px;
+                    display: flex;
+                    gap: 20px;
+
+                    .gender {
+                        display: flex;
+                        align-items: center;
+                        gap: 5px;
+                    }
+                }
             }
         }
         .center {

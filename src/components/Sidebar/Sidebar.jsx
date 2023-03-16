@@ -63,12 +63,6 @@ const Sidebar = () => {
                             <Link to={'/admin/category'}>
                                 <li className='link'>Quản lý danh mục</li>
                             </Link>
-                            <Link>
-                                <li className='link'>Quản lý NXB</li>
-                            </Link>
-                            <Link>
-                                <li className='link'>Quản lý tác giả</li>
-                            </Link>
                             <Link to={'/admin/topic'}>
                                 <li className='link'>Quản lý chủ đề</li>
                             </Link>

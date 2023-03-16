@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import { fetchAllDataCategory, fetchCreateCategory, fetchDeleteCategory, fetchUpdateCategory } from "../../../apis/categoryApi";
+import { fetchAllDataCategory, fetchCreateCategory, fetchDataCategoryById, fetchDeleteCategory, fetchUpdateCategory } from "../../../apis/categoryApi";
 
 
 const initialState = {
@@ -16,7 +16,10 @@ export const actFetchAllCategory = createAsyncThunk('category/actFetchAllCategor
     return data || []
 })
 
-
+export const actFetchCategoryById = createAsyncThunk('category/actFetchCategoryById', async (id) => {
+    const data = await fetchDataCategoryById(id)
+    return data || {}
+})
 
 export const categorySlice = createSlice({
     name:"category",
@@ -43,6 +46,11 @@ export const categorySlice = createSlice({
         builder.addCase(actFetchAllCategory.fulfilled, (state, action) => {
             state.isLoading = false;
             state.allCategory = action.payload || [];
+        })
+
+        builder.addCase(actFetchCategoryById.fulfilled,  (state, action) => {
+            state.isLoading = false;
+            state.category = action.payload || {}
         })
     }
 });

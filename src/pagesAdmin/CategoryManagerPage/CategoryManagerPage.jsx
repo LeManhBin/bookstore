@@ -6,38 +6,81 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller, useForm } from 'react-hook-form';
 import { addCategorySchema } from '../../constants/addCategorySchema';
 import { useDispatch, useSelector } from 'react-redux';
-import { actCreateCategory, actFetchAllCategory } from '../../redux/features/categorySlice/categorySlide';
+import { actCreateCategory, actDeleteCategory, actFetchAllCategory, actFetchCategoryById, actUpdateCategory } from '../../redux/features/categorySlice/categorySlide';
+import Modal from '../../components/ModalDelete/Modal';
+import Pagination from '../../components/Pagination/Pagination';
+
 
 const initialFormValue = {
   name: '',
-  icon: '',
+  thumbnail: '',
 }
 const CategoryManagerPage = () => {
   const [isEdit, setIsEdit] = useState(false)
+  const [isDelete, setIsDelete] = useState(false)
+  const [idTemp, setIdtemp] = useState("")
+
   const {allCategory} = useSelector((state) => state.category)
   const dispatch = useDispatch()
-  console.log(allCategory);
+
+  //phân trang
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(7)
+  const lastPageIndex = currentPage * limit;
+  const firstPageIndex = lastPageIndex - limit;
+  const currentItems = allCategory.slice(firstPageIndex, lastPageIndex);
+
+  const totalPage = allCategory.length
+
 
 
   useEffect(() => {
     dispatch(actFetchAllCategory())
   },[])
+
+ useEffect(() => {
+    dispatch(actFetchCategoryById(idTemp))
+ }, [idTemp])
+
   //validate
   const methods = useForm({
     defaultValues: initialFormValue,
     resolver: yupResolver(addCategorySchema)
   })
 
-  const {control, handleSubmit, formState: {errors}} = methods
+  const {control, handleSubmit, formState: {errors}, reset} = methods
 
   const onValid = (values) => {
     const payload = {
       name: values.name,
-      icon: values.icon,
+      thumbnail: values.thumbnail,
     }
-    console.log(payload);
     dispatch(actCreateCategory(payload))
+
+    reset();
   }
+
+  const handleModalDelete = (id) => {
+    setIsDelete(true)
+    setIdtemp(id)
+  }
+
+  const handleDelete = (id) => {
+    dispatch(actDeleteCategory(id))
+  }
+
+  const handleIsEdit = (data) => {
+    setIdtemp(data.id)
+    setIsEdit(true)
+  }
+
+  const onUpdate = (values) => {
+    dispatch(actUpdateCategory(idTemp,values))
+    setIsEdit(false)
+    reset()
+  }
+
+
   return (
     <div className='manager'>
         <div className='heading'>
@@ -56,15 +99,15 @@ const CategoryManagerPage = () => {
                   </thead>
                   <tbody>
                       {
-                        allCategory.map((data, index) => {
+                        currentItems.map((data, index) => {
                           return(
                             <tr key={data.id}>
                               <td>{index + 1}</td>
                               <td>{data.name}</td>
                               <td>{data.thumbnail}</td>
                               <td className='button'>
-                                <button className='edit-btn'><i className="fa-regular fa-pen-to-square"></i></button>
-                                <button className='delete-btn'><i className="fa-sharp fa-solid fa-trash"></i></button>
+                                <button className='edit-btn' onClick={() => handleIsEdit(data)}><i className="fa-regular fa-pen-to-square"></i></button>
+                                <button className='delete-btn' onClick={() => handleModalDelete(data.id)}><i className="fa-sharp fa-solid fa-trash"></i></button>
                               </td>
                             </tr>
                           )
@@ -72,12 +115,21 @@ const CategoryManagerPage = () => {
                       }
                   </tbody>
                 </Table>
+                <div className='pagination'>
+                    <Pagination
+                    currentPage={currentPage}
+                    limit={limit}
+                    setCurrentPage={setCurrentPage}
+                    totalPage={totalPage}
+                    background={'#AEE2FF'}
+                />
+                </div>
               </div>
               <div className='right'>
                   <div className="title">
-                      <h3>Thêm mới</h3>
+                      <h3>{isEdit ? 'Cập nhật' : 'Thêm mới'}</h3>
                   </div>
-                  <form onSubmit={handleSubmit(onValid)}>
+                  <form onSubmit={isEdit ? handleSubmit(onUpdate) : handleSubmit(onValid)}>
                       <div className="form-input">
                         <label htmlFor="">Tên danh mục <span className='tick'>*</span></label>
                         <Controller
@@ -92,18 +144,32 @@ const CategoryManagerPage = () => {
                       <div className="form-input">
                         <label htmlFor="">Icon <span className='tick'>*</span></label>
                         <Controller
-                          name='icon'
+                          name='thumbnail'
                           control={control}
                           render={({field: {value, onChange}})  => (
                             <input value={value} onChange={onChange} type="text" placeholder='Nhập Icon'/>
                           )}
                         />
-                         {!!errors.icon && <span style={{color: 'red', textAlign:'center', fontSize: '12px'}}>{errors.icon.message}</span>}
+                         {!!errors.thumbnail && <span style={{color: 'red', textAlign:'center', fontSize: '12px'}}>{errors.thumbnail.message}</span>}
                       </div>
-                      <button type='submit'>Thêm mới</button>
+                      <button type='submit'>{isEdit ? 'Cập nhật' : 'Thêm mới'}</button>
+                      {
+                        isEdit && <button onClick={() => setIsEdit(false)}>Huỷ</button>
+                      }
                   </form>
               </div>
         </div>
+          {
+            isDelete && 
+            <Modal
+            setIsDelete={setIsDelete} 
+            title={"Bạn có chắc muốn xoá!"} 
+            color={"#F65D4E"}
+            handleDelete={handleDelete}
+            idTemp={idTemp}
+            />
+          }
+        
     </div>
   )
 }
