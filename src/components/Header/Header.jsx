@@ -45,11 +45,11 @@ const Header = () => {
                     }
                 </div>
                 <div className='wishlist'>
-                    <i className="fa-regular fa-heart"></i>
+                    <NavLink style={styleActive} to={"/wish-list"}><i className="fa-regular fa-heart"></i></NavLink>
                     <span className='quantity'>4</span>
                 </div>
                 <div className='cart'>
-                    <i className="fa-solid fa-cart-shopping"></i>
+                    <NavLink style={styleActive} to={"/cart"}><i className="fa-solid fa-cart-shopping"></i></NavLink>
                     <span className="quantity">0</span>
                 </div>
             </div>

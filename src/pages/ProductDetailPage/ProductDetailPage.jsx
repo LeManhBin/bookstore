@@ -1,11 +1,24 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import Card from '../../components/Card/Card'
 import Comment from '../../components/Comment/Comment'
 import CommentInput from '../../components/CommentInput/CommentInput'
 import { cardData } from '../../constants/cartData'
+import useScrollToTop from '../../hooks/useScrollToTop'
 
 import './ProductDetailPage.scss'
 const ProductDetailPage = () => {
+    useScrollToTop()
+    const param = useParams()
+    const [cardState, setCardState] = useState({})
+
+    const data = cardData.find(data => data.id === Number(param.idProduct))
+
+    useEffect(() => {
+        setCardState(data)
+    },[param])
+
+    console.log(cardState);
     const [quantity, setQuantity] = useState(1)
 
     const handleDecrease = () => {
@@ -26,14 +39,14 @@ const ProductDetailPage = () => {
     <div className='product-detail'>
         <div className='product-detail-content'>
             <div className='left'>
-                <img src="https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/02/35.jpg" alt="" />
+                <img src={cardState.img} alt="" />
             </div>
 
             <div className="right">
                 <div className="top">
-                    <h1 className='name-product'>Rich Dad Poor Dad</h1>
+                    <h1 className='name-product'>{cardState.name}</h1>
                     <div className='author-product'>
-                        <p><span>Author: </span>Misty Figueroa</p>
+                        <p><span>Author: </span>{cardState.author}</p>
                         <div className='rating'>
                             <div className='star'>
                                 <i className="fa-solid fa-star"></i>
@@ -48,7 +61,7 @@ const ProductDetailPage = () => {
                 </div>
                 <div className='mid'>
                     <div className='price'>
-                        <span>$150</span>
+                        <span>${cardState.price}</span>
                     </div>
                     <div className='desc'>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni iste natus nulla nam qui ratione alias facilis quia dolorem temporibus deserunt numquam odit nostrum aliquid a, consequatur perferendis veniam autem.</p>
@@ -116,7 +129,9 @@ const ProductDetailPage = () => {
                 {
                     cardData.slice(0,6).map(data => {
                         return(
-                            <Card data={data}/>
+                            <div key={data.id}>
+                                <Card data={data}/>
+                            </div>
                         )
                     })
                 }

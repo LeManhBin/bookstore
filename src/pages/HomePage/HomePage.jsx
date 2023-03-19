@@ -13,8 +13,10 @@ import { cardData } from '../../constants/cartData'
 import LieBanner from '../../components/LieBanner/LieBanner'
 import CardVendor from '../../components/CardVendor/CardVendor'
 import { vendorData } from '../../constants/vendorData'
+import useScrollToTop from '../../hooks/useScrollToTop'
 
 const HomePage = () => {
+  useScrollToTop()
   const settings = {
     dots: true,
     infinite: true,

@@ -1,6 +1,8 @@
 import React from 'react'
+import useScrollToTop from '../../hooks/useScrollToTop'
 import './ProfilePage.scss'
 const ProfilePage = () => {
+  useScrollToTop()
   return (
     <div className='profile'>
       <form >

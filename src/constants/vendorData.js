@@ -5,6 +5,8 @@ export const vendorData = [
         avatar: "https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/11/store-2.jpg",
         name: "Library",
         quantity: 10,
+        address: 'Đà Nẵng - Việt Nam',
+        phone: "0365160470",
     },
     {
         id: 2,
@@ -12,6 +14,8 @@ export const vendorData = [
         avatar: "https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/11/store-2.jpg",
         name: "Library",
         quantity: 10,
+        address: 'Đà Nẵng - Việt Nam',
+        phone: "0365160470",
     },
     {
         id: 3,
@@ -19,6 +23,8 @@ export const vendorData = [
         avatar: "https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/11/store-2.jpg",
         name: "Library",
         quantity: 10,
+        address: 'Đà Nẵng - Việt Nam',
+        phone: "0365160470",
     },
     {
         id: 4,
@@ -26,6 +32,8 @@ export const vendorData = [
         avatar: "https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/11/store-2.jpg",
         name: "Library",
         quantity: 10,
+        address: 'Đà Nẵng - Việt Nam',
+        phone: "0365160470",
     },
     {
         id: 5,
@@ -33,6 +41,8 @@ export const vendorData = [
         avatar: "https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/11/store-2.jpg",
         name: "Library",
         quantity: 10,
+        address: 'Đà Nẵng - Việt Nam',
+        phone: "0365160470",
     },
     {
         id: 6,
@@ -40,6 +50,8 @@ export const vendorData = [
         avatar: "https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/11/store-2.jpg",
         name: "Library",
         quantity: 10,
+        address: 'Đà Nẵng - Việt Nam',
+        phone: "0365160470",
     },
     {
         id: 7,
@@ -47,6 +59,8 @@ export const vendorData = [
         avatar: "https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/11/store-2.jpg",
         name: "Library",
         quantity: 10,
+        address: 'Đà Nẵng - Việt Nam',
+        phone: "0365160470",
     },
     {
         id: 8,
@@ -54,6 +68,8 @@ export const vendorData = [
         avatar: "https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/11/store-2.jpg",
         name: "Library",
         quantity: 10,
+        address: 'Đà Nẵng - Việt Nam',
+        phone: "0365160470",
     },
     {
         id: 9,
@@ -61,6 +77,8 @@ export const vendorData = [
         avatar: "https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/11/store-2.jpg",
         name: "Library",
         quantity: 10,
+        address: 'Đà Nẵng - Việt Nam',
+        phone: "0365160470",
     },
     {
         id: 10,
@@ -68,6 +86,8 @@ export const vendorData = [
         avatar: "https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/11/store-2.jpg",
         name: "Library",
         quantity: 10,
+        address: 'Đà Nẵng - Việt Nam',
+        phone: "0365160470",
     },
     {
         id: 11,
@@ -75,6 +95,8 @@ export const vendorData = [
         avatar: "https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/11/store-2.jpg",
         name: "Library",
         quantity: 10,
+        address: 'Đà Nẵng - Việt Nam',
+        phone: "0365160470",
     },
     {
         id: 12,
@@ -82,6 +104,8 @@ export const vendorData = [
         avatar: "https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/11/store-2.jpg",
         name: "Library",
         quantity: 10,
+        address: 'Đà Nẵng - Việt Nam',
+        phone: "0365160470",
     },
     {
         id: 13,
@@ -89,6 +113,8 @@ export const vendorData = [
         avatar: "https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/11/store-2.jpg",
         name: "Library",
         quantity: 10,
+        address: 'Đà Nẵng - Việt Nam',
+        phone: "0365160470",
     },
     {
         id: 14,
@@ -96,6 +122,8 @@ export const vendorData = [
         avatar: "https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/11/store-2.jpg",
         name: "Library",
         quantity: 10,
+        address: 'Đà Nẵng - Việt Nam',
+        phone: "0365160470",
     },
     {
         id: 15,
@@ -103,6 +131,8 @@ export const vendorData = [
         avatar: "https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/11/store-2.jpg",
         name: "Library",
         quantity: 10,
+        address: 'Đà Nẵng - Việt Nam',
+        phone: "0365160470",
     },
     {
         id: 16,
@@ -110,5 +140,7 @@ export const vendorData = [
         avatar: "https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/11/store-2.jpg",
         name: "Library",
         quantity: 10,
+        address: 'Đà Nẵng - Việt Nam',
+        phone: "0365160470",
     },
 ]

@@ -13,7 +13,6 @@ const initialState = {
     password: '',
     gender: '',
     address: '',
-    avatar: '',
     role: 1,
 }
 const AddNewAccount = () => {
@@ -29,12 +28,8 @@ const AddNewAccount = () => {
         const file = e.target.files[0]
         file.preview = URL.createObjectURL(file)
         setAvatar(file)
-        const formData = new FormData()
-        formData.append('file', file, file.name)
-        setDataImg(formData)
+        setDataImg(file)
         e.target.value = null
-       
-        
     }
 
     useEffect(() => {
@@ -67,22 +62,21 @@ const AddNewAccount = () => {
         const {name, value} = e.target
         setFormState({
             ...formState,
-            [name]: value,
-           
+            [name]: value,       
         })
     }
 
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        // dispatch(actCreateUser(formState))
-        const formData = new FormData()
-        
-        formData.append('user', formState);
-        formData.append('image', dataImg);
+        const formData =  new FormData();
+        formData.append("object", JSON.stringify(formState));
+        formData.append("file", dataImg);
+        dispatch(actCreateUser(formData))
         console.log(formState, 'formdata');
         console.log(dataImg,'hình đây nè');
-        dispatch(actCreateUser(formData))
+
+        navigate("/admin/account-manager")
 
     }
     const handleBack = () => {

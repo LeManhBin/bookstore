@@ -1,8 +1,13 @@
 import React from 'react'
 import './AccountPage.scss'
+import useScrollToTop from '../../hooks/useScrollToTop'
+
 const AccountPage = () => {
+  useScrollToTop()
   return (
-    <div>AccountPage</div>
+    <div className='account-page'>
+        
+    </div>
   )
 }
 

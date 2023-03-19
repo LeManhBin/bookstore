@@ -1,6 +1,6 @@
 .card {
-    width: 205px;
-    height: 400px;
+    width: 300px;
+    height: 500px !important;
     padding: 10px;
     // border-right: 1px solid #eee;
     display: flex;
@@ -10,8 +10,8 @@
     cursor: pointer;
 
     &-img {
-        width: 170px;
-        height: 240px;
+        width: 280px;
+        height: 400px;
         position: relative;
         overflow: hidden;
 
@@ -19,6 +19,7 @@
             width: 100%;
             height: 100%;
             border-radius: 10px;
+            object-fit: cover;
         }
 
         .card-action {
@@ -64,11 +65,11 @@
     &-desc {
         display: flex;
         flex-direction: column;
-        // margin-left: 20px;
+        align-items: flex-start;
+        width: 100%;
         gap: 10px;
 
         .card-name {
-            margin: 0 auto;
             margin-bottom: 0;
             margin-top: 10px;
             font-weight: bold;

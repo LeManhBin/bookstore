@@ -1,8 +1,10 @@
 import React from 'react'
 import './Heading.scss'
-const Heading = () => {
+const Heading = ({title}) => {
   return (
-    <div>Heading</div>
+    <div className='heading-container'>
+        <h1>{title}</h1>
+    </div>
   )
 }
 

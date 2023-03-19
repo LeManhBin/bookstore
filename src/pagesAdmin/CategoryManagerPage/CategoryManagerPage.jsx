@@ -7,8 +7,10 @@ import { Controller, useForm } from 'react-hook-form';
 import { addCategorySchema } from '../../constants/addCategorySchema';
 import { useDispatch, useSelector } from 'react-redux';
 import { actCreateCategory, actDeleteCategory, actFetchAllCategory, actFetchCategoryById, actUpdateCategory } from '../../redux/features/categorySlice/categorySlide';
-import Modal from '../../components/ModalDelete/Modal';
 import Pagination from '../../components/Pagination/Pagination';
+import ModalDelete from '../../components/Modal/ModalDelete';
+import ModalAcces from '../../components/ModalAcces/ModalAcces';
+
 
 
 const initialFormValue = {
@@ -160,14 +162,17 @@ const CategoryManagerPage = () => {
               </div>
         </div>
           {
-            isDelete && 
-            <Modal
+            isDelete && <ModalAcces
             setIsDelete={setIsDelete} 
             title={"Bạn có chắc muốn xoá!"} 
             color={"#F65D4E"}
             handleDelete={handleDelete}
             idTemp={idTemp}
+            
             />
+            // <ModalDelete
+   
+            // />
           }
         
     </div>

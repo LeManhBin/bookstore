@@ -1,0 +1,197 @@
+.vendor-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    margin-top: 110px;
+
+    .heading {
+        padding: 0;
+    }
+
+    .vendor-banner {
+        display: flex;
+        gap: 30px;
+        padding: 0 100px;
+
+        .left {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            flex: 2;
+
+            .left-title {
+                font-size: 18px;
+                font-weight: bold;
+            }
+
+            .category {
+                list-style: none;
+                background-color: #A7FFE4;
+                padding: 20px 20px;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                border-radius: 10px;
+                margin: 0;
+
+                li {
+                    font-size: 14px;
+                    font-weight: 400;
+                    color: #5a5a5a;
+                }
+            }
+
+        }
+
+        .right {
+            flex: 7;
+            border-radius: 10px;
+            overflow: hidden;
+            background-repeat: no-repeat;
+            background-size: cover;
+            image-rendering: auto;
+
+
+            .content {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                padding: 30px;
+                height: 100%;
+                width: 40%;
+                background-color: rgb(0, 0, 0, 0.8);
+
+                .avatar {
+                    width: 70px;
+                    height: 70px;
+                    border: 3px solid #fff;
+                    border-radius: 5px;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        border-radius: 5px;
+                    }
+                }
+
+                span {
+                    color: #fff;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    font-weight: 600;
+                }
+                .name {
+                    font-size: 20px;
+                    font-weight: bold;
+                }
+
+            }
+        }
+    }
+    .vendor-product {
+        display: flex;
+        padding: 0px 100px;
+        gap: 30px;
+
+        .left {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            flex: 2;
+
+            .left-title {
+                font-size: 18px;
+                font-weight: bold;
+            }
+
+            form {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+
+                input {
+                    padding: 5px 10px;
+                    outline: none;
+                    border: 1px solid #eee;
+                    border-radius: 5px;
+                }
+
+                textarea {
+                    padding: 5px 10px;
+                    outline: none;
+                    border: 1px solid #eee;
+                    border-radius: 5px;
+                }
+
+                button {
+                    padding: 5px 10px;
+                    border-radius: 5px;
+                    border: none;
+                    background-color: #F65D4E;
+                    color: #fff;
+                    font-weight: bold;
+                }
+            }
+        }
+
+        .right {
+            flex: 7;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+
+            .right-title {
+                padding-bottom: 20px;
+                border-bottom: 2px solid #F65D4E;
+
+                span {
+                    font-size: 18px;
+                    font-weight: bold;
+                }
+            }
+
+            .search-container {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+
+                .search-input {
+                    border: 1px solid #eee;
+                    padding: 0px 10px;
+                    width: 300px;
+                    border-radius: 5px;
+                    display: flex;
+                    align-items: center;
+
+
+                    input {
+                        padding: 5px 10px;
+                        outline: none;
+                        border: none;
+                        width: 100%;
+                    }
+
+                    i {
+                        color: #F65D4E;
+                    }
+                }
+
+                select {
+                    padding: 5px 10px;
+                    border: 1px solid #eee;
+                    outline: none;
+                    border-radius: 5px;
+                }
+            }
+        }
+    }
+
+    .product {
+        display: flex;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
+}

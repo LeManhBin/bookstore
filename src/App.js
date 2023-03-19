@@ -22,6 +22,11 @@ import ContactManagerPage from "./pagesAdmin/ContactManagerPage/ContactManagerPa
 import UnWatchedContactPage from "./pagesAdmin/ContactManagerPage/UnWatchedContactPage";
 import AccountPage from "./pages/AccountPage/AccountPage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
+import UpdateAccount from "./pagesAdmin/AccountManagerPage/UpdateAccount";
+import AddNewService from "./pagesAdmin/ServiceManagerPage/AddNewService";
+import VendorDetail from "./pages/VendorDetail/VendorDetail";
+import WishListPage from "./pages/WishListPage/WishListPage";
+import CartPage from "./pages/CartPage/CartPage";
 
 function App() {
   return (
@@ -33,10 +38,13 @@ function App() {
               <Route path="product" element={<ProductPage/>}/>
               <Route path="product/:idProduct" element={<ProductDetailPage/>}/>
               <Route path="vendor" element={<VendorPage/>}/>
+              <Route path="vendor/:idVendor" element={<VendorDetail/>}/>
               <Route path="blog" element={<BlogPage/>}/>
               <Route path="contact" element={<ContactPage/>}/>
               <Route path="account" element={<AccountPage/>}/>
               <Route path="account/profile" element={<ProfilePage/>}/>
+              <Route path="wish-list" element={<WishListPage/>}/>
+              <Route path="cart" element={<CartPage/>}/>
           </Route>
 
           <Route path="/admin" element={<AdminLayout/>}>
@@ -46,7 +54,9 @@ function App() {
               <Route path="topic" element={<TopicPage/>}/>
               <Route path="account-manager" element={<AccountManagerPage/>}/>
               <Route path="add-new-account" element={<AddNewAccount/>}/>
+              <Route path="account-manager/:idAccount" element={<UpdateAccount/>}/>
               <Route path="service" element={<ServiceManagerPage/>}/>
+              <Route path="add-new-service" element={<AddNewService/>}/>
               <Route path="contact" element={<ContactManagerPage/>}/>
               <Route path="contact-unread" element={<UnWatchedContactPage/>}/>
           </Route>

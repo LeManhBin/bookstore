@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
-import './Modal.scss'
-const Modal = ({setIsDelete, title, color, handleDelete, idTemp}) => {
+import React from 'react'
+import './ModalDelete.scss'
+const ModalDelete = ({setIsDelete, title, color, handleDelete, idTemp}) => {
     const handleClick = () => {
         handleDelete(idTemp)
         setIsDelete(false)
@@ -18,4 +18,4 @@ const Modal = ({setIsDelete, title, color, handleDelete, idTemp}) => {
   )
 }
 
-export default Modal
+export default ModalDelete

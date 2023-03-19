@@ -76,14 +76,16 @@
                 .img {
 
                     img {
-                        width: 100px;
-                        height: 100px;
+                        width: 60px !important;
+                        height: 60px !important;
                         object-fit: cover;
+                        border-radius: 50%;
                     }
                 }
 
                 .button {
                     text-align: center;
+                    white-space: nowrap;
                     
                     .edit-btn {
                         background-color: #62CDFF;

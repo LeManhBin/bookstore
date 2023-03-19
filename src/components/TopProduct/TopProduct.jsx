@@ -1,7 +1,13 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { cardData } from '../../constants/cartData'
 import './TopProduct.scss'
 const TopProduct = () => {
+    const navigate = useNavigate()
+
+    const handleClickDetail = (id) => {
+        navigate(`/product/${id}`)
+    }
   return (
     <div className='top__product'>
         <div className='top__product--heading'>
@@ -11,7 +17,7 @@ const TopProduct = () => {
             {
                 cardData.slice(0,6).map((data, index) => {
                     return(
-                        <div className='product-box'  key={data.id}>
+                        <div className='product-box'  key={data.id} onClick={() => handleClickDetail(data.id)}> 
                             <div className='product-img'>
                                 <img src={data.img} alt="" />
                                 <span className='top'>{index + 1}</span>

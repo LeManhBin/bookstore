@@ -4,26 +4,38 @@ import AdminHeading from '../../components/AdminHeading/AdminHeading'
 import Table from 'react-bootstrap/Table';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { actDeleteUser, actFetchAllUser } from '../../redux/features/userSlice/userSlice';
+import { actDeleteUser, actFetchAllUser, actFetchUserById } from '../../redux/features/userSlice/userSlice';
 import Pagination from '../../components/Pagination/Pagination';
-import Modal from '../../components/ModalDelete/Modal';
+import UpdateAccount from './UpdateAccount';
+import ModalDelete from '../../components/Modal/ModalDelete';
+import ModalAcces from '../../components/ModalAcces/ModalAcces';
 
 
 const AccountManagerPage = () => {
   const [isDelete, setIsDelete] = useState(false)
+  const [isEdit, setIsEdit] = useState(false)
   const [idTemp, setIdtemp] = useState('')
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const {allUser} = useSelector((state) => state.user)
 
-  //phân trang
+
+
+  // phân trang
   const [currentPage, setCurrentPage] = useState(1);
-  const [limit, setLimit] = useState(3)
+  const [limit, setLimit] = useState(5)
   const lastPageIndex = currentPage * limit;
   const firstPageIndex = lastPageIndex - limit;
   const currentItems = allUser.slice(firstPageIndex, lastPageIndex);
 
   const totalPage = allUser.length
+
+  // const handleFilterBlog = () => {
+  //   return allUser.filter((user) => {
+  //     console.log(user);
+  //   }).slice(firstPageIndex, lastPageIndex);
+  // }
 
   useEffect(() => {
     dispatch(actFetchAllUser())
@@ -41,6 +53,10 @@ const AccountManagerPage = () => {
   const handleDelete = (id) => {
     dispatch(actDeleteUser(id))
   }
+
+  const handleModalUpdate = (id) => {
+    navigate(`/admin/account-manager/${id}`)
+  }
   return (
     <div className='manager'>
         <div className='heading'>
@@ -48,7 +64,7 @@ const AccountManagerPage = () => {
         </div>
         <div className='search'>
             <div className='search-input'>
-                <input type="text" placeholder='Nhập email hoặc số điện thoại...'/>
+                <input type="text" placeholder='Nhập email hoặc số điện thoại...' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
                 <button><i className="fa-solid fa-magnifying-glass"></i></button>
             </div>
             <button className='add-new' onClick={handleAddNewPage}>Thêm mới</button>
@@ -71,22 +87,22 @@ const AccountManagerPage = () => {
                   </thead>
                   <tbody>
                     {
-                      currentItems.filter(user => user.status === 0).map((data, index) => {
+                        currentItems.map((data, index) => {
                         return(
-                          <tr key={data.id}>
+                          <tr key={data.user.id}>
                             <td>{currentPage + index}</td>
-                            <td>{data.name}</td>
+                            <td>{data.user.name}</td>
                             <td className='img'>
-                                <img src={data.avatar} alt="" />
+                                <img src={`data:image/jpeg;base64,${data.image}`} alt="Product" />
                             </td>
-                            <td>{data.email}</td>
-                            <td>{data.phone}</td>
-                            <td>{data.gender}</td>
-                            <td>{data.address}</td>
-                            <td>{data.role.name}</td>
+                            <td>{data.user.email}</td>
+                            <td>{data.user.phone}</td>
+                            <td>{data.user.gender}</td>
+                            <td>{data.user.address}</td>
+                            <td>{data.user.role}</td>
                             <td className='button'>
-                              <button className='edit-btn'><i className="fa-regular fa-pen-to-square"></i></button>
-                              <button className='delete-btn' onClick={() => handleModalDelete(data.id)}><i className="fa-sharp fa-solid fa-trash"></i></button>
+                              <button className='edit-btn' onClick={() => handleModalUpdate(data.user.id)}><i className="fa-regular fa-pen-to-square"></i></button>
+                              <button className='delete-btn' onClick={() => handleModalDelete(data.user.id)}><i className="fa-sharp fa-solid fa-trash"></i></button>
                             </td>
                         </tr>
                         )
@@ -107,7 +123,7 @@ const AccountManagerPage = () => {
         </div>
         {
             isDelete && 
-            <Modal
+            <ModalAcces
             setIsDelete={setIsDelete} 
             title={"Bạn có chắc muốn xoá!"} 
             color={"#F65D4E"}
