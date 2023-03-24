@@ -21,7 +21,6 @@ const AccountManagerPage = () => {
   const {allUser} = useSelector((state) => state.user)
 
 
-
   // phân trang
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(5)
@@ -31,11 +30,11 @@ const AccountManagerPage = () => {
 
   const totalPage = allUser.length
 
-  // const handleFilterBlog = () => {
-  //   return allUser.filter((user) => {
-  //     console.log(user);
-  //   }).slice(firstPageIndex, lastPageIndex);
-  // }
+  const handleFilterBlog = () => {
+    return allUser?.filter((user) => {
+      return user?.object?.name.toLowerCase().includes(searchTerm.toLowerCase());
+    }).slice(firstPageIndex, lastPageIndex);
+  }
 
   useEffect(() => {
     dispatch(actFetchAllUser())
@@ -44,6 +43,7 @@ const AccountManagerPage = () => {
     navigate('/admin/add-new-account')
   }
 
+  console.log(allUser);
 
   const handleModalDelete = (id) => {
     setIsDelete(true)
@@ -80,29 +80,33 @@ const AccountManagerPage = () => {
                       <th>Gmail</th>
                       <th>SĐT</th>
                       <th>Giới tính</th>
-                      <th>Địa Chỉ</th>
                       <th>Quyền</th>
                       <th>Thao Tác</th>
                     </tr>
                   </thead>
                   <tbody>
                     {
-                        currentItems.map((data, index) => {
+                        handleFilterBlog().map((data, index) => {
+                          let role
+                          if(data?.object?.role == 1) {
+                            role = "Admin"
+                          }else{
+                            role = "Khách hàng"
+                          }
                         return(
-                          <tr key={data.user.id}>
+                          <tr key={data?.object?.id}>
                             <td>{currentPage + index}</td>
-                            <td>{data.user.name}</td>
+                            <td className='name'>{data?.object?.name}</td>
                             <td className='img'>
-                                <img src={`data:image/jpeg;base64,${data.image}`} alt="Product" />
+                                <img src={`data:image/jpeg;base64,${data?.file}`} alt="Product" />
                             </td>
-                            <td>{data.user.email}</td>
-                            <td>{data.user.phone}</td>
-                            <td>{data.user.gender}</td>
-                            <td>{data.user.address}</td>
-                            <td>{data.user.role}</td>
+                            <td className='email'>{data?.object?.email}</td>
+                            <td>{data?.object?.phone}</td>
+                            <td>{data?.object?.gender}</td>
+                            <td>{role}</td>
                             <td className='button'>
-                              <button className='edit-btn' onClick={() => handleModalUpdate(data.user.id)}><i className="fa-regular fa-pen-to-square"></i></button>
-                              <button className='delete-btn' onClick={() => handleModalDelete(data.user.id)}><i className="fa-sharp fa-solid fa-trash"></i></button>
+                              <button className='edit-btn' onClick={() => handleModalUpdate(data?.object?.id)}><i className="fa-regular fa-pen-to-square"></i></button>
+                              <button className='delete-btn' onClick={() => handleModalDelete(data?.object?.id)}><i className="fa-sharp fa-solid fa-trash"></i></button>
                             </td>
                         </tr>
                         )

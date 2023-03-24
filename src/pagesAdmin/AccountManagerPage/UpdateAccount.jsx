@@ -36,15 +36,14 @@ const UpdateAccount = () => {
         setFormUpdate(user)
     },[user])
 
-
+    console.log(user, '===============');
     const handleOnChange = (e) =>  {
         const name = e.target.name;
         const value = e.target.value;
         setFormUpdate((prevState) => ({
             ...prevState,
-            image: null,
-            user: {
-            ...prevState.user,
+            object: {
+            ...prevState.object,
             [name]: value,
             },
         }));
@@ -53,19 +52,22 @@ const UpdateAccount = () => {
     const handleChangeRole = (e) => {
         const value = e.target.value;
         const role = Number(value)
-        setFormUpdate(prevFormState => ({
-          ...prevFormState,
-          role: role
-        }))
+        setFormUpdate((prevState) => ({
+            ...prevState,
+            object: {
+            ...prevState.object,
+            role: role,
+            },
+        }));
     }
 
     const handleUpdate = (e) => {
         e.preventDefault()
         const formData =  new FormData();
-        formData.append("object", JSON.stringify(formUpdate.user));
-        console.log(JSON.stringify(formUpdate.user), 'usẻ');
+        formData.append("object", JSON.stringify(formUpdate.object));
         formData.append("file", avatar);
-        dispatch(actUpdateUser(formUpdate.user.id,formData))
+        dispatch(actUpdateUser(user?.object?.id,formData))
+        navigate('/admin/account-manager')
     }
     const handleBack = () => {
         navigate('/admin/account-manager')
@@ -81,31 +83,31 @@ const UpdateAccount = () => {
                 <div className="form-input">
                     <label htmlFor="">Họ và tên</label>
                     <input required type="text" name='name' placeholder='Nhập họ và tên'
-                        value={formUpdate.user?.name} onChange={handleOnChange}
+                        value={formUpdate?.object?.name} onChange={handleOnChange}
                     />
                 </div>
                 <div className="form-input">
                     <label htmlFor="">Số điện thoại</label>
                     <input required type="text" name='phone' placeholder='Nhập số điện thoại'
-                        value={formUpdate.user?.phone} onChange={handleOnChange}
+                        value={formUpdate?.object?.phone} onChange={handleOnChange}
                     />
                 </div>
                 <div className="form-input">
                     <label htmlFor="">Giới tính</label>
                     <div className='gender-container'>
                         <div className='gender'>
-                            <input type="radio" id="male" name="gender" value="Nam" onChange={handleOnChange}/>
+                            <input type="radio" id="male" name="gender" checked={formUpdate?.object?.gender === "Nam"} value="Nam" onChange={handleOnChange}/>
                             <label htmlFor="male">Nam</label>
                         </div>
                         <div className="gender">
-                            <input type="radio" id="female" name="gender" value="Nữ" onChange={handleOnChange}/>
+                            <input type="radio" id="female" name="gender" checked={formUpdate?.object?.gender === "Nữ"} value="Nữ" onChange={handleOnChange}/>
                             <label htmlFor="female">Nữ</label>
                         </div>
                     </div>
                 </div>
                 <div className="form-input">
                     <label htmlFor="">Quyền</label>
-                    <select name='role' value={formUpdate.user?.role} onChange={handleChangeRole}>
+                    <select name='role' value={formUpdate?.object?.role} onChange={handleChangeRole}>
                         <option value="1">Quản trị viên</option>
                         <option value="0">Người dùng</option>
                     </select>
@@ -115,26 +117,26 @@ const UpdateAccount = () => {
                 <div className="form-input">
                     <label htmlFor="">Email</label>
                     <input required type="email" placeholder='Nhập vào email' name='email' 
-                        value={formUpdate.user?.email} onChange={handleOnChange}
+                        value={formUpdate?.object?.email} onChange={handleOnChange}
                     />
                 </div>
                 <div className="form-input">
                     <label htmlFor="">Địa chỉ</label>
                     <input required type="text" name='address'  placeholder='Nhập vào địa chỉ' 
-                    value={formUpdate.user?.address} onChange={handleOnChange}
+                    value={formUpdate?.object?.address} onChange={handleOnChange}
                     />
                 </div>
                 <div className="form-input">
                     <label htmlFor="">Password</label>
                     <input required type="password" placeholder='Nhập vào password' name='password' 
-                    value={formUpdate.user?.password} onChange={handleOnChange}
+                    value={formUpdate?.object?.password} onChange={handleOnChange}
                     
                     />
                 </div>
             </div>
             <div className='right'>
                 <div className='form-input'>
-                    <img src={`${avatar ? avatar.preview : `data:image/jpeg;base64,${formUpdate.image}`}`} />
+                    <img src={`${avatar ? avatar.preview : `data:image/jpeg;base64,${formUpdate.file}`}`} />
                     <input type="file" id="file-input" name='avatar' onChange={(e) => handlePreviewAvatar(e) }/>
                     <label htmlFor="file-input" id="custom-button">Chọn ảnh</label>
                 </div>

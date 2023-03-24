@@ -23,7 +23,6 @@ export const fetchDeleteUser = async (id) => {
 }
 
 export const fetchUpdateUser = async (id, payload) => {
-    const res = await axios.put(`${BE_URL}user/${id}`, payload);
-  
+    const res = await axios.post(`${BE_URL}user/${id}`, payload);
     return res
 }

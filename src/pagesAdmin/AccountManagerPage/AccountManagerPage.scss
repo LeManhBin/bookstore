@@ -71,21 +71,33 @@
                 white-space: nowrap;
             }
             tbody {
-                text-align: center;
-                
+                text-align: left;
+
+                td {
+                    vertical-align: middle;
+                    padding: 4px
+                }
+                .name {
+                    text-align: left;
+                }
                 .img {
+                    text-align: center;
 
                     img {
-                        width: 60px !important;
-                        height: 60px !important;
+                        width: 40px !important;
+                        height: 40px !important;
                         object-fit: cover;
                         border-radius: 50%;
                     }
                 }
 
+                .email {
+                    text-align: left;
+                }
                 .button {
                     text-align: center;
                     white-space: nowrap;
+                    text-align: center;
                     
                     .edit-btn {
                         background-color: #62CDFF;

@@ -1,9 +1,34 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import Heading from '../../components/Heading/Heading'
 import useScrollToTop from '../../hooks/useScrollToTop'
+import { actCreateContact } from '../../redux/features/contactSlice/contactSlice'
 import './ContactPage.scss'
+
+  const initialContact = {
+    name: "",
+    gmail: "",
+    subject: "",
+    content: "",
+  }
 const ContactPage = () => {
     useScrollToTop()
+    const dispatch = useDispatch()
+    const [formState, setFormState] = useState(initialContact)
+
+    const handleOnChange = (e) => {
+        const {name, value} = e.target;
+        setFormState({
+            ...formState,
+            [name]: value
+        })
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        dispatch(actCreateContact(formState))
+        console.log(formState);
+    }
   return (
     <div className='contact'>
         <div className='contact-banner'>
@@ -43,13 +68,13 @@ const ContactPage = () => {
                           <span>Do you have anything in your mind to tell us? Please don't hesitate to get in touch to us via our contact form.</span>
                     </div>
                     <div className='contact__right--desc--form'>
-                          <form >
+                          <form onSubmit={handleSubmit}>
                               <div className='input-form'>
-                                  <input required type="text" placeholder='Full Name' name='from_name'/>
-                                  <input required  type="email" placeholder='Your Email' name='user_email'/>
+                                  <input required type="text" placeholder='Full Name' name='name' onChange={handleOnChange}/>
+                                  <input required  type="email" placeholder='Your Email' name='gmail' onChange={handleOnChange}/>
                               </div>
-                              <input required type="text" placeholder='Subject' name='subject'/>
-                              <textarea required name="message" id="" cols="30" rows="10" placeholder='Your Massage'></textarea>
+                              <input required type="text" placeholder='Subject' name='subject' onChange={handleOnChange}/>
+                              <textarea required name="content" id="" cols="30" rows="10" placeholder='Your Massage' onChange={handleOnChange}></textarea>
                               <button type='submit'>Send Message</button>
                           </form>
                     </div>

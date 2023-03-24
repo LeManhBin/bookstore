@@ -27,6 +27,15 @@ import AddNewService from "./pagesAdmin/ServiceManagerPage/AddNewService";
 import VendorDetail from "./pages/VendorDetail/VendorDetail";
 import WishListPage from "./pages/WishListPage/WishListPage";
 import CartPage from "./pages/CartPage/CartPage";
+import UpdateService from "./pagesAdmin/ServiceManagerPage/UpdateService";
+import AddNewStore from "./pagesAdmin/StoreListPage/AddNewStore";
+import UpdateStore from "./pagesAdmin/StoreListPage/UpdateStore";
+import ViewStore from "./pagesAdmin/StoreListPage/ViewStore";
+import ChangeEmailPage from "./pages/ChangeEmailPage/ChangeEmailPage";
+import ChangePhoneNumberPage from "./pages/ChangePhoneNumberPage/ChangePhoneNumberPage";
+import ChangePasswordPage from "./pages/ChangePasswordPage/ChangePasswordPage";
+import SaleRegisterPage from "./pages/SaleRegisterPage/SaleRegisterPage";
+
 
 function App() {
   return (
@@ -43,13 +52,18 @@ function App() {
               <Route path="contact" element={<ContactPage/>}/>
               <Route path="account" element={<AccountPage/>}/>
               <Route path="account/profile" element={<ProfilePage/>}/>
+              <Route path="account/profile/email" element={<ChangeEmailPage/>}/>
+              <Route path="account/profile/phone" element={<ChangePhoneNumberPage/>}/>
+              <Route path="account/profile/password" element={<ChangePasswordPage/>}/>
               <Route path="wish-list" element={<WishListPage/>}/>
               <Route path="cart" element={<CartPage/>}/>
           </Route>
-
+          <Route path="sale-register" element={<SaleRegisterPage/>}/>
           <Route path="/admin" element={<AdminLayout/>}>
               <Route index element={<DashboardPage/>}/>
               <Route path="store-list" element={<StoreListPage/>}/>
+              <Route path="add-new-store" element={<AddNewStore/>}/>
+              <Route path="store-list/:idStore" element={<ViewStore/>}/>
               <Route path="category" element={<CategoryManagerPage/>}/>
               <Route path="topic" element={<TopicPage/>}/>
               <Route path="account-manager" element={<AccountManagerPage/>}/>
@@ -57,6 +71,7 @@ function App() {
               <Route path="account-manager/:idAccount" element={<UpdateAccount/>}/>
               <Route path="service" element={<ServiceManagerPage/>}/>
               <Route path="add-new-service" element={<AddNewService/>}/>
+              <Route path="service/:idService" element={<UpdateService/>}/>
               <Route path="contact" element={<ContactManagerPage/>}/>
               <Route path="contact-unread" element={<UnWatchedContactPage/>}/>
           </Route>

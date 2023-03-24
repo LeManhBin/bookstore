@@ -14,8 +14,10 @@ import LieBanner from '../../components/LieBanner/LieBanner'
 import CardVendor from '../../components/CardVendor/CardVendor'
 import { vendorData } from '../../constants/vendorData'
 import useScrollToTop from '../../hooks/useScrollToTop'
+import { useNavigate } from 'react-router-dom'
 
 const HomePage = () => {
+  const navigate = useNavigate()
   useScrollToTop()
   const settings = {
     dots: true,
@@ -108,6 +110,9 @@ const HomePage = () => {
     ]
   };
 
+  const handleViewAll = () => {
+    navigate("/product")
+  }
   return (
     <div className='homepage'>
         <div className='homepage-heading'>
@@ -164,7 +169,7 @@ const HomePage = () => {
               <div className="homepage__right--product">
                   <div className="heading">
                       <p className='title'>Popular Books</p>
-                      <button className='view'>View All</button>
+                      <button className='view' onClick={handleViewAll}>View All</button>
                   </div>
                   <div className='product-container'>
                     {
@@ -186,7 +191,7 @@ const HomePage = () => {
               <div className="homepage__right--product">
                   <div className="heading">
                       <p className='title'>On sale</p>
-                      <button className='view'>View All</button>
+                      <button className='view' onClick={handleViewAll}>View All</button>
                   </div>
                   <div className='product-container'>
                     {
@@ -206,7 +211,7 @@ const HomePage = () => {
               <div className="homepage-vendor--vendor">
                   <div className="heading">
                       <p className='title'>Top selling vendor</p>
-                      <button className='view'>View All</button>
+                      <button className='view' onClick={handleViewAll}>View All</button>
                   </div>
                   <div className='product-vendor'>
                       {

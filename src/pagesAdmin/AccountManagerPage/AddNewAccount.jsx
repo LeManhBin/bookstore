@@ -73,9 +73,7 @@ const AddNewAccount = () => {
         formData.append("object", JSON.stringify(formState));
         formData.append("file", dataImg);
         dispatch(actCreateUser(formData))
-        console.log(formState, 'formdata');
-        console.log(dataImg,'hình đây nè');
-
+        console.log(JSON.stringify(formState), '43243243');
         navigate("/admin/account-manager")
 
     }

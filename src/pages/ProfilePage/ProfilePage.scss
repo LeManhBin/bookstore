@@ -1,158 +1,183 @@
 .profile {
-    margin-bottom: 500px;
+    margin-top: 110px;
+    background-color: #eee;
+    padding: 50px 100px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    margin-top: 50px;
     gap: 30px;
-    margin-top: 110px;
 
-    form {
+    .heading {
+        background-color: transparent;
+        font-size: 20px;
+    }
+
+    &-container {
         display: flex;
-        flex-direction: column;
-        align-items: center;
+        gap: 10px;
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 10px 20px;
 
-        .profile__top {
+        .profile-info {
+            flex: 6;
+            border-right: 2px solid #eee;
             display: flex;
-            align-items: center;
-            gap: 20px;
-    
-            &--img {
-                width: 110px;
-                height: 110px;
-                background-color: #eee;
-                border-radius: 50%;
-                
-                img {
-                    width: 100%;
-                    border-radius: 50%;
-                    object-fit: cover;
-                }
+            flex-direction: column;
+            gap: 30px;
+
+            .heading {
+                font-size: 15px;
+                font-weight: 600;
+                color: #5a5a5a;
             }
-    
-            .profile__top--action {
-                display: flex;
-                gap: 5px;
-    
-                input {
-                    padding: 5px 10px;
-                    outline: none;
-                    border: 1px solid #eee;
-                    border-radius: 4px;
-                }
-    
-                button {
-                    padding: 5px 10px;
-                    border: none;
-                    cursor: pointer;
-                    background-color: #B99B6B;
-                    font-weight: bold;
-                    color: #fff;
-                    border-radius: 4px;
-                }
-            }
-        }
-    
-        .profile__bottom {
-            width: 400px;
+
+            form {
                 display: flex;
                 flex-direction: column;
-                gap: 20px;
-    
-    
-                .form-input {
+                gap: 30px;
+
+                .top {
                     display: flex;
-                    flex-direction: column;
-    
-                    label {
-                        font-size: 12px;
-                        font-weight: bold;
-                    }
-    
-                    input {
-                        padding: 5px 10px;
-                        border: 1px solid #eee;
-                        border-radius: 5px;
-                        outline: none;
+                    align-items: center;
+                    gap: 50px;
+
+                    .form-input {
+                        display: flex;
+                        align-items: center;
+                        gap: 20px;
+                        position: relative;
+                        
+                        img {
+                            width: 100px;
+                            height: 100px;
+                            border-radius: 50%;
+                            border: 2px solid #eee;
+                            object-fit: cover;
+                        }
+
+                        .label-img {
+                            position: absolute;
+                            background-color: #5a5a5a;
+                            color: #fff;
+                            font-size: 11px;
+                            height: 20px;
+                            width: 20px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            border-radius: 50%;
+                            right: 0;
+                            bottom: 10px;
+                            cursor: pointer;
+                            z-index: 1000;
+                        }
+                        .input-img {
+                            display: none;
+                        }
+
+                        label {
+                            font-weight: 20px;
+                            font-weight: 500;
+                        }
+
+                        input {
+                            padding: 5px 10px;
+                            outline: none;
+                            border-radius: 4px;
+                            border: 1px solid #eee;
+                        }
                     }
                 }
+                .form-input {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+
+                    label {
+                        font-weight: 20px;
+                        font-weight: 500;
+                        width: 100px;
+                    }
+
+                    input {
+                        padding: 5px 10px;
+                        outline: none;
+                        border-radius: 4px;
+                        border: 1px solid #eee;
+                    }
+
+                    .gender-container {
+                        width: 210px;
+                        display: flex;
+                        gap: 20px;
     
+                        .gender {
+                            display: flex;
+                            align-items: center;
+                            gap: 5px;
+                        }
+                    }
+                }
+
                 button {
+                    width: 130px;
                     padding: 5px 10px;
                     border: none;
-                    font-weight: bold;
                     color: #fff;
-                    background-color: #B99B6B;
-                    border-radius: 5px;
-                    cursor: pointer;
+                    background-color: #FF6464;
+                    font-weight: bold;
+                    border-radius: 4px;
                 }
             }
         }
-}
-@media (max-width: 440px) {
-    .profile {
 
-    
-        form {
-    
-            .profile__top {
-               
-        
-                &--img {
-                    width: 80px;
-                    height: 80px;
-                   
-                    
-                    img {
-                       
-                    }
-                }
-        
-                .profile__top--action {
-                    
-        
-                    input {
-                       
-                    }
-        
-                    button {
-                        
-                    }
-                }
+        .profile-security {
+            flex: 4;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+
+            .heading {
+                font-size: 15px;
+                font-weight: 600;
+                color: #5a5a5a;
             }
-        
-            .profile__bottom {
-                width: 90%;
-                margin-top: 20px;
-        
-        
-                    .form-input {
+
+            .change-container {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                border-bottom: 1px solid #eee;
+                padding-bottom: 10px;
+
+                .detail {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+
+                    .content {
                         display: flex;
                         flex-direction: column;
-        
-                        label {
-                            font-size: 12px;
-                            font-weight: bold;
+
+                        .title {
+                            margin: 0;
                         }
-        
-                        input {
-                            padding: 5px 10px;
-                            border: 1px solid #eee;
-                            border-radius: 5px;
-                            outline: none;
+
+                        span {
+                            font-size: 14px;
+                            color: #5a5a5a;
                         }
-                    }
-        
-                    button {
-                        padding: 5px 10px;
-                        border: none;
-                        font-weight: bold;
-                        color: #fff;
-                        background-color: #B99B6B;
-                        border-radius: 5px;
-                        cursor: pointer;
                     }
                 }
+
+                button {
+                    padding: 5px 10px;
+                    border-radius: 4px;
+                    border: 1px solid #FF6464;
+                    background-color: #fff;
+                    color: #FF6464;
+                }
             }
+        }
     }
 }

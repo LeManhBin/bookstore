@@ -10,6 +10,7 @@ import { actCreateCategory, actDeleteCategory, actFetchAllCategory, actFetchCate
 import Pagination from '../../components/Pagination/Pagination';
 import ModalDelete from '../../components/Modal/ModalDelete';
 import ModalAcces from '../../components/ModalAcces/ModalAcces';
+import Loading from '../../components/Loading/Loading';
 
 
 
@@ -21,8 +22,12 @@ const CategoryManagerPage = () => {
   const [isEdit, setIsEdit] = useState(false)
   const [isDelete, setIsDelete] = useState(false)
   const [idTemp, setIdtemp] = useState("")
-
+  const {isLoading} = useSelector((state) => state.category)
   const {allCategory} = useSelector((state) => state.category)
+  const {category} = useSelector((state) => state.category)
+ 
+  const [formUpdate, setFormUpdate] = useState(category)
+
   const dispatch = useDispatch()
 
   //phân trang
@@ -39,6 +44,10 @@ const CategoryManagerPage = () => {
   useEffect(() => {
     dispatch(actFetchAllCategory())
   },[])
+
+  useEffect(() => {
+    setFormUpdate(category)
+  }, [category])
 
  useEffect(() => {
     dispatch(actFetchCategoryById(idTemp))
@@ -76,10 +85,20 @@ const CategoryManagerPage = () => {
     setIsEdit(true)
   }
 
-  const onUpdate = (values) => {
-    dispatch(actUpdateCategory(idTemp,values))
+  const handleOnChange = (e) => {
+    const {name, value} = e.target
+    setFormUpdate({
+      ...formUpdate,
+      [name]: value
+    })
+  }
+
+  const onUpdate = (e) => {
+    e.preventDefault()
+    dispatch(actUpdateCategory(idTemp,formUpdate))
     setIsEdit(false)
-    reset()
+    setFormUpdate("")
+    console.log('aaaaa');
   }
 
 
@@ -105,8 +124,8 @@ const CategoryManagerPage = () => {
                           return(
                             <tr key={data.id}>
                               <td>{index + 1}</td>
-                              <td>{data.name}</td>
-                              <td>{data.thumbnail}</td>
+                              <td>{data?.name}</td>
+                              <td>{data?.thumbnail}</td>
                               <td className='button'>
                                 <button className='edit-btn' onClick={() => handleIsEdit(data)}><i className="fa-regular fa-pen-to-square"></i></button>
                                 <button className='delete-btn' onClick={() => handleModalDelete(data.id)}><i className="fa-sharp fa-solid fa-trash"></i></button>
@@ -131,28 +150,44 @@ const CategoryManagerPage = () => {
                   <div className="title">
                       <h3>{isEdit ? 'Cập nhật' : 'Thêm mới'}</h3>
                   </div>
-                  <form onSubmit={isEdit ? handleSubmit(onUpdate) : handleSubmit(onValid)}>
+                  <form onSubmit={isEdit ? onUpdate : handleSubmit(onValid)}>
                       <div className="form-input">
                         <label htmlFor="">Tên danh mục <span className='tick'>*</span></label>
-                        <Controller
-                          name='name'
-                          control={control}
-                          render={({field: {value, onChange}})  => (
-                            <input value={value} onChange={onChange} type="text" placeholder='Nhập tên danh mục'/>
-                          )}
-                        />
-                        {!!errors.name && <span style={{color: 'red', textAlign:'center', fontSize: '12px'}}>{errors.name.message}</span>}
+                        {
+                          isEdit ?
+                          <input name='name' value={formUpdate?.name} onChange={handleOnChange} type="text" placeholder='Nhập tên danh mục'/>
+                          :
+                          <>
+                            <Controller
+                            name='name'
+                            control={control}
+                            render={({field: {value, onChange}})  => (
+                            <input name='name' value={isEdit ? formUpdate.name : value} onChange={isEdit ? handleOnChange : onChange} type="text" placeholder='Nhập tên danh mục'/>
+                            )}
+                            />
+                            {!!errors.name && <span style={{color: 'red', textAlign:'center', fontSize: '12px'}}>{errors.name.message}</span>}
+                          </>
+                          
+                        }
                       </div>
                       <div className="form-input">
                         <label htmlFor="">Icon <span className='tick'>*</span></label>
-                        <Controller
-                          name='thumbnail'
-                          control={control}
-                          render={({field: {value, onChange}})  => (
-                            <input value={value} onChange={onChange} type="text" placeholder='Nhập Icon'/>
-                          )}
-                        />
-                         {!!errors.thumbnail && <span style={{color: 'red', textAlign:'center', fontSize: '12px'}}>{errors.thumbnail.message}</span>}
+                         {
+                          isEdit ?
+                          <input name='thumbnail' value={formUpdate?.thumbnail} onChange={handleOnChange} type="text" placeholder='Nhập tên danh mục'/>
+                          :
+                          <>
+                            <Controller
+                              name='thumbnail'
+                              control={control}
+                              render={({field: {value, onChange}})  => (
+                                <input name='thumbnail' value={isEdit ? formUpdate.thumbnail : value} onChange={isEdit ? handleOnChange : onChange} type="text" placeholder='Nhập Icon'/>
+                              )}
+                            />
+                            {!!errors.thumbnail && <span style={{color: 'red', textAlign:'center', fontSize: '12px'}}>{errors.thumbnail.message}</span>}
+                          </>
+                          
+                        }
                       </div>
                       <button type='submit'>{isEdit ? 'Cập nhật' : 'Thêm mới'}</button>
                       {
@@ -170,9 +205,6 @@ const CategoryManagerPage = () => {
             idTemp={idTemp}
             
             />
-            // <ModalDelete
-   
-            // />
           }
         
     </div>
