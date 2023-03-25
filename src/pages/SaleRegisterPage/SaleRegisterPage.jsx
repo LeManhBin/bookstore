@@ -1,6 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './SaleRegisterPage.scss'
+
+const initialValue = {
+    name: '',
+    email:  '',
+    avatar: '',
+    phone: '',
+    coverImage: '',
+    address: '',
+}
 const SaleRegisterPage = () => {
+  const [formState, setFormState] = useState(initialValue)
+
+
   return (
     <div className='sale-register-page'>
         <div className="top">
@@ -22,19 +34,19 @@ const SaleRegisterPage = () => {
                   </div>
                   <div className="form-input">
                     <label htmlFor="">Họ và tên</label>
-                    <input type="text" placeholder='Nhập họ và tên'/>
+                    <input type="text" name='name' placeholder='Nhập họ và tên'/>
                   </div>
                   <div className="form-input">
                     <label htmlFor="">Số điện thoại</label>
-                    <input type="text" placeholder='Nhập số điện thoại'/>
+                    <input type="text" name='phone' placeholder='Nhập số điện thoại'/>
                   </div>
                   <div className="form-input">
                     <label htmlFor="">Địa chỉ cửa hàng</label>
-                    <input type="text" placeholder='Nhập địa chỉ cửa hàng'/>
+                    <input type="text" name='address' placeholder='Nhập địa chỉ cửa hàng'/>
                   </div>
                   <div className="form-input">
                     <label htmlFor="">Mật khẩu</label>
-                    <input type="password" placeholder='Nhập mật khẩu'/>
+                    <input type="password" className='' placeholder='Nhập mật khẩu'/>
                   </div>
                   <div className="form-input">
                     <label htmlFor="">Nhập lại mật khẩu</label>

@@ -1,15 +1,20 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { loginFormSchema } from '../../constants/loginSchema';
 import { useNavigate } from 'react-router-dom';
 import './LoginPage.scss'
+import { useDispatch, useSelector } from 'react-redux';
+import { actFetchLogin } from '../../redux/features/userSlice/userSlice';
 
 const initialFormValue = {
     email: '',
     password: ''
 }
 const LoginPage = () => {
+  const dispatch = useDispatch()
+  const {isLoading} = useSelector((state) => state.user) 
+  const {isLogged} = useSelector((state) => state.user) 
     const navigate = useNavigate()
     const [isShowPass, setIsShowPass] = useState(false)
     //Validate
@@ -24,8 +29,15 @@ const LoginPage = () => {
       email: values.email,
       password: values.password,
     }
-    console.log(payload);
+    dispatch(actFetchLogin(payload))
   }
+
+  useEffect(() => {
+    if(isLogged === true) {
+      navigate('/')
+    }
+  },[isLogged, navigate])
+
   const handlePageRegister = () => {
     navigate("/login-layout/register")
   }
@@ -64,7 +76,7 @@ const LoginPage = () => {
                     />
                     <span onClick={handlePageRegister}>I don't have an account?</span>
                     <div className='login__btn'>
-                        <button className='login__btn--signin' type='submit'>Sign in</button>
+                        <button className='login__btn--signin' type='submit' disabled={isLoading}>Sign in</button>
                         <button className='login__btn--google'>
                         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/768px-Google_%22G%22_Logo.svg.png" alt="" />
                         <span>Sign in with Google</span>

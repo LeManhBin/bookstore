@@ -1,20 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './RegisterPage.scss'
 import {useForm, Controller} from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { registerFormSchema } from '../../constants/registerSchema'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { actFetchCheckEmailUser, actFetchOtp } from '../../redux/features/userSlice/userSlice'
+import PopupOtp from '../../components/PopupOtp/PopupOtp'
+import { toast } from 'react-toastify'
 const initialFormValue = {
-  userName: '',
+  name: '',
   email: '',
   password: '',
-  isAdmin: false,
-  image: "",
-  address:"",
-  phoneNumber:"",
 }
 const RegisterPage = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const {isOtp} = useSelector((state) => state.user)
+  const {otp} = useSelector((state) => state.user)
+  const [checkOtp, setCheckOtp] = useState(isOtp)
+  const [formData, setFormData] = useState(null)
+  const [isShowPass, setIsShowPass] = useState(false)
+  // useEffect(() => {
+  //   setCheckOtp(isOtp)
+  // },[isOtp])
+
+  console.log(otp, 'mã otp nè');
 
   const handleLoginPage = () => {
     navigate("/login-layout")
@@ -26,11 +38,24 @@ const RegisterPage = () => {
   })
   const {control , handleSubmit, formState: {errors}} = methods
 
+  
   const onRegister = (values) => {
-      console.log(values);
+      dispatch(actFetchCheckEmailUser(values))
+      setFormData(values)
+      console.log(checkOtp, 'checkOtp trong hàm đăng ký');
+      if(checkOtp == true) {
+        console.log(values.email);
+        dispatch(actFetchOtp(values?.email))
+      }else {
+        toast('Tài khoản email này đã tồn tại !!!')
+      }
   }
+
   return (
     <div className='register-page'>
+      {
+        checkOtp ? <PopupOtp formData={formData} otp={otp} setCheckOtp={setCheckOtp}/> : ""
+      }
     <div className='register-container'>
         <div className='register__banner'>
             {/* <img className='image' src="https://images.unsplash.com/photo-1563911302283-d2bc129e7570?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGhvdGVsfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="" /> */}
@@ -43,7 +68,7 @@ const RegisterPage = () => {
             <form onSubmit={handleSubmit(onRegister)}>
                 {!!errors.name && <span style={{color: 'red', textAlign:'left'}}>{errors.name.message}</span>}
                 <Controller
-                  name='userName'
+                  name='name'
                   control={control}
                   render={({field: {value, onChange}}) => (
                     <input value={value} onChange={onChange} type="text" placeholder='Name'/>
@@ -64,7 +89,14 @@ const RegisterPage = () => {
                   name='password'
                   control={control}
                   render={({field: {value, onChange}}) => (
-                    <input value={value} onChange={onChange} type="password" placeholder='Password'/>
+                    <div className='pass'>
+                      <input value={value} onChange={onChange} type={isShowPass ? `text` : 'password'} placeholder='Password'/>
+                      <span onClick={() => setIsShowPass(!isShowPass)}>
+                        {
+                        isShowPass ? <i className="fa-solid fa-eye-slash"></i> : <i className="fa-solid fa-eye"></i>
+                        }
+                      </span>
+                    </div>
                   )}
                 />
                 <span onClick={handleLoginPage}>I already have an account</span>

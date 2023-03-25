@@ -41,7 +41,24 @@
                 width: 250px;
                 gap: 20px;
               
+                .pass {
+                    width: 100%;
+                    position: relative;
 
+                    input {
+                        width: 100%;
+                    }
+
+                    span {
+                        position: absolute;
+                        top: 50%;
+                        right: 5px;
+                        transform: translate(-50%, -50%);
+                    }
+                    span:hover {
+                        color: #000;
+                    }
+                }
                 input {
                     padding: 5px 10px;
                     outline: none;

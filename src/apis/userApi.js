@@ -26,3 +26,4 @@ export const fetchUpdateUser = async (id, payload) => {
     const res = await axios.post(`${BE_URL}user/${id}`, payload);
     return res
 }
+
