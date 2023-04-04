@@ -2,13 +2,13 @@ import { createAsyncThunk, createSlice, getDefaultMiddleware  } from "@reduxjs/t
 import { toast } from "react-toastify";
 import { fetchCheckEmailUser, fetchOtp, fetchRegisterUser } from "../../../apis/registerApi";
 import { fetchAllDataUser, fetchCreateUser, fetchDataUserById, fetchDeleteUser, fetchUpdateUser } from "../../../apis/userApi";
-import { KEY_ACCESS_TOKEN, KEY_IS_LOGGER } from "../../../constants/config";
-// import * as Jwt from "jsonwebtoken";
+import { KEY_ACCESS_TOKEN, KEY_IS_LOGGER, KEY_USER } from "../../../constants/config";
+import * as Jwt from "jsonwebtoken";
+import { fetchInforMe, fetchLoginUser } from "../../../apis/loginApi";
 const initialState = {
     allUser: [],
-    allImages:[],
-    user: {},
-    image: {},
+    user: localStorage.getItem(KEY_USER) ? JSON.parse(localStorage.getItem(KEY_USER)) : {},
+    // user: {},
     isLoading: false,
     isLoadingCreate: false,
     isOtp: false,
@@ -17,6 +17,9 @@ const initialState = {
     isLogged: JSON.parse(localStorage.getItem(KEY_IS_LOGGER)) || false,
     errors: {},
 }
+
+
+
 const customizedMiddleware = getDefaultMiddleware({
     serializableCheck: false
 })
@@ -69,6 +72,7 @@ export const userSlice = createSlice({
         },
         actLogout: (state, action) => {
             localStorage.removeItem(KEY_ACCESS_TOKEN);
+            localStorage.removeItem(KEY_USER);
             localStorage.setItem(KEY_IS_LOGGER, JSON.stringify(false))
             state.isLogged = false;
             state.user = {};
@@ -93,7 +97,7 @@ export const userSlice = createSlice({
 
         builder.addCase(actFetchAllUser.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.allUser = action.payload.data || []
+            state.allUser = action.payload.data.data || []
         })
 
         //fetch by id
@@ -111,7 +115,7 @@ export const userSlice = createSlice({
 
         builder.addCase(actFetchUserById.fulfilled,  (state, action) => {
             state.isLoading = false;
-            state.user = action.payload.data
+            state.user = action.payload.data.data
         })
 
         //register
@@ -140,7 +144,7 @@ export const userSlice = createSlice({
         //otp
         builder.addCase(actFetchOtp.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.otp = action.payload
+            state.otp = action.payload.data
         })
 
         // login
@@ -158,17 +162,20 @@ export const userSlice = createSlice({
         });
 
         builder.addCase(actFetchLogin.fulfilled, (state, action) => {
-            const {user, accessToken } = action.payload;
-            console.log(user, accessToken, 'login bên redux nó ra cái này');
+            const {user } = action.payload.data;
+            const {accessToken } = action.payload.data;
+            console.log(user, ' user login bên redux nó ra cái này');
+            console.log(accessToken,  ' accessToken login bên redux nó ra cái này');
             if(accessToken) {
                 state.user = user
+                localStorage.setItem(KEY_USER, JSON.stringify(state.user));
                 state.accessToken = accessToken;
                 localStorage.setItem(KEY_IS_LOGGER, JSON.parse(true))
                 state.isLogged = true
                 localStorage.setItem(KEY_ACCESS_TOKEN, accessToken) 
+                toast.success('Đăng nhập thành công')
             }
             state.isLoading = false
-            toast.success('Loggin thành công')
         })
 
     }
@@ -237,6 +244,7 @@ export const actUpdateUser = (id, payload) => async (dispatch) => {
     try {
         await fetchUpdateUser(id, payload);
         await dispatch(actFetchAllUser());
+        await dispatch(actFetchUserById(id));
         dispatch(actUpdateLoadingCreate(true));
         toast.success('Cập nhật thành công')
     } catch (error) {
@@ -246,5 +254,5 @@ export const actUpdateUser = (id, payload) => async (dispatch) => {
     }
 } 
 
-export const {actUpdateLoadingCreate} = userSlice.actions
+export const {actUpdateLoadingCreate, actGetMe, loginSuccess, actLogout} = userSlice.actions
 export default userSlice.reducer

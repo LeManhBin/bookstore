@@ -1,0 +1,174 @@
+.order-page {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .heading {
+
+        &-links {
+            margin: 0px;
+            display: flex;
+            list-style: none;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0px;
+
+            li {
+                cursor: pointer;
+                font-weight: 600;
+                padding-bottom: 5px;
+                border-bottom: 2px solid;
+            }
+        }
+    }
+
+    .search-input {
+        padding: 5px 10px;
+        border: 1px solid #eee;
+        outline: none;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    .table {
+
+        thead {
+            text-align: center;
+            white-space: nowrap;
+        }
+        tbody {
+            text-align: left;
+
+            td {
+                vertical-align: middle;
+                padding: 4px
+            }
+            .name {
+                text-align: left;
+            }
+            .img {
+                text-align: center;
+
+                img {
+                    width: 40px !important;
+                    height: 40px !important;
+                    object-fit: cover;
+                    border-radius: 50%;
+                }
+            }
+
+            .email {
+                text-align: left;
+            }
+            .button {
+                text-align: center;
+                white-space: nowrap;
+                text-align: center;
+                
+                .edit-btn {
+                    background-color: #62CDFF;
+                    padding: 5px 10px;
+                    border: none;
+                    border-radius: 4px;
+                    color: #fff;
+                    margin-right: 10px;
+                }
+                .delete-btn {
+                    background-color: #FF6464;
+                    padding: 5px 10px;
+                    border: none;
+                    border-radius: 4px;
+                    color: #fff;
+                }
+            }
+
+        }
+    }
+
+    .order {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        background-color: #fff;
+        padding: 20px;
+
+        &-heading {
+            border-bottom: 2px solid #eee;
+
+            p {
+                font-size: 20px;
+                font-weight: bold;
+            }
+        }
+
+        .order-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+
+            .desc-card {
+                display: flex;
+                align-items: flex-start;
+                gap: 10px;
+
+                img {
+                    height: 150px;
+                    width: 100px;
+                    object-fit: cover;
+                }
+
+                .info-card {
+                    display: flex;
+                    flex-direction: column;
+
+                    .name {
+                        font-size: 18px;
+                        font-weight: 500;
+                    }
+
+                    .author {
+                        font-size: 14px;
+                        color: #5a5a5a;
+                    }
+
+                    .quantity {
+                        font-size: 14px;
+                        color: #5a5a5a;
+                    }
+                }
+            }
+
+        }
+
+        .price-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+
+            .cost {
+                text-decoration: line-through;
+                color: #5a5a5a;
+            }
+
+            .real-price {
+                font-weight: 600;
+            }
+        }
+        .total-payment {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            border-top: 2px solid #eee;
+            padding-top: 10px;
+
+            .total {
+                font-size: 18px;
+                font-weight: bold;
+                color: #F65D4E;
+                margin: 0;
+            }
+        }
+    }
+}

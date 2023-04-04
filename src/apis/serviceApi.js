@@ -23,6 +23,5 @@ export const fetchDeleteService = async (id) => {
 
 export const fetchUpdateService = async (id, payload) => {
     const res = await axios.post(`${BE_URL}service/${id}`, payload);
-  
     return res
 }

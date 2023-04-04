@@ -5,6 +5,9 @@ import userReducer from '../features/userSlice/userSlice'
 import serviceReducer from '../features/serviceSlice/serviceSlide'
 import storeReducer from '../features/storeSlice/storeSlice'
 import contactReducer from '../features/contactSlice/contactSlice'
+import bookReducer from '../features/bookSlice/bookSlice'
+import cartReducer from '../features/cartSlice/cartSlice'
+import paymentReducer from '../features/paymentSlice/paymentSlice'
 export const  store = configureStore({
     reducer: {
         category: categoryReducer,
@@ -13,6 +16,9 @@ export const  store = configureStore({
         service: serviceReducer,
         store: storeReducer,
         contact:  contactReducer,
+        book: bookReducer,
+        cart: cartReducer,
+        payment: paymentReducer,
     },
 });
 

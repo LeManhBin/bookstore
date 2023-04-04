@@ -1,25 +1,51 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
 import Card from '../../components/Card/Card'
 import Comment from '../../components/Comment/Comment'
 import CommentInput from '../../components/CommentInput/CommentInput'
-import { cardData } from '../../constants/cartData'
 import useScrollToTop from '../../hooks/useScrollToTop'
+import { actFetchBookById, actFetchBookByIdCategory } from '../../redux/features/bookSlice/bookSlice'
+import { actCreateCart } from '../../redux/features/cartSlice/cartSlice'
 
 import './ProductDetailPage.scss'
 const ProductDetailPage = () => {
     useScrollToTop()
     const param = useParams()
-    const [cardState, setCardState] = useState({})
+    const {book} = useSelector((state) => state.book)
+    const {bookByCategory} = useSelector((state) => state.book)
+    const [cardState, setCardState] = useState(book)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const [quantity, setQuantity] = useState(1)
 
-    const data = cardData.find(data => data.id === Number(param.idProduct))
+    const {user} = useSelector((state) => state.user)
+
+    const initialState = {
+        userid: user?.id,
+        bookid: book?.id,
+        amount: 1,
+    }
+    const [cartState, setCartState] = useState(initialState)
 
     useEffect(() => {
-        setCardState(data)
+        setCardState(book)
+    },[book])
+
+    useEffect(() => {
+        setCartState(initialState)
+    },[book, user])
+
+    useEffect(() => {
+        dispatch(actFetchBookById(Number(param.idProduct)))
     },[param])
 
+    useEffect(() => {
+        dispatch(actFetchBookByIdCategory(cardState?.categoryEntity?.id))
+    },[cardState?.categoryEntity?.id])
+
+    
     console.log(cardState);
-    const [quantity, setQuantity] = useState(1)
 
     const handleDecrease = () => {
         setQuantity(prev => {
@@ -28,25 +54,44 @@ const ProductDetailPage = () => {
             }
             return prev
         })
+        setCartState(prevState => ({
+            ...prevState,
+            amount: prevState.amount - 1
+        }))
     }
 
     const handleIncrease = () => {
         setQuantity(prev => {
             return prev + 1
         })
+        setCartState(prevState => ({
+            ...prevState,
+            amount: prevState.amount + 1
+        }))
     }
+
+    const handleWatchShop = (id) => {
+        navigate(`/vendor/${id}`)
+    }
+
+    const handleAddToCard = () => {
+        dispatch(actCreateCart(cartState))
+    }
+    
   return (
     <div className='product-detail'>
         <div className='product-detail-content'>
             <div className='left'>
-                <img src={cardState.img} alt="" />
+            {cardState.images && cardState.images.length > 0 && (
+                    <img src={`data:image/jpeg;base64,${cardState.images[0]}`} alt="Product" />
+            )}
             </div>
 
             <div className="right">
                 <div className="top">
-                    <h1 className='name-product'>{cardState.name}</h1>
+                    <h1 className='name-product'>{cardState?.name}</h1>
                     <div className='author-product'>
-                        <p><span>Author: </span>{cardState.author}</p>
+                        <p><span>Author: </span>{cardState?.author}</p>
                         <div className='rating'>
                             <div className='star'>
                                 <i className="fa-solid fa-star"></i>
@@ -61,7 +106,7 @@ const ProductDetailPage = () => {
                 </div>
                 <div className='mid'>
                     <div className='price'>
-                        <span>${cardState.price}</span>
+                        <span>${cardState?.price}</span>
                     </div>
                     <div className='desc'>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni iste natus nulla nam qui ratione alias facilis quia dolorem temporibus deserunt numquam odit nostrum aliquid a, consequatur perferendis veniam autem.</p>
@@ -76,7 +121,7 @@ const ProductDetailPage = () => {
                             <button className='increase' onClick={handleIncrease}>+</button>
                         </div>
                     </div>
-                    <button className='add-cart'> <i className="fa-solid fa-bag-shopping"></i> Add to card</button>
+                    <button className='add-cart' onClick={handleAddToCard}> <i className="fa-solid fa-bag-shopping"></i> Add to card</button>
                     <button className='add-wishlist'>Browse wishlist</button>
                 </div>
             </div>
@@ -85,8 +130,8 @@ const ProductDetailPage = () => {
             <div className='shop-detail'>
                 <img src="https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/11/store-2.jpg" alt="" className='avatar'/>
                 <div className='info'>
-                    <div className="name">baseusmall</div>
-                    <button className='see-shop'>See Shop</button>
+                    <div className="name">{cardState?.storeEntity?.name}</div>
+                    <button className='see-shop' onClick={() => handleWatchShop(cardState?.storeEntity?.id)}>See Shop</button>
                 </div>
             </div>
             <div className='achievements'>
@@ -108,7 +153,7 @@ const ProductDetailPage = () => {
             <h2 className='heading'>Description</h2>
             <div className='desc-container'>
                 <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequuntur, rerum nemo. Sed, repudiandae veniam? Eveniet ea ab fugit, quos nam officiis repellat corrupti explicabo earum nobis porro. Itaque, ipsa veniam.
+                    {cardState?.description}
                 </p>
             </div>
         </div>
@@ -127,9 +172,9 @@ const ProductDetailPage = () => {
             </div>
             <div className='related'>
                 {
-                    cardData.slice(0,6).map(data => {
+                    bookByCategory.slice(0,4).map(data => {
                         return(
-                            <div key={data.id}>
+                            <div key={data?.id}>
                                 <Card data={data}/>
                             </div>
                         )

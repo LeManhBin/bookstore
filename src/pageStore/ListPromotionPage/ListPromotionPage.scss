@@ -1,0 +1,124 @@
+.all-promotion-page {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+
+    .heading {
+
+    }
+
+    .search {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 8px;
+
+        .search-input {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+
+            input {
+                padding: 5px 10px;
+                border-radius: 5px;
+                outline: none;
+                border: 1px solid #eee;
+                width: 300px;
+            }
+
+            button {
+                padding: 5px 10px;
+                border: 1px  solid #eee;
+                font-weight: 600;
+                color: #fff;
+                background-color: #62CDFF;
+                border-radius: 5px;
+            }
+        }
+
+        .add-new {
+            padding: 5px 10px;
+            border: none;
+            outline: none;
+            font-size: 15px;
+            font-weight: bold;
+            background-color: #19A7CE;
+            border-radius: 5px;
+            color: #fff;
+        }
+    }
+
+    .manager-container {
+        padding: 10px;
+        height: 500px;
+
+        .promotion {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: flex-start;
+
+            .promotion-card {
+                background-color: #DAF5FF;
+                display: flex;
+                gap: 20px;
+                width: calc(100%/3.2);
+                height: 150px;
+                align-items: center;
+                padding: 0px 20px;
+                border-radius: 5px;
+                border: 1px solid #eee;
+    
+                .img {
+                    background-color: #fff;
+                    height: 100px;
+                    width: 100px;
+                    border-radius: 5px;
+                    overflow: hidden;
+    
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                }
+    
+                .card-detail {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;
+                    font-weight: 500;
+                    width: 50%;
+    
+                    span {
+                        padding-bottom: 5px;
+                        border-bottom: 2px solid #eee;
+                        white-space: nowrap;
+                        word-break: break-word;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        display: -webkit-box;
+                        line-height: 24px; /* fallback */
+                        max-height: 72px; /* fallback */
+                        -webkit-line-clamp: 1; /* number of lines to show */
+                        -webkit-box-orient: vertical;
+                        color: #5a5a5a;
+                    }
+                }
+            }
+        }
+
+        .pagination {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translate(-50%, 0);
+        }
+
+    }
+}

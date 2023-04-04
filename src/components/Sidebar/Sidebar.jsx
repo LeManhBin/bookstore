@@ -7,6 +7,7 @@ const Sidebar = () => {
     const [showItem3, setShowItem3] = useState(false)
     const [showItem4, setShowItem4] = useState(false)
     const [showItem5, setShowItem5] = useState(false)
+    const [showItem6, setShowItem6] = useState(false)
 
   return (
     <div className='sidebar'>
@@ -81,7 +82,10 @@ const Sidebar = () => {
                         showItem3 && 
                         <ul className='links'>
                             <Link to={'/admin/account-manager'}>
-                                <li className='link'>Tài khoản</li>
+                                <li className='link'>Danh sách tài khoản</li>
+                            </Link>
+                            <Link to={'/admin/add-new-account'}>
+                                <li className='link'>Thêm tài khoản</li>
                             </Link>
                         </ul>
                     }
@@ -100,6 +104,23 @@ const Sidebar = () => {
                             <Link to={'/admin/service'}>
                                 <li className='link'>Danh sách dịch vụ</li>
                             </Link>
+                            <Link to={'/admin/add-new-service'}>
+                                <li className='link'>Thêm dịch vụ</li>
+                            </Link>
+                        </ul>
+                    }
+                </li>
+                <li className='item'>
+                    <div className='title' onClick={() => setShowItem6(!showItem6)}>
+                        <div className="name">
+                            <i className="fa-solid fa-bell"></i>
+                            <span>Quản lý liên hệ</span>
+                        </div>
+                        <i className="fa-solid fa-angle-down"></i>
+                    </div>
+                    {
+                        showItem6 && 
+                        <ul className='links'>
                             <Link to={'/admin/contact'}>
                                 <li className='link'>Quản lý liên hệ</li>
                             </Link>

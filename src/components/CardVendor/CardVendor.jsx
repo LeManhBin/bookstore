@@ -1,17 +1,36 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { actFetchBookByIdStore } from '../../redux/features/bookSlice/bookSlice'
 import './CardVendor.scss'
 const CardVendor = ({data}) => {
+  const navigate = useNavigate()
+  const {bookByStore} = useSelector((state) => state.book)
+  const dispatch = useDispatch()
+  const [quantityProduct, setQuantityProduct] = useState(0)
+
+  useEffect(() => {
+    dispatch(actFetchBookByIdStore(data.id))
+  },[data.id])
+
+  useEffect(() => {
+    setQuantityProduct(bookByStore.length)
+  },[bookByStore])
+
+  const handleClickVendorDetail = (id) => {
+    navigate(`/vendor/${id}`)
+  }
   return (
-    <div className='vendor'>
+    <div className='vendor' onClick={() => handleClickVendorDetail(data?.id)}>
         <div className='cover-img'>
-            <img src={data.coverImg} alt="" />
+          <img src={`data:image/jpeg;base64,${data.coverImageByte}`} alt="store" />
         </div>
         <div className='avatar'>
-            <img src={data.avatar} alt="" />
+          <img src={`data:image/jpeg;base64,${data.avartByte}`} alt="store" />
         </div>
         <div className='content'>
-            <div className="name">{data.name}</div>
-            <div className="quantity">{data.quantity} Product</div>
+            <div className="name">{data?.name}</div>
+            <div className="quantity">{quantityProduct} Product</div>
         </div>
     </div>
   )

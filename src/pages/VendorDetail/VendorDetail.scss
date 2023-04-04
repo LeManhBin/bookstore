@@ -186,6 +186,12 @@
                     border-radius: 5px;
                 }
             }
+
+            .pagination {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 20px;
+            }
         }
     }
 

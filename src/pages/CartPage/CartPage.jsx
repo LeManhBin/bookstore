@@ -1,61 +1,206 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
 import Heading from '../../components/Heading/Heading'
 import useScrollToTop from '../../hooks/useScrollToTop'
+import {actChangeQuantity, actDeleteCart, actFetchAllDataCartByIdUser} from '../../redux/features/cartSlice/cartSlice'
 import './CartPage.scss'
+import { useNavigate } from 'react-router-dom'
+import { actCreatePayment } from '../../redux/features/paymentSlice/paymentSlice'
+import { toast } from 'react-toastify'
 const CartPage = () => {
+
   useScrollToTop()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const {cartItems} = useSelector((state) => state.cart)
+  // const {totalAmount} = useSelector((state) => state.cart)
+  const {user} = useSelector((state) => state.user)
+  const idUser = user.id
+  const [cartChecked, setCartChecked] = useState([])
+  // let totalPayment = totalAmount;
+
+  const [totalPayment, setTotalPayment] = useState(0)
+  let formattedTotalPayment = totalPayment.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'});
+
+
+  
+  const handleRemove = (item) => {
+    dispatch(actDeleteCart(item, idUser))
+  }
+
+  const handleGetTotal = () => {
+    let totalPayment = 0;
+    cartItems.forEach((item) => {
+      item.cartDetails.forEach((itemChild) => {
+        if (cartChecked.includes(itemChild.id)) {
+          totalPayment += itemChild.amount * itemChild.price;
+          console.log(itemChild.price);
+        }
+      });
+    });
+    setTotalPayment(totalPayment);
+
+  }
+
+  useEffect(() => {
+    handleGetTotal();
+  }, [cartChecked]);
+
+  
+    useEffect(() => {
+        dispatch(actFetchAllDataCartByIdUser(user?.id))
+    },[])
+
+  const handleIncre = (item) => {
+    let quantity = item.amount
+    quantity++
+    dispatch(actChangeQuantity(item, quantity, idUser))
+  }
+
+  const handleDecre = (item) => {
+    let quantity = item.amount
+    quantity--
+    dispatch(actChangeQuantity(item, quantity, idUser))
+  }
+
+  // useEffect(() => {
+  //   // dispatch(actGetTotal())
+  // },[cartItems])
+
+  const handleCheckboxChange = (event) => {
+    const value = event.target.value;
+    const isChecked = event.target.checked;
+    if (isChecked) {
+      setCartChecked([...cartChecked, Number(value)]);
+    } else {
+      setCartChecked(cartChecked.filter((item) => item != value));
+    }
+    handleGetTotal()
+  };
+
+
+  const handleSubmit = () => {
+    if(cartChecked.length == 0) {
+      toast.warning('Bạn chưa chọn sản phẩm nào')
+    }else{
+      dispatch(actCreatePayment(cartChecked))
+      navigate('/payment')
+    }
+
+  }
+
+
   return (
     <div className='cart-page'>
        <div className="heading">
           <Heading title={"Giỏ Hàng"}/>
         </div>
+
         <div className='cart-container'>
+          <Table className='heading-table'>
+            <thead style={{ backgroundColor: '#F65D4E', color: '#fff' }}>
+              <tr>
+                <th>
+                  <input type="checkbox" />
+                </th>
+                <th>Hình ảnh</th>
+                <th>Tên sản phẩm</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Đơn giá</th>
+                <th>Thao Tác</th>
+              </tr>
+            </thead>
+          </Table>
+          {Object.entries(
+            cartItems.reduce((acc, item) => {
+              if (!acc[item.store.name]) {
+                acc[item.store.name] = [];
+              }
+              acc[item.store.name].push(item);
+              return acc;
+            }, {})
+          ).map(([storeName, items]) => (
+            <div key={storeName}>
+              
               <Table striped bordered hover>
-                <thead style={{backgroundColor: '#F65D4E', color: '#fff'}}>
+                <thead style={{ backgroundColor: '#F65D4E', color: '#fff', width: '100%' }}>
                   <tr>
-                    <th>Hình ảnh</th>
-                    <th>Tên sản phẩm</th>
-                    <th>Giá</th>
-                    <th>Số lượng</th>
-                    <th>Đơn giá</th>
-                    <th>Thao Tác</th>
+                    <th>
+                      <input type="checkbox" />
+                    </th>
+                    <th>
+                      <h4>{storeName}</h4>
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                      <td className='img'>
-                          <img src="https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/02/31.jpg" alt="" />
-                      </td>
-                      <td className='name'>alibaba</td>
-                      <td className='price'>$150</td>
-                      <td>
-                        <input type="number" />
-                      </td>
-                      <td>
-                        $150
-                      </td>
-                      <td className='button'>
-                        <button>Gỡ</button>
-                      </td>
-                    </tr>
+                  {items.map((item, index) => {
+                    let price = item.cartDetails[index].price;
+                    let formattedPrice = price.toLocaleString('vi-VN', {
+                      style: 'currency',
+                      currency: 'VND',
+                    });
+                    let totalPrice =
+                      item.cartDetails[index].price * item.cartDetails[index].amount;
+                    let formattedTotalPrice = totalPrice.toLocaleString('vi-VN', {
+                      style: 'currency',
+                      currency: 'VND',
+                    });
+                    return item.cartDetails.map((itemChild) => (
+                      <tr key={itemChild?.id}>
+                        <td>
+                        <input type="checkbox" value={Number(itemChild.id)} name={itemChild.id} checked={cartChecked.includes(itemChild.id)} onChange={handleCheckboxChange}/> 
+                        </td>
+                        <td className='img'>
+                          <img
+                            src={`data:image/jpeg;base64,${itemChild?.imagebyte}`}
+                            alt='Product'
+                          />
+                        </td>
+                        <td className='name'>{itemChild?.name}</td>
+                        <td className='price'>{formattedPrice}</td>
+                        <td className='button'>
+                          <button onClick={() => handleDecre(itemChild)}>-</button>
+                          <input type='number' min={1} value={itemChild.amount} />
+                          <button onClick={() => handleIncre(itemChild)}>+</button>
+                        </td>
+                        <td>${formattedTotalPrice}</td>
+                        <td className='button'>
+                          <button onClick={() => handleRemove(itemChild)}>Gỡ</button>
+                        </td>
+                      </tr>
+                    ));
+                  })}
                 </tbody>
               </Table>
-            <div className="total-container">
-                <div className="form">
-                  <span className='title'>Cart Total</span>
-                  <div className='total'>
-                      <div className='subtotal'>
-                          <span>Subtotal:</span> 
-                          <span className='price'>$150</span>
-                      </div>
-                      <div className="totalpayment">
-                          <span>Total:</span> 
-                          <span className='price'>$150</span>
-                      </div>
-                      <button className='payment-btn'>Thanh toán</button>
+            </div>
+          ))}
+          {cartItems.length === 0 && (
+            <div className='cart-empty'>Chưa có sản phẩm nào trong giỏ hàng</div>
+          )}
+
+            <div className='total-container'>
+              <div className='form'>
+                <span className='title'>Cart Total</span>
+                <div className='total'>
+                  {/* <div className='subtotal'>
+                    <span>Subtotal:</span>
+                    <span className='price'>$150</span>
+                  </div> */}
+                  <div className='totalpayment'>
+                    <span>Total:</span>
+                    <span className='price'>${formattedTotalPayment}</span>
                   </div>
+                  <button className='payment-btn' onClick={handleSubmit}>Thanh toán</button>
                 </div>
+              </div>
             </div>
         </div>
     </div>

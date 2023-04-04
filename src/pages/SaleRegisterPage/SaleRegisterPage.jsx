@@ -1,20 +1,63 @@
-import React, { useState } from 'react'
+import FormData from 'form-data'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import PopupOtpStore from '../../components/PopupOtpStore/PopupOtpStore'
+import { actCreateStore, actFetchCheckEmailStore, actFetchOtp } from '../../redux/features/storeSlice/storeSlice'
 import './SaleRegisterPage.scss'
 
-const initialValue = {
-    name: '',
-    email:  '',
-    avatar: '',
-    phone: '',
-    coverImage: '',
-    address: '',
-}
+
 const SaleRegisterPage = () => {
-  const [formState, setFormState] = useState(initialValue)
+
+  const {isOtp} = useSelector((state) => state.store)
+  const {otp} = useSelector((state) => state.store)
+  const [checkOtp, setCheckOtp] = useState(isOtp)
+  const {user} = useSelector((state) => state.user)
+  const dispatch = useDispatch()
 
 
+  useEffect(() => {
+    setCheckOtp(isOtp)
+  },[isOtp])
+
+  const [formState, setFormState] = useState({
+    idkh: user?.id,
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+  })
+
+  useEffect(() => {
+    setFormState({
+      ...formState,
+      idkh: user?.id
+    })
+  },[user])
+
+  const handleOnChange = (e) => {
+    const {name, value} = e.target
+    setFormState({
+      ...formState,
+      [name]: value
+    })
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    dispatch(actFetchCheckEmailStore(formState))
+    if(isOtp) {
+      dispatch(actFetchOtp(formState?.email))
+    }else {
+      toast.warning('Tài khoản email này đã tồn tại !!!')
+    }
+    console.log(formState);
+  }
   return (
     <div className='sale-register-page'>
+      {
+        checkOtp ? <PopupOtpStore formState={formState} otp={otp} setCheckOtp={setCheckOtp}/> : ""
+      }
         <div className="top">
             <div className="left">
                 <div className="heading">
@@ -27,33 +70,24 @@ const SaleRegisterPage = () => {
             </div>
             <div className="right">
                 <span className="title">Đăng ký ngay</span>
-                <form action="">
+                <form action="" onSubmit={handleSubmit}>
                   <div className="form-input">
                     <label htmlFor="">Địa chỉ email</label>
-                    <input type="email" placeholder='Nhập địa chỉ email'/>
+                    <input type="email" name='email' placeholder='Nhập địa chỉ email' value={formState.email} onChange={handleOnChange}/>
                   </div>
                   <div className="form-input">
-                    <label htmlFor="">Họ và tên</label>
-                    <input type="text" name='name' placeholder='Nhập họ và tên'/>
+                    <label htmlFor="">Tên cửa hàng</label>
+                    <input type="text" name='name' placeholder='Nhập họ và tên' value={formState.name} onChange={handleOnChange}/>
                   </div>
                   <div className="form-input">
                     <label htmlFor="">Số điện thoại</label>
-                    <input type="text" name='phone' placeholder='Nhập số điện thoại'/>
+                    <input type="text" name='phone' placeholder='Nhập số điện thoại' value={formState.phone} onChange={handleOnChange}/>
                   </div>
                   <div className="form-input">
                     <label htmlFor="">Địa chỉ cửa hàng</label>
-                    <input type="text" name='address' placeholder='Nhập địa chỉ cửa hàng'/>
+                    <input type="text" name='address' placeholder='Nhập địa chỉ cửa hàng' value={formState.address} onChange={handleOnChange}/>
                   </div>
-                  <div className="form-input">
-                    <label htmlFor="">Mật khẩu</label>
-                    <input type="password" className='' placeholder='Nhập mật khẩu'/>
-                  </div>
-                  <div className="form-input">
-                    <label htmlFor="">Nhập lại mật khẩu</label>
-                    <input type="password" placeholder='Nhập lại mật khẩu'/>
-                  </div>
-
-                  <button>Đăng ký ngay</button>
+                  <button type='submit'>Đăng ký ngay</button>
                 </form>
             </div>
         </div>

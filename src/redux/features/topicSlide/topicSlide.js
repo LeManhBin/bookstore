@@ -45,12 +45,12 @@ export const topicSlice = createSlice({
 
         builder.addCase(actFetchAllTopic.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.allTopic = action.payload || [];
+            state.allTopic = action.payload.data || [];
         })
 
         builder.addCase(actFetchTopicById.fulfilled,  (state, action) => {
             state.isLoading = false;
-            state.topic = action.payload || {}
+            state.topic = action.payload.data || {}
         })
     }
 })

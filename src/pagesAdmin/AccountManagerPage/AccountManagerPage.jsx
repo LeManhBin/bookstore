@@ -32,7 +32,7 @@ const AccountManagerPage = () => {
 
   const handleFilterBlog = () => {
     return allUser?.filter((user) => {
-      return user?.object?.name.toLowerCase().includes(searchTerm.toLowerCase());
+      return user?.object?.fullName.toLowerCase().includes(searchTerm.toLowerCase());
     }).slice(firstPageIndex, lastPageIndex);
   }
 
@@ -96,9 +96,9 @@ const AccountManagerPage = () => {
                         return(
                           <tr key={data?.object?.id}>
                             <td>{currentPage + index}</td>
-                            <td className='name'>{data?.object?.name}</td>
+                            <td className='name'>{data?.object?.fullName}</td>
                             <td className='img'>
-                                <img src={`data:image/jpeg;base64,${data?.file}`} alt="Product" />
+                                <img src={`data:image/jpeg;base64,${data?.file}`} alt="Avatar" />
                             </td>
                             <td className='email'>{data?.object?.email}</td>
                             <td>{data?.object?.phone}</td>

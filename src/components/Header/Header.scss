@@ -98,11 +98,36 @@
                     color: #111;
                 }
 
-                .avatar {
-                    width: 30px;
-                    height: 30px;
-                    border-radius: 50%;
-                    object-fit: cover;
+                .avatar-container {
+                    position: relative;
+
+                    .avatar {
+                        width: 30px;
+                        height: 30px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                    }
+
+                    .avatar-act {
+                        list-style: none;
+                        position: absolute;
+                        top: 100%;
+                        background-color: #F65D4E;
+                        padding: 0;
+                        width: 100px;
+                        padding: 5px 10px;
+                        display: none;
+
+
+                        li {
+                            font-size: 15px;
+                            color: #fff;
+                            font-weight: 600;
+                        }
+                    }
+                }
+                .avatar-container:hover .avatar-act {
+                    display: block;
                 }
             }
 

@@ -45,12 +45,12 @@ export const categorySlice = createSlice({
 
         builder.addCase(actFetchAllCategory.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.allCategory = action.payload || [];
+            state.allCategory = action.payload.data || [];
         })
 
         builder.addCase(actFetchCategoryById.fulfilled,  (state, action) => {
             state.isLoading = false;
-            state.category = action.payload || {}
+            state.category = action.payload.data || {}
         })
     }
 });

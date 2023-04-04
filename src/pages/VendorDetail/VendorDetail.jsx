@@ -6,21 +6,44 @@ import {cardData} from '../../constants/cartData'
 import Card from '../../components/Card/Card'
 import './VendorDetail.scss'
 import useScrollToTop from '../../hooks/useScrollToTop'
+import { useDispatch, useSelector } from 'react-redux'
+import { actFetchStoreById } from '../../redux/features/storeSlice/storeSlice'
+import { actFetchBookByIdCategory, actFetchBookByIdStore } from '../../redux/features/bookSlice/bookSlice'
+import Pagination from '../../components/Pagination/Pagination'
 const VendorDetail = () => {
     useScrollToTop()
     const param = useParams()
-    const [vendorState, setVendorState] = useState({})
+    const dispatch = useDispatch()
+    const {store} = useSelector((state) => state.store)
+    const {bookByStore} = useSelector((state) => state.book)
 
-    const data = vendorData.find(vendor => vendor.id === Number(param.idVendor))
+    const [vendorState, setVendorState] = useState(store.data)
+    
+      // phân trang
+    const [currentPage, setCurrentPage] = useState(1);
+    const [limit, setLimit] = useState(6)
+    const lastPageIndex = currentPage * limit;
+    const firstPageIndex = lastPageIndex - limit;
+    const currentItems = bookByStore.slice(firstPageIndex, lastPageIndex);
+
+    console.log(vendorState,'-------');
+    const totalPage = bookByStore.length
 
     useEffect(() => {
-        setVendorState(data)
-    },[param])
+        dispatch(actFetchStoreById(Number(param.idVendor)))
+        dispatch(actFetchBookByIdCategory())
+    },[])
+
+    useEffect(() => {
+        setVendorState(store.data)
+        dispatch(actFetchBookByIdStore(store?.data?.id))
+    },[store])
+
 
   return (
     <div className='vendor-detail'>
         <div className="heading">
-            <Heading title={vendorState.name}/>
+            <Heading title={vendorState?.name}/>
         </div>
         <div className='vendor-banner'>
             <div className='left'>
@@ -37,17 +60,18 @@ const VendorDetail = () => {
                     </ul>
                 </div>
             </div>
-            <div className="right" style={{backgroundImage: `url(${vendorState.coverImg})`}}>
-                <div className='content'>
+            {/* <div className="right" style={{backgroundImage: `data:image/jpeg;base64,${vendorState.file[1]}`}}> */}
+                <div className="right">
+                    <div className='content'>
                     <div className='avatar'>
-                        <img src={vendorState.avatar} alt="" />
+                        {/* <img src={`data:image/jpeg;base64,${vendorState.file[0]}`} alt="store" /> */}
                     </div>
-                    <span className="name">{vendorState.name}</span>
-                    <span className="address"><i class="fa-solid fa-location-dot"></i>{vendorState.address}</span>
-                    <span className="phone"><i class="fa-solid fa-phone"></i>{vendorState.phone}</span>
-                    <span className="rating"><i class="fa-regular fa-star"></i>4.00 rating from 30 reviews</span>
+                    <span className="name">{vendorState?.name}</span>
+                    <span className="address"><i className="fa-solid fa-location-dot"></i>{vendorState?.address}</span>
+                    <span className="phone"><i className="fa-solid fa-phone"></i>{vendorState?.phone}</span>
+                    <span className="rating"><i className="fa-regular fa-star"></i>4.00 rating from 30 reviews</span>
+                    </div>
                 </div>
-            </div>
         </div>
         <div className="vendor-product">
             <div className="left">
@@ -78,14 +102,23 @@ const VendorDetail = () => {
                 </div>
                 <div className='product'>
                     {
-                        cardData.map(data => {
+                        currentItems.map(data => {
                             return (
-                                <div key={data.id}>
+                                <div key={data?.id}>
                                     <Card data={data}/>
                                 </div>
                             )
                         })
                     }
+                </div>
+                <div className='pagination'>
+                    <Pagination
+                    currentPage={currentPage}
+                    limit={limit}
+                    setCurrentPage={setCurrentPage}
+                    totalPage={totalPage}
+                    background={'#AEE2FF'}
+                />
                 </div>
             </div>
         </div>

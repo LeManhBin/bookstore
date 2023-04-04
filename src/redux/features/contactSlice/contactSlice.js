@@ -45,12 +45,12 @@ export const contactSlice = createSlice({
 
         builder.addCase(actFetchAllContact.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.allContact = action.payload || [];
+            state.allContact = action.payload.data || [];
         })
 
         builder.addCase(actFetchContactById.fulfilled,  (state, action) => {
             state.isLoading = false;
-            state.contact = action.payload || {}
+            state.contact = action.payload.data || {}
         })
     }
 });

@@ -47,7 +47,7 @@ export const serviceSlice = createSlice({
 
         builder.addCase(actFetchAllService.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.allService = action.payload.data || []
+            state.allService = action.payload.data.data || []
 
         })
 
@@ -65,7 +65,7 @@ export const serviceSlice = createSlice({
 
         builder.addCase(actFetchServiceById.fulfilled,  (state, action) => {
             state.isLoading = false;
-            state.service = action.payload.data
+            state.service = action.payload.data.data
             // state.user = action.payload.data.user || {}
             // state.image =  action.payload.data.image|| {}
         })

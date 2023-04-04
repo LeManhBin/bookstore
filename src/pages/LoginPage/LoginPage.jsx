@@ -25,11 +25,8 @@ const LoginPage = () => {
   const {control, handleSubmit, formState: {errors}} = methods
 
   const onLogin = (values) => {
-    const payload = {
-      email: values.email,
-      password: values.password,
-    }
-    dispatch(actFetchLogin(payload))
+    console.log(values);
+   dispatch(actFetchLogin(values))
   }
 
   useEffect(() => {

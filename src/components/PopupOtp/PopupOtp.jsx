@@ -7,7 +7,9 @@ const PopupOtp = ({formData, otp, setCheckOtp}) => {
   const dispatch = useDispatch()
   const [formOtp, setFormOtp] = useState("")
   const handleSubmit = () => {
-    if(otp == formOtp) {
+    if(!formOtp){
+      toast.error('Vui lòng nhập mã OTP')
+    }else if(otp == formOtp) {
       dispatch(actRegister(formData))
       setCheckOtp(false)
     }else {

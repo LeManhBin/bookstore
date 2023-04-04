@@ -22,11 +22,13 @@ const RegisterPage = () => {
   const [checkOtp, setCheckOtp] = useState(isOtp)
   const [formData, setFormData] = useState(null)
   const [isShowPass, setIsShowPass] = useState(false)
-  // useEffect(() => {
-  //   setCheckOtp(isOtp)
-  // },[isOtp])
 
-  console.log(otp, 'mã otp nè');
+
+  useEffect(() => {
+    setCheckOtp(isOtp)
+  },[isOtp])
+
+  console.log(isOtp, 'đã bằng true');
 
   const handleLoginPage = () => {
     navigate("/login-layout")
@@ -43,12 +45,13 @@ const RegisterPage = () => {
       dispatch(actFetchCheckEmailUser(values))
       setFormData(values)
       console.log(checkOtp, 'checkOtp trong hàm đăng ký');
-      if(checkOtp == true) {
+      if(isOtp) {
         console.log(values.email);
         dispatch(actFetchOtp(values?.email))
       }else {
-        toast('Tài khoản email này đã tồn tại !!!')
+        toast.warning('Tài khoản email này đã tồn tại !!!')
       }
+      console.log(checkOtp, 'click');
   }
 
   return (

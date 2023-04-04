@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import BestSeller from '../../components/BestSeller/BestSeller'
 import CategoryList from '../../components/CategoryList/CategoryList'
 import StandBanner from '../../components/StandBanner/StandBanner'
@@ -14,11 +14,16 @@ import LieBanner from '../../components/LieBanner/LieBanner'
 import CardVendor from '../../components/CardVendor/CardVendor'
 import { vendorData } from '../../constants/vendorData'
 import useScrollToTop from '../../hooks/useScrollToTop'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { actFetchAllBook } from '../../redux/features/bookSlice/bookSlice'
+import { actFetchAllStore } from '../../redux/features/storeSlice/storeSlice'
 
 const HomePage = () => {
   const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams();
   useScrollToTop()
+
   const settings = {
     dots: true,
     infinite: true,
@@ -73,45 +78,68 @@ const HomePage = () => {
     initialSlide: 0,
     autoplay: true,
     autoplaySpeed: 3000,
-    responsive: [
-      {
-        breakpoint: 1200,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: true
-        }
-      },
-      {
-        breakpoint: 1415,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: true
-        }
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2
-        }
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1
-        }
-      }
-    ]
+    // responsive: [
+    //   {
+    //     breakpoint: 1200,
+    //     settings: {
+    //       slidesToShow: 2,
+    //       slidesToScroll: 3,
+    //       infinite: true,
+    //       dots: true
+    //     }
+    //   },
+    //   {
+    //     breakpoint: 1415,
+    //     settings: {
+    //       slidesToShow: 3,
+    //       slidesToScroll: 3,
+    //       infinite: true,
+    //       dots: true
+    //     }
+    //   },
+    //   {
+    //     breakpoint: 600,
+    //     settings: {
+    //       slidesToShow: 2,
+    //       slidesToScroll: 2,
+    //       initialSlide: 2
+    //     }
+    //   },
+    //   {
+    //     breakpoint: 480,
+    //     settings: {
+    //       slidesToShow: 1,
+    //       slidesToScroll: 1
+    //     }
+    //   }
+    // ]
   };
+  const dispatch = useDispatch()
+  const {allBook} = useSelector((state) => state.book)
+  const {allStore} = useSelector((state) => state.store)
+  const [searchTerm, setSearchTerm] = useState([])
+
+
+
+
+
+  useEffect(() => {
+    dispatch(actFetchAllStore())
+  },[])
+
+  useEffect(() => {
+    dispatch(actFetchAllBook())
+  },[])
 
   const handleViewAll = () => {
     navigate("/product")
+  }
+  const handleViewAllVendor = () => {
+    navigate("/vendor")
+  }
+
+  const handleSearch = (searchTerm) => {
+    navigate(`/product/search?payload=${searchTerm}`);
   }
   return (
     <div className='homepage'>
@@ -125,8 +153,8 @@ const HomePage = () => {
             </div>
             <div className="search">
                 <div className='search-input'>
-                  <input type="text" placeholder='Search product...'/>
-                  <button><i className="fa-solid fa-magnifying-glass"></i></button>
+                  <input type="text" placeholder='Search product...' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
+                  <button onClick={() => handleSearch(searchTerm)}><i className="fa-solid fa-magnifying-glass"></i></button>
                 </div>
             </div>
             <div className="map">
@@ -173,9 +201,9 @@ const HomePage = () => {
                   </div>
                   <div className='product-container'>
                     {
-                      cardData.map(data => {
+                      allBook?.data?.slice(0,6).map(data => {
                         return (
-                          <div key={data.id}>
+                          <div key={data?.id}>
                             <Card data={data}/>
                           </div>
                         )
@@ -195,9 +223,9 @@ const HomePage = () => {
                   </div>
                   <div className='product-container'>
                     {
-                      cardData.map(data => {
+                      allBook?.data?.slice(0,6).map(data => {
                         return (
-                          <div key={data.id}>
+                          <div key={data?.id}>
                             <Card data={data}/>
                           </div>
                         )
@@ -211,15 +239,15 @@ const HomePage = () => {
               <div className="homepage-vendor--vendor">
                   <div className="heading">
                       <p className='title'>Top selling vendor</p>
-                      <button className='view' onClick={handleViewAll}>View All</button>
+                      <button className='view' onClick={handleViewAllVendor}>View All</button>
                   </div>
                   <div className='product-vendor'>
                       {
                         <Slider {...settingsVendor}>
                           {
-                            vendorData.map(data => {
+                            allStore.map(data => {
                               return(
-                                <div key={data.id}>
+                                <div key={data?.id}>
                                     <CardVendor data={data}/>
                                 </div>
                               )

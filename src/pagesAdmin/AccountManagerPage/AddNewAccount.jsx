@@ -23,7 +23,6 @@ const AddNewAccount = () => {
 
     const [dataImg, setDataImg] = useState(null)
  
-
     const handlePreviewAvatar = (e) => {
         const file = e.target.files[0]
         file.preview = URL.createObjectURL(file)
@@ -90,7 +89,7 @@ const AddNewAccount = () => {
             <div className='left'>
                 <div className="form-input">
                     <label htmlFor="">Họ và tên</label>
-                    <input required type="text" name='name' value={formState.name} onChange={handleOnChange} placeholder='Nhập họ và tên'/>
+                    <input required type="text" name='fullName' value={formState.name} onChange={handleOnChange} placeholder='Nhập họ và tên'/>
                 </div>
                 <div className="form-input">
                     <label htmlFor="">Số điện thoại</label>

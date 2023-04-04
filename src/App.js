@@ -29,15 +29,40 @@ import WishListPage from "./pages/WishListPage/WishListPage";
 import CartPage from "./pages/CartPage/CartPage";
 import UpdateService from "./pagesAdmin/ServiceManagerPage/UpdateService";
 import AddNewStore from "./pagesAdmin/StoreListPage/AddNewStore";
-import UpdateStore from "./pagesAdmin/StoreListPage/UpdateStore";
+// import UpdateStore from "./pagesAdmin/StoreListPage/UpdateStore";
 import ViewStore from "./pagesAdmin/StoreListPage/ViewStore";
 import ChangeEmailPage from "./pages/ChangeEmailPage/ChangeEmailPage";
 import ChangePhoneNumberPage from "./pages/ChangePhoneNumberPage/ChangePhoneNumberPage";
 import ChangePasswordPage from "./pages/ChangePasswordPage/ChangePasswordPage";
 import SaleRegisterPage from "./pages/SaleRegisterPage/SaleRegisterPage";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { actReLogin } from "./redux/features/userSlice/userSlice";
+import { KEY_ACCESS_TOKEN } from "./constants/config";
+import StoreLayout from "./layouts/StoreLayout/StoreLayout";
+import RevenueStorePage from "./pageStore/RevenueStorePage/RevenueStorePage";
+import OrderStorePage from "./pageStore/OrderStorePage/OrderStorePage";
+import StoreAddProductPage from "./pageStore/StoreAddProductPage/StoreAddProductPage";
+import AllProductPage from "./pageStore/AllProductPage/AllProductPage";
+import AddPromotionPage from "./pageStore/AddPromotionPage/AddPromotionPage";
+import ListPromotionPage from "./pageStore/ListPromotionPage/ListPromotionPage";
+import SearchBookByCategoryPage from "./pages/SearchBookByCategoryPage/SearchBookByCategoryPage";
+import DetailProductStorePage from "./pageStore/DetailProductStorePage/DetaiProductStorePage";
+import ListServicePage from "./pageStore/ListServicePage/ListServicePage";
+import SearchResultPage from "./pages/SearchResultPage/SearchResultPage";
+import PaymentPage from "./pages/PaymentPage/PaymentPage";
 
 
 function App() {
+
+  const dispatch = useDispatch()
+  const accessToken = localStorage.getItem(KEY_ACCESS_TOKEN) || null
+  useEffect(() => {
+    if(accessToken) {
+      dispatch(actReLogin(accessToken))
+  }
+
+  },[])
   return (
     <div className="App">
       <BrowserRouter>
@@ -46,6 +71,7 @@ function App() {
               <Route index element={<HomePage/>}/>
               <Route path="product" element={<ProductPage/>}/>
               <Route path="product/:idProduct" element={<ProductDetailPage/>}/>
+              <Route path="books/:idCategoryBook" element={<SearchBookByCategoryPage/>}/>
               <Route path="vendor" element={<VendorPage/>}/>
               <Route path="vendor/:idVendor" element={<VendorDetail/>}/>
               <Route path="blog" element={<BlogPage/>}/>
@@ -57,6 +83,8 @@ function App() {
               <Route path="account/profile/password" element={<ChangePasswordPage/>}/>
               <Route path="wish-list" element={<WishListPage/>}/>
               <Route path="cart" element={<CartPage/>}/>
+              <Route path="product/search/"  element={<SearchResultPage/>}/>
+              <Route path="payment"  element={<PaymentPage/>}/>
           </Route>
           <Route path="sale-register" element={<SaleRegisterPage/>}/>
           <Route path="/admin" element={<AdminLayout/>}>
@@ -74,6 +102,17 @@ function App() {
               <Route path="service/:idService" element={<UpdateService/>}/>
               <Route path="contact" element={<ContactManagerPage/>}/>
               <Route path="contact-unread" element={<UnWatchedContactPage/>}/>
+          </Route>
+
+          <Route path="/store" element={<StoreLayout/>}>
+              <Route index element={<RevenueStorePage/>}/>
+              <Route path="order-store" element={<OrderStorePage/>}/>
+              <Route path="add-product" element={<StoreAddProductPage/>}/>
+              <Route path="detail-product/:idBook" element={<DetailProductStorePage/>}/>
+              <Route path="all-product" element={<AllProductPage/>}/>
+              <Route path="add-promotion" element={<AddPromotionPage/>}/>
+              <Route path="list-promotion" element={<ListPromotionPage/>}/>
+              <Route path="list-service" element={<ListServicePage/>}/>
           </Route>
 
           <Route path="/login-layout" element={<LoginLayout/>}>

@@ -13,13 +13,41 @@
         display: flex;
         flex-direction: column;
         gap: 50px;
+
+        .heading-table {
+
+            thead {
+
+              tr {
+
+                th {
+                    margin-left: 200px;
+                }
+              }
+            }
+        }
+        .cart-empty {
+            text-align: center;
+        }
         table {
             text-align: center;
             
+            thead {
+
+                th {
+                    border: none;
+                    vertical-align: middle;
+                }
+            }
 
             tbody {
                 
+
                 tr {
+
+                    td {
+                        vertical-align: middle;
+                    }
 
                     .img {
                         width: 120px;
@@ -30,6 +58,11 @@
                             height: 100%;
                             object-fit: cover;
                         }
+                    }
+
+                    input {
+                        outline: none;
+                        width: 50px;
                     }
 
                     .name {
@@ -43,15 +76,28 @@
                     }
                     .button {
                         
+                        input {
+                            outline: none;
+                            border: 1px solid #eee;
+                            text-align: center;
+                        }
+                        input[type=number]::-webkit-inner-spin-button, 
+                        input[type=number]::-webkit-outer-spin-button { 
+                            -webkit-appearance: none;
+                            -moz-appearance: none;
+                            appearance: none;
+                            margin: 0; 
+                        }
                         
                         button {
-                            padding: 5px 10px;
+                            width: 30px;
+                            height: 30px;
                             border: none;
                             background-color: #F65D4E;
                             border-radius: 5px;
                             font-weight: bold;
                             color: #fff;
-                            margin-right: 10px;
+                            margin-right: 0;
                         }
                     }
                 }

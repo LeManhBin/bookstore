@@ -1,12 +1,15 @@
 import { createAsyncThunk, createSlice, getDefaultMiddleware  } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import { fetchAllDataStore, fetchDataStoreById, fetchDeleteStore } from "../../../apis/storeApi";
+import { fetchCheckEmailUser, fetchOtp } from "../../../apis/registerApi";
+import { fetchAllDataStore, fetchCreateStore, fetchDataStoreById, fetchDeleteStore } from "../../../apis/storeApi";
 
 const initialState = {
     allStore: [],
     store: {},
     isLoading: false,
     isLoadingCreate: false,
+    isOtp: false,
+    otp: "",
     errors: {},
 }
 const customizedMiddleware = getDefaultMiddleware({
@@ -20,6 +23,18 @@ export const actFetchAllStore = createAsyncThunk('store/actFetchAllStore', async
 export const actFetchStoreById = createAsyncThunk('store/actFetchStoreById', async (id) => {
     const data = await fetchDataStoreById(id)
     return data || {}
+})
+
+export const actFetchCheckEmailStore = createAsyncThunk('store/actFetchCheckEmailStore', async (data) => {
+    const dataStatus = await fetchCheckEmailUser(data)
+    return dataStatus
+}) 
+
+export const actFetchOtp = createAsyncThunk('store/actFetchOtp', async (email) => {
+    console.log(email, ' email bên redux');
+    const otp = await fetchOtp(email)
+    console.log(otp, 'otp bên reduxs');
+    return otp
 })
 
 export const storeSlice = createSlice({
@@ -47,7 +62,7 @@ export const storeSlice = createSlice({
 
         builder.addCase(actFetchAllStore.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.allStore = action.payload.data || []
+            state.allStore = action.payload.data.data || []
         })
 
         builder.addCase(actFetchStoreById.pending, (state) => {
@@ -66,12 +81,47 @@ export const storeSlice = createSlice({
             state.isLoading = false;
             state.store = action.payload.data
         })
+
+         //check mail
+         builder.addCase(actFetchCheckEmailStore.pending, (state) => {
+            state.isLoading = true;
+            state.isOtp = false
+        });
+        builder.addCase(actFetchCheckEmailStore.rejected, (state) => {
+            state.errors = {
+                errors: "Có lỗi xảy ra!"
+            };
+            state.isLoading = false
+            state.isOtp = false
+            toast.warning(state.errors);
+        });
+
+        builder.addCase(actFetchCheckEmailStore.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isOtp = action.payload
+            console.log(action.payload, '.............');
+        })
+
+        //otp
+        builder.addCase(actFetchOtp.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.otp = action.payload.data
+        })
     }
 })
 
 
 
-
+export const actCreateStore = (store) => async (dispatch) => {
+    try {
+        await fetchCreateStore(store)
+        toast.success('Tạo thành công')
+    } catch (error) {
+        console.log(error);
+    } finally {
+        dispatch(actUpdateLoadingCreate(false))
+    }
+}
 export const actDeleteStore = (id) => async (dispatch) => {
     try {
         await fetchDeleteStore(id)

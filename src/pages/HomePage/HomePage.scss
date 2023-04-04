@@ -199,9 +199,20 @@
                     cursor: pointer;
                 }
             }
-            .product-container {
+            .product-vendor {
 
-                
+                .slick-list {
+                    width: 100%;
+
+                    .slick-track {
+                        display: inline-block;
+                        display: flex;
+                        gap: 50px;
+                        flex-wrap: nowrap;
+                        width: 100%;
+                        margin: 0 !important;
+                    }
+                }
             }
         }
    }

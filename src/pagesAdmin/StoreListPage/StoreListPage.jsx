@@ -22,7 +22,7 @@ const StoreListPage = () => {
     dispatch(actFetchAllStore())
   },[])
 
-
+  console.log(allStore);
 
   //phân trang
   const [currentPage, setCurrentPage] = useState(1);
