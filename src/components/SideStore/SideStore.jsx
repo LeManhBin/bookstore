@@ -90,7 +90,7 @@ const SideStore = () => {
                         </ul>
                     }
             </li>
-            <li className='item'>
+            {/* <li className='item'>
                     <div className='title' onClick={() => setShowItem4(!showItem4)}>
                         <div className="name">
                             <i className="fa-solid fa-user"></i>
@@ -106,7 +106,7 @@ const SideStore = () => {
                             </Link>
                         </ul>
                     }
-            </li>
+            </li> */}
         </ul>
     </div>
 </div>

@@ -3,15 +3,25 @@
     background-color: #eee;
     padding: 50px 100px;
     display: flex;
-    flex-direction: column;
     gap: 30px;
 
     .heading {
         background-color: transparent;
         font-size: 20px;
     }
+    .left {
+        flex: 2;
+        background-color: #fff;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        border-radius: 8px;
+        height: 250px;  
+    }
 
     &-container {
+        flex: 7;
         display: flex;
         gap: 10px;
         background-color: #fff;

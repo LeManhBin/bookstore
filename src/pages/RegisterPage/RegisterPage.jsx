@@ -9,7 +9,7 @@ import { actFetchCheckEmailUser, actFetchOtp } from '../../redux/features/userSl
 import PopupOtp from '../../components/PopupOtp/PopupOtp'
 import { toast } from 'react-toastify'
 const initialFormValue = {
-  name: '',
+  fullName: '',
   email: '',
   password: '',
 }
@@ -51,7 +51,7 @@ const RegisterPage = () => {
       }else {
         toast.warning('Tài khoản email này đã tồn tại !!!')
       }
-      console.log(checkOtp, 'click');
+      console.log(values, 'click');
   }
 
   return (
@@ -69,9 +69,9 @@ const RegisterPage = () => {
                 <span>Let's experience new and wonderful things together</span>
             </div>
             <form onSubmit={handleSubmit(onRegister)}>
-                {!!errors.name && <span style={{color: 'red', textAlign:'left'}}>{errors.name.message}</span>}
+                {!!errors.fullName && <span style={{color: 'red', textAlign:'left'}}>{errors.fullName.message}</span>}
                 <Controller
-                  name='name'
+                  name='fullName'
                   control={control}
                   render={({field: {value, onChange}}) => (
                     <input value={value} onChange={onChange} type="text" placeholder='Name'/>

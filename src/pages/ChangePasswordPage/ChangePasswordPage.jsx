@@ -1,9 +1,13 @@
 import React, { useState } from 'react'
 import './ChangePasswordPage.scss'
+import { useDispatch, useSelector } from 'react-redux'
+import FormData from 'form-data'
+import { toast } from 'react-toastify'
+import { actUpdatePassword } from '../../redux/features/userSlice/userSlice'
+import Account from '../../components/Account/Account'
 const ChangePasswordPage = () => {
     const [isShowPass, setIsShowPass] = useState(false)
     const [isShowNewPass, setShowNewPass] = useState(false)
-    const [isShowConfirmPass, setIsShowConfirmPass] = useState(false)
 
     const handleShowPass = () => {
         setIsShowPass(!isShowPass)
@@ -13,37 +17,56 @@ const ChangePasswordPage = () => {
         setShowNewPass(!isShowNewPass)
     };
 
-    const handleShowConfirmPass = () => {
-        setIsShowConfirmPass(!isShowConfirmPass)
-    };
+
+    const {user} = useSelector((state) => state.user)
+    const initialState = {
+        oldPassword: '',
+        newPassword: '',
+    }
+    const [formState, setFormState] = useState(initialState)
+    const dispatch = useDispatch()
+
+  
+    const handleOnChange = (e) => {
+      const {name, value} = e.target
+      setFormState({
+        ...formState,
+        [name]: value
+      })
+    }
+  
+  
+    const handleUpdatePhone = (e) => {
+      e.preventDefault()
+        if(!formState.oldPassword || !formState.newPassword){
+            toast.warning('Vui lòng nhập đủ thông tin!')
+        }else {
+            dispatch(actUpdatePassword(user.id, formState))
+        }
+    }
   return (
     <div className='change-pass-page'>
-        <p className='heading'>Đổi mật khẩu</p>
+        <div className="left">
+            <Account/>
+        </div>
         <div className="change-container">
-            <form action="">
+            <form action="" onSubmit={handleUpdatePhone}>
                 <div className="form-input">
                     <label htmlFor="">Mật khẩu hiện tại</label>
                     <div className="input">
-                        <input required type={`${isShowPass ? 'text' : 'password'}`} placeholder='Nhập mật khẩu hiện tại'/>
+                        <input  type={`${isShowPass ? 'text' : 'password'}`} name='oldPassword' value={formState.oldPassword} onChange={handleOnChange} placeholder='Nhập mật khẩu hiện tại' />
                         <i className={`${isShowPass ? "fa-regular fa-eye-slash" : "fa-regular fa-eye" }`} onClick={() => handleShowPass()}></i>
                     </div>
                 </div>
                 <div className="form-input">
                     <label htmlFor="">Mật khẩu mới</label>
                     <div className="input">
-                        <input required type={`${isShowNewPass ? 'text' : 'password'}`} placeholder='Nhập mật khẩu mới'/>
+                        <input  type={`${isShowNewPass ? 'text' : 'password'}`} name='newPassword' onChange={handleOnChange} placeholder='Nhập mật khẩu mới'/>
                         <i className={`${isShowNewPass ? "fa-regular fa-eye-slash" : "fa-regular fa-eye" }`} onClick={() => handleShowNewPass()}></i>
                     </div>
                     <span className='attention'>Mật khẩu phải dài từ 8 đến 32 ký tự, bao gồm chữ và số</span>
                 </div>
-                <div className="form-input">
-                    <label htmlFor="">Nhập lại mật khẩu mới</label>
-                    <div className="input">
-                        <input required type={`${isShowConfirmPass ? 'text' : 'password'}`} placeholder='Nhập lại mật khẩu mới'/>
-                        <i className={`${isShowConfirmPass ? "fa-regular fa-eye-slash" : "fa-regular fa-eye" }`} onClick={() => handleShowConfirmPass()}></i>
-                    </div>
-                </div>
-                <button>Lưu thay đổi</button>
+                <button type='submit'>Lưu thay đổi</button>
             </form>
         </div>
     </div>

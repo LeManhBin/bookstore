@@ -47,6 +47,11 @@
                     align-items: center;
                     gap: 20px;
                     font-size: 12px;
+                    margin-top: 10px;
+
+                    p {
+                        margin: 0;
+                    }
 
                     span {
                         color: #5a5a5a;
@@ -68,10 +73,30 @@
                 border-bottom: 1px solid #eee;
                 padding-bottom: 50px;
 
+                .discount {
+                    background-color: #F65D4E;
+                    color: #fff;
+                    padding: 1px 2px;
+                    font-size: 14px;
+                }
+
                 .price {
-                    font-size: 28px;
-                    font-weight: 600;
-                    color: #F65D4E;
+                    display: flex;
+                    gap: 50px;
+                    width: 100%;
+        
+                    .adv-price {
+                        font-size: 24px;
+                        font-weight: 600;
+                        color: #5a5a5a;
+                        text-decoration: line-through;
+                    }
+        
+                    .later-price {
+                        font-size: 24px;
+                        font-weight: 600;
+                        color: #F65D4E;
+                    }
                 }
 
                 .desc {

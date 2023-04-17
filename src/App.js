@@ -36,7 +36,7 @@ import ChangePhoneNumberPage from "./pages/ChangePhoneNumberPage/ChangePhoneNumb
 import ChangePasswordPage from "./pages/ChangePasswordPage/ChangePasswordPage";
 import SaleRegisterPage from "./pages/SaleRegisterPage/SaleRegisterPage";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { actReLogin } from "./redux/features/userSlice/userSlice";
 import { KEY_ACCESS_TOKEN } from "./constants/config";
 import StoreLayout from "./layouts/StoreLayout/StoreLayout";
@@ -51,6 +51,13 @@ import DetailProductStorePage from "./pageStore/DetailProductStorePage/DetaiProd
 import ListServicePage from "./pageStore/ListServicePage/ListServicePage";
 import SearchResultPage from "./pages/SearchResultPage/SearchResultPage";
 import PaymentPage from "./pages/PaymentPage/PaymentPage";
+import ProfileStore from "./pageStore/ProfileStore/ProfileStore";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword/ResetPassword";
+import RegisterServicePage from "./pages/RegisterServicePage/RegisterServicePage";
+import ROR404 from "./components/ROR404/ROR404"
+import PaymentSuccess from "./components/PaymentSuccess/PaymentSuccess";
+
 
 
 function App() {
@@ -61,8 +68,10 @@ function App() {
     if(accessToken) {
       dispatch(actReLogin(accessToken))
   }
-
   },[])
+
+  const userCurrent = localStorage.getItem("user")
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -87,7 +96,9 @@ function App() {
               <Route path="payment"  element={<PaymentPage/>}/>
           </Route>
           <Route path="sale-register" element={<SaleRegisterPage/>}/>
-          <Route path="/admin" element={<AdminLayout/>}>
+          <Route path="register-service" element={<RegisterServicePage/>}/>
+          <Route path="payment-success" element={<PaymentSuccess/>}/>
+          <Route path="/admin" element={(userCurrent.role === 0 ? <ROR404/> : <AdminLayout/>)}>
               <Route index element={<DashboardPage/>}/>
               <Route path="store-list" element={<StoreListPage/>}/>
               <Route path="add-new-store" element={<AddNewStore/>}/>
@@ -104,7 +115,7 @@ function App() {
               <Route path="contact-unread" element={<UnWatchedContactPage/>}/>
           </Route>
 
-          <Route path="/store" element={<StoreLayout/>}>
+          <Route path="/store" element={(userCurrent.storeId === 0 ? <ROR404/> : <StoreLayout/>)}>
               <Route index element={<RevenueStorePage/>}/>
               <Route path="order-store" element={<OrderStorePage/>}/>
               <Route path="add-product" element={<StoreAddProductPage/>}/>
@@ -113,11 +124,14 @@ function App() {
               <Route path="add-promotion" element={<AddPromotionPage/>}/>
               <Route path="list-promotion" element={<ListPromotionPage/>}/>
               <Route path="list-service" element={<ListServicePage/>}/>
+              <Route path="profile-store" element={<ProfileStore/>}/>
           </Route>
 
           <Route path="/login-layout" element={<LoginLayout/>}>
               <Route index element={<LoginPage/>}/>
               <Route path="register" element={<RegisterPage/>}/>
+              <Route path="forgot-password" element={<ForgotPassword/>}/>
+              <Route path="reset-password" element={<ResetPassword/>}/>
           </Route>
         </Routes>
       </BrowserRouter>

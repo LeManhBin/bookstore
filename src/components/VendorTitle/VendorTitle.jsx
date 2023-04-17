@@ -1,15 +1,16 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import './VendorTitle.scss'
+import { IMG_URL } from '../../constants/config'
 const VendorTitle = ({data}) => {
     const navigate = useNavigate()
-    console.log(data);
+
     const handleShowDetail = (id) => {
         navigate(`/vendor/${id}`)
     }
   return (
     <div className='vendor-container'>
-        <div className='top' >
+        <div className='top' style={{backgroundImage: `url(${IMG_URL}${data.coverImage})`}}>
             <span className='name'>{data?.name}</span>
             <span className='star'>
                 <i className="fa-solid fa-star"></i>
@@ -24,7 +25,7 @@ const VendorTitle = ({data}) => {
         <div className="bot">
             <span onClick={() => handleShowDetail(data?.id)}><i className="fa-solid fa-angle-right"></i></span>
             <div className="avatar">
-                 {/* <img src={`data:image/jpeg;base64,${data.file[0]}`} alt="store" /> */}
+                 <img src={`${IMG_URL}${data?.avatar}`} alt="store" />
             </div>
         </div>
     </div>

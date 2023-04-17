@@ -9,6 +9,9 @@ import { actFetchBookById, actFetchBookByIdCategory } from '../../redux/features
 import { actCreateCart } from '../../redux/features/cartSlice/cartSlice'
 
 import './ProductDetailPage.scss'
+import { actFetchDataEvaluateByIdBook } from '../../redux/features/evaluateSlice/evaluateSlice'
+import Loading from '../../components/Loading/Loading'
+import { IMG_URL } from '../../constants/config'
 const ProductDetailPage = () => {
     useScrollToTop()
     const param = useParams()
@@ -18,19 +21,37 @@ const ProductDetailPage = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [quantity, setQuantity] = useState(1)
-
+    const {evaluate} = useSelector((state) => state.evaluate)
     const {user} = useSelector((state) => state.user)
 
+    
+    const {isLoading} = useSelector((state) => state.book)
+
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    const priceAfterDiscount = book.price - (book.price * (book.discount/100)) 
+
+    useEffect(() => {
+        setIsLoaded(!isLoading);
+    }, [isLoading]);
+
+
     const initialState = {
-        userid: user?.id,
-        bookid: book?.id,
+        userId: user?.id,
+        bookId: book?.id,
         amount: 1,
     }
+  
     const [cartState, setCartState] = useState(initialState)
 
     useEffect(() => {
         setCardState(book)
     },[book])
+
+    useEffect(() => {
+        dispatch(actFetchDataEvaluateByIdBook(book.id))
+    },[book])
+
 
     useEffect(() => {
         setCartState(initialState)
@@ -40,12 +61,10 @@ const ProductDetailPage = () => {
         dispatch(actFetchBookById(Number(param.idProduct)))
     },[param])
 
-    useEffect(() => {
-        dispatch(actFetchBookByIdCategory(cardState?.categoryEntity?.id))
-    },[cardState?.categoryEntity?.id])
 
-    
-    console.log(cardState);
+    useEffect(() => {
+        dispatch(actFetchBookByIdCategory(cardState?.categoryId))
+    },[cardState?.categoryId])
 
     const handleDecrease = () => {
         setQuantity(prev => {
@@ -79,110 +98,132 @@ const ProductDetailPage = () => {
     }
     
   return (
-    <div className='product-detail'>
-        <div className='product-detail-content'>
-            <div className='left'>
-            {cardState.images && cardState.images.length > 0 && (
-                    <img src={`data:image/jpeg;base64,${cardState.images[0]}`} alt="Product" />
-            )}
-            </div>
-
-            <div className="right">
-                <div className="top">
-                    <h1 className='name-product'>{cardState?.name}</h1>
-                    <div className='author-product'>
-                        <p><span>Author: </span>{cardState?.author}</p>
-                        <div className='rating'>
-                            <div className='star'>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
+    <>
+    {
+        isLoaded ? (
+            <div className='product-detail'>
+            <div className='product-detail-content'>
+                <div className='left'>
+                {cardState.images && cardState.images.length > 0 && (
+                        <img src={`${IMG_URL}${book?.image}`} alt="Product" />
+                )}
+                </div>
+    
+                <div className="right">
+                    <div className="top">
+                        <h1 className='name-product'>{cardState?.name}</h1>
+                        <div className='author-product'>
+                            <p><span>Author: </span>{cardState?.author}</p>
+                            <div className='rating'>
+                                <div className='star'>
+                                    <i className="fa-solid fa-star"></i>
+                                    <i className="fa-solid fa-star"></i>
+                                    <i className="fa-solid fa-star"></i>
+                                    <i className="fa-solid fa-star"></i>
+                                    <i className="fa-solid fa-star"></i>
+                                </div>
+                                <span className='quantity'>10</span>
                             </div>
-                            <span className='quantity'>10</span>
                         </div>
                     </div>
-                </div>
-                <div className='mid'>
-                    <div className='price'>
-                        <span>${cardState?.price}</span>
-                    </div>
-                    <div className='desc'>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni iste natus nulla nam qui ratione alias facilis quia dolorem temporibus deserunt numquam odit nostrum aliquid a, consequatur perferendis veniam autem.</p>
-                    </div>
-                </div>
-                <div className='bot'>
-                    <div className='quantity'>
-                        <span>Quantity</span>
-                        <div className="quantity-input">
-                            <button className='decrease' onClick={handleDecrease}>-</button>
-                            <input type="number" min={1} value={quantity}/>
-                            <button className='increase' onClick={handleIncrease}>+</button>
+                    <div className='mid'>
+                        {
+                            (book?.discount > 0) && <span className='discount'>Giảm {book.discount}%</span>
+                        }
+                        <div className='price'>
+                            {
+                                (book?.discount > 0) && <span className='adv-price'>${book?.price}</span>
+                            }
+                            <span className='later-price'>${priceAfterDiscount}</span>
+                        </div>
+                        <div className='desc'>
+                            <p>Thể Loại: <span>{book?.category}</span></p>
+                            <p>Nhà xuất bản: <span>{book?.publishing}</span></p>
+                            <p>Số lượng: <span>{book?.quantity}</span></p>
                         </div>
                     </div>
-                    <button className='add-cart' onClick={handleAddToCard}> <i className="fa-solid fa-bag-shopping"></i> Add to card</button>
-                    <button className='add-wishlist'>Browse wishlist</button>
-                </div>
-            </div>
-        </div>
-        <div className='product-detail-shop'>
-            <div className='shop-detail'>
-                <img src="https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/11/store-2.jpg" alt="" className='avatar'/>
-                <div className='info'>
-                    <div className="name">{cardState?.storeEntity?.name}</div>
-                    <button className='see-shop' onClick={() => handleWatchShop(cardState?.storeEntity?.id)}>See Shop</button>
-                </div>
-            </div>
-            <div className='achievements'>
-                <div className='text'>
-                    <span>Đánh Giá</span>
-                    <span>616</span>
-                </div>
-                <div className='text'>
-                    <span>Sản Phẩm</span>
-                    <span>616</span>
-                </div>
-                <div className='text'>
-                    <span>Người Theo Dõi</span>
-                    <span>616</span>
-                </div>
-            </div>  
-        </div>
-        <div className='product-detail-desc'>
-            <h2 className='heading'>Description</h2>
-            <div className='desc-container'>
-                <p>
-                    {cardState?.description}
-                </p>
-            </div>
-        </div>
-
-        <div className="product-detail-review">
-            <h2 className='heading'>Review</h2>
-            <div className='review-container'>
-                <CommentInput/>
-                <Comment/>
-            </div>
-        </div>
-
-        <div className='product-detail-related'>
-            <div className="heading">
-                <h2>Related products</h2>
-            </div>
-            <div className='related'>
-                {
-                    bookByCategory.slice(0,4).map(data => {
-                        return(
-                            <div key={data?.id}>
-                                <Card data={data}/>
+                    <div className='bot'>
+                        <div className='quantity'>
+                            <span>Quantity</span>
+                            <div className="quantity-input">
+                                <button className='decrease' onClick={handleDecrease}>-</button>
+                                <input type="number" min={1} value={quantity}/>
+                                <button className='increase' onClick={handleIncrease}>+</button>
                             </div>
-                        )
-                    })
-                }
+                        </div>
+                        <button className='add-cart' onClick={handleAddToCard}> <i className="fa-solid fa-bag-shopping"></i> Add to card</button>
+                        <button className='add-wishlist'>Browse wishlist</button>
+                    </div>
+                </div>
+            </div>
+            <div className='product-detail-shop'>
+                <div className='shop-detail'>
+                    <img src={`${IMG_URL}${book?.store?.avatar}`} alt="" className='avatar'/>
+                    <div className='info'>
+                        <div className="name">{book?.store?.name}</div>
+                        <button className='see-shop' onClick={() => handleWatchShop(book?.store?.id)}>See Shop</button>
+                    </div>
+                </div>
+                <div className='achievements'>
+                    <div className='text'>
+                        <span>Đánh Giá</span>
+                        <span>616</span>
+                    </div>
+                    <div className='text'>
+                        <span>Sản Phẩm</span>
+                        <span>616</span>
+                    </div>
+                    <div className='text'>
+                        <span>Người Theo Dõi</span>
+                        <span>616</span>
+                    </div>
+                </div>  
+            </div>
+            <div className='product-detail-desc'>
+                <h2 className='heading'>Description</h2>
+                <div className='desc-container' dangerouslySetInnerHTML={{__html: cardState?.description}}>
+    
+                </div>
+            </div>
+    
+            <div className="product-detail-review">
+                <h2 className='heading'>Review</h2>
+                <div className='review-container'>
+                    {/* <CommentInput/> */}
+                    {
+                        evaluate.map((data, index) => {
+                            return(
+                                <div key={index}>
+                                    <Comment data={data}/>
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+            </div>
+    
+            <div className='product-detail-related'>
+                <div className="heading">
+                    <h2>Related products</h2>
+                </div>
+                <div className='related'>
+                    {
+                        bookByCategory.slice(0,4).map(data => {
+                            return(
+                                <div key={data?.id}>
+                                    <Card data={data}/>
+                                </div>
+                            )
+                        })
+                    }
+                </div>
             </div>
         </div>
-    </div>
+        ): (
+            <Loading/>
+        )
+    }
+    </>
   )
 }
 

@@ -27,7 +27,6 @@ const ContactPage = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         dispatch(actCreateContact(formState))
-        console.log(formState);
     }
   return (
     <div className='contact'>

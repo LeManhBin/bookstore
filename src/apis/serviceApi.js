@@ -25,3 +25,8 @@ export const fetchUpdateService = async (id, payload) => {
     const res = await axios.post(`${BE_URL}service/${id}`, payload);
     return res
 }
+
+export const fetchRegisterService = async ( payload) => {
+    const res = await axios.post(`http://localhost:8080/vnpay`, payload);
+    return res.data
+}

@@ -1,18 +1,46 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './ChangeEmailPage.scss'
+import FormData from 'form-data'
+import { useDispatch, useSelector } from 'react-redux'
+import { actUpda, actUpdateProfileteProfile } from '../../redux/features/userSlice/userSlice'
+import Account from '../../components/Account/Account'
 const ChangeEmailPage = () => {
+  const {user} = useSelector((state) => state.user)
+  const [formState, setFormState] = useState(user)
+  const dispatch = useDispatch()
+
+  const handleOnChange = (e) => {
+    const {name, value} = e.target
+    setFormState({
+      ...formState,
+      [name]: value
+    })
+  }
+
+
+  const handleUpdateEmail = (e) => {
+    e.preventDefault()
+    const formData =  new FormData();
+    const formPost = Object.assign({}, formState);
+    delete formPost.imageBytes;
+    formData.append("object", JSON.stringify(formPost));
+    formData.append("file", formState.avatar);
+    dispatch(actUpdateProfile(user?.id,formData, formState))
+  }
   return (
     <div className='change-page'>
-        <p className='heading'>Cập nhập email</p>
+        <div className="left">
+          <Account/>
+        </div>
         <div className="change-container">
-            <span className='title'>Địa chỉ email</span>
-            <form action="">
+            <form action="" onSubmit={handleUpdateEmail}>
+                <span className='title'>Địa chỉ email</span>
                 <div className="form-input">
                     <i className="fa-solid fa-envelope"></i>
-                    <input required type="email" placeholder='Nhập email'/>
+                    <input required type="email" placeholder='Nhập email' name='email' value={formState.email} onChange={handleOnChange}/>
                 </div>
                 <span className='attention'>Mã xác thực (OTP) sẽ được gửi đến email này để xác minh email là của bạn</span>
-                <button>Lưu thay đổi</button>
+                <button type='submit'>Lưu thay đổi</button>
             </form>
         </div>
     </div>

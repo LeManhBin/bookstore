@@ -7,6 +7,7 @@ import ModalAcces from '../../components/ModalAcces/ModalAcces'
 import Pagination from '../../components/Pagination/Pagination'
 import { actDeleteStore, actFetchAllStore } from '../../redux/features/storeSlice/storeSlice'
 import './StoreListPage.scss'
+import { IMG_URL } from '../../constants/config'
 const StoreListPage = () => {
   const [isDelete, setIsDelete] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
@@ -16,13 +17,10 @@ const StoreListPage = () => {
   const dispatch = useDispatch()
   const {allStore} = useSelector((state) => state.store)
 
-
-  console.log(allStore);
   useEffect(() => {
     dispatch(actFetchAllStore())
   },[])
 
-  console.log(allStore);
 
   //phân trang
   const [currentPage, setCurrentPage] = useState(1);
@@ -85,25 +83,25 @@ const StoreListPage = () => {
                     {
                       currentItems.map((store, index)=> {
                         let status;
-                        if(store?.object?.status === 0) {
+                        if(store?.status === 0) {
                           status = "Đang Hoạt Động"
                         }else{
                           status = "Dừng Hoạt Động"
                         }
                         return(
-                          <tr key={store?.object?.id}>
+                          <tr key={store?.id}>
                             <td>{index + 1}</td>
-                            <td >{store?.object?.name}</td>
+                            <td >{store?.name}</td>
                             <td className='img'>
-                              <img src={`data:image/jpeg;base64,${store?.file[0]}`} alt="Product" />
+                              <img src={`${IMG_URL}${store?.avatar}`} alt="avatar" />
                             </td>
-                            <td>{store?.object?.phone}</td>
-                            <td>{store?.object?.email}</td>
-                            <td>{store?.object?.address}</td>
+                            <td>{store?.phone}</td>
+                            <td>{store?.email}</td>
+                            <td>{store?.address}</td>
                             <td>{status}</td>
                             <td className='button'>
-                              <button className='edit-btn' onClick={() => handleViewPage(store?.object?.id)}><i className="fa-solid fa-users-viewfinder"></i></button>
-                              <button className='delete-btn' onClick={() => handleModalDelete(store?.object?.id)}><i className="fa-sharp fa-solid fa-trash"></i></button>
+                              <button className='edit-btn' onClick={() => handleViewPage(store?.id)}><i className="fa-solid fa-users-viewfinder"></i></button>
+                              <button className='delete-btn' onClick={() => handleModalDelete(store?.id)}><i className="fa-sharp fa-solid fa-trash"></i></button>
                             </td>
                           </tr>
                         )

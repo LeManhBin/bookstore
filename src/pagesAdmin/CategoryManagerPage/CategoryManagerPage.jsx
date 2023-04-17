@@ -98,7 +98,6 @@ const CategoryManagerPage = () => {
     dispatch(actUpdateCategory(idTemp,formUpdate))
     setIsEdit(false)
     setFormUpdate("")
-    console.log('aaaaa');
   }
 
 

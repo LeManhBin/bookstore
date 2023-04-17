@@ -8,6 +8,7 @@ import ModalAcces from '../../components/ModalAcces/ModalAcces';
 import { useDispatch, useSelector } from 'react-redux';
 import { all } from 'axios';
 import { actDeleteService, actFetchAllService } from '../../redux/features/serviceSlice/serviceSlide';
+import { IMG_URL } from '../../constants/config';
 const ServiceManagerPage = () => {
   const [isDelete, setIsDelete] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
@@ -17,14 +18,12 @@ const ServiceManagerPage = () => {
   const dispatch = useDispatch()
   const {allService} = useSelector((state) => state.service)
 
-  console.log(allService, '----------');
-
   useEffect(() => {
     dispatch(actFetchAllService())
   },[])
   //phân trang
   const [currentPage, setCurrentPage] = useState(1);
-  const [limit, setLimit] = useState(3)
+  const [limit, setLimit] = useState(8)
   const lastPageIndex = currentPage * limit;
   const firstPageIndex = lastPageIndex - limit;
   const currentItems = allService.slice(firstPageIndex, lastPageIndex);
@@ -51,7 +50,7 @@ const ServiceManagerPage = () => {
 
   const handleFilterBlog = () => {
     return allService?.filter((service) => {
-      return service?.object?.name.toLowerCase().includes(searchTerm.toLowerCase());
+      return service?.name.toLowerCase().includes(searchTerm.toLowerCase());
     }).slice(firstPageIndex, lastPageIndex);
   }
   return (
@@ -77,27 +76,27 @@ const ServiceManagerPage = () => {
                       <th>Cước Phí</th>
                       <th>Số lượng</th>
                       <th>Thời hạn</th>
-                      <th>Trạng thái</th>
+                      {/* <th>Trạng thái</th> */}
                       <th>Thao Tác</th>
                     </tr>
                   </thead>
                   <tbody>
                     {
-                      handleFilterBlog().map((service, index) => {
+                      handleFilterBlog().filter(data => data.status === 0).map((service, index) => {
                         return(
-                          <tr key={service?.object?.id}>
+                          <tr key={service?.id}>
                             <td>{index + 1}</td>
-                            <td>{service?.object?.name}</td>
+                            <td>{service?.name}</td>
                             <td className='img'>
-                                <img src={`data:image/jpeg;base64,${service?.file}`} alt="Product" />
+                                <img src={`${IMG_URL}${service?.thumbnail}`} alt="service" />
                             </td>
-                            <td>{service?.object?.price}</td>
-                            <td>{service?.object?.quantityProduct}</td>
-                            <td>{service?.object?.expirationDate}</td>
-                            <td>{service?.object?.status}</td>
+                            <td>{service?.price}</td>
+                            <td>{service?.quantityProduct}</td>
+                            <td>{service?.expirationDate}</td>
+                            {/* <td>{service?.status}</td> */}
                             <td className='button'>
-                              <button className='edit-btn' onClick={() => handleUpdatePage(service?.object?.id)}><i className="fa-regular fa-pen-to-square"></i></button>
-                              <button className='delete-btn' onClick={() => handleModalDelete(service?.object?.id)} ><i className="fa-sharp fa-solid fa-trash"></i></button>
+                              <button className='edit-btn' onClick={() => handleUpdatePage(service?.id)}><i className="fa-regular fa-pen-to-square"></i></button>
+                              <button className='delete-btn' onClick={() => handleModalDelete(service?.id)} ><i className="fa-sharp fa-solid fa-trash"></i></button>
                             </td>
                         </tr>
                         )

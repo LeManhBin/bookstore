@@ -5,17 +5,17 @@ import Card from '../../components/Card/Card'
 import { cardData } from '../../constants/cartData'
 import { actFetchStoreById } from '../../redux/features/storeSlice/storeSlice'
 import './ViewStore.scss'
+import { IMG_URL } from '../../constants/config'
+import { actFetchBookByIdStore } from '../../redux/features/bookSlice/bookSlice'
 const ViewStore = () => {
   const param = useParams()
   const dispatch = useDispatch()
   const {store} = useSelector((state) => state.store)
-
-  const [avatar, setAvatar] = useState('')
-  const [coverImage, setCoverImage] = useState('')
-
+  const {bookByStore} = useSelector((state) => state.book)
   const [isDetail, setIsDetail] = useState(true)
   const [isAllProduct, setIsAllProduct] = useState(false)
   const [isStatistical, setIsStatistical] = useState(false)
+
 
   const handleSetImage = () => {
     if (store && store.file && store.file.length > 0) {
@@ -50,17 +50,21 @@ const ViewStore = () => {
     dispatch(actFetchStoreById(Number(param?.idStore)))
   },[param])
 
+  useEffect(() => {
+    dispatch(actFetchBookByIdStore(Number(param?.idStore)))
+  },[param])
+
   return (
     <div className='store-detail'>
         <div className="top">
             <div className="thumbnail">
-                <img src={`data:image/jpeg;base64,${coverImage}`} alt="" className='background'/>
+                <img src={`${IMG_URL}${store?.data?.coverImage}`}  alt="" className='background'/>
                 <div className='thumbnail-desc'>
-                  <img src={`data:image/jpeg;base64,${avatar}`} alt=""/>
+                  <img src={`${IMG_URL}${store?.data?.avatar}`} alt="avatar" />
                   <div className='desc'>
-                    <p className='name'>{store?.object?.name}</p>
-                    <p className='address'>{store?.object?.address}</p>
-                    <p className='phone'>{store?.object?.phone}</p>
+                    <p className='name'>{store?.data?.name}</p>
+                    <p className='address'>{store?.data?.address}</p>
+                    <p className='phone'>{store?.data?.phone}</p>
                   </div>
                 </div>
             </div>
@@ -103,7 +107,7 @@ const ViewStore = () => {
               isAllProduct &&
               <div className="all-product-page">
                 {
-                  cardData.map((data,index) => {
+                  bookByStore.map((data,index) => {
                     return(
                       <div key={data.id}>
                           <Card data={data}/>

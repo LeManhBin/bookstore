@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import useScrollToTop from '../../hooks/useScrollToTop'
-import { actFetchUserById, actUpdateUser } from '../../redux/features/userSlice/userSlice'
+import { actFetchUserById, actUpdateProfile } from '../../redux/features/userSlice/userSlice'
 import './ProfilePage.scss'
 import FormData from 'form-data'
+import Account from '../../components/Account/Account'
+import { IMG_URL } from '../../constants/config'
 const ProfilePage = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -43,10 +45,11 @@ const ProfilePage = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     const formData =  new FormData();
-    formData.append("object", JSON.stringify(formState));
+    const formPost = Object.assign({}, formState);
+    delete formPost.imageBytes;
+    formData.append("object", JSON.stringify(formPost));
     formData.append("file", avatar);
-    console.log(formData);
-    dispatch(actUpdateUser(user?.id,formData))
+    dispatch(actUpdateProfile(user?.id,formData, formState))
   }
 
   const handleChangePhonePage = () => {
@@ -61,27 +64,28 @@ const ProfilePage = () => {
   useScrollToTop()
   return (
     <div className='profile'>
-        <p className='heading'>Thông tin tài khoản</p>
-
+        <div className='left'>
+            <Account/>
+        </div>
         <div className='profile-container'>
             <div className='profile-info'>
                 <span className='heading'>Thông tin cá nhân</span>
                 <form onSubmit={handleSubmit}>
                   <div className='top'>
                       <div className='form-input'>
-                          <img src={`${avatar ? avatar.preview : `data:image/jpeg;base64,${formState.file}`}`} />
+                          <img src={`${avatar ? avatar.preview : `${IMG_URL}${user.avatar}`}`} />
  
                           <label htmlFor="file-upload" className='label-img'><i className="fa-solid fa-pen"></i></label>
                           <input type="file" className='input-img' id='file-upload' onChange={(e) => handlePreviewAvatar(e) }/>
                       </div>
                       <div className='form-input'>
-                          <label htmlFor="">Họ & tên</label>
+                          {/* <label htmlFor="">Họ & tên</label> */}
                           <input type="text" name="fullName" id="" value={formState?.fullName} placeholder='Thêm họ và tên' onChange={handleOnChange}/>
                       </div>
                   </div>
                   <div className='form-input'>
-                      <label htmlFor="">Ngày sinh</label>
-                      <input type="date"  name="" id=""/>
+                      <label htmlFor="">Địa chỉ</label>
+                      <input type="text"  name="address" id="" value={formState?.address} placeholder='Thêm địa chỉ' onChange={handleOnChange}/>
                   </div>
                   <div className='form-input'>
                       <label htmlFor="">Giới tính</label>

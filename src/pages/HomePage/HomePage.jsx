@@ -18,7 +18,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { actFetchAllBook } from '../../redux/features/bookSlice/bookSlice'
 import { actFetchAllStore } from '../../redux/features/storeSlice/storeSlice'
-
+import Loading from '../../components/Loading/Loading'
 const HomePage = () => {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams();
@@ -118,7 +118,13 @@ const HomePage = () => {
   const {allBook} = useSelector((state) => state.book)
   const {allStore} = useSelector((state) => state.store)
   const [searchTerm, setSearchTerm] = useState([])
+  const {isLoading} = useSelector((state) => state.book)
 
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(!isLoading);
+  }, [isLoading]);
 
 
 
@@ -141,124 +147,133 @@ const HomePage = () => {
   const handleSearch = (searchTerm) => {
     navigate(`/product/search?payload=${searchTerm}`);
   }
-  return (
-    <div className='homepage'>
-        <div className='homepage-heading'>
-            <div className='category'>
-                <div className='category-text'>
-                  <i className="fa-solid fa-braille"></i>
-                  <span>Categories</span>
-                </div>
-                <span className='icon'><i className="fa-solid fa-angle-up"></i></span>
-            </div>
-            <div className="search">
-                <div className='search-input'>
-                  <input type="text" placeholder='Search product...' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
-                  <button onClick={() => handleSearch(searchTerm)}><i className="fa-solid fa-magnifying-glass"></i></button>
-                </div>
-            </div>
-            <div className="map">
-              <i className="fa-solid fa-location-dot"></i>
-              <span>Find a Book Store</span>
-            </div>
-        </div>
-        <div className="homepage-container">
-          <div className='homepage__left'>
-              <div className='homepage__left--category'>
-                  <CategoryList/>
+  return  (
+    <>
+      {
+        isLoaded ? (
+          <div className='homepage'>
+          <div className='homepage-heading'>
+              <div className='category'>
+                  <div className='category-text'>
+                    <i className="fa-solid fa-braille"></i>
+                    <span>Categories</span>
+                  </div>
+                  <span className='icon'><i className="fa-solid fa-angle-up"></i></span>
               </div>
-              <div className='homepage__left--top'>
-                <TopProduct/>
+              <div className="search">
+                  <div className='search-input'>
+                    <input type="text" placeholder='Search product...' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
+                    <button onClick={() => handleSearch(searchTerm)}><i className="fa-solid fa-magnifying-glass"></i></button>
+                  </div>
               </div>
-              <div className="homepage__left--best">
-                <BestSeller/>
-              </div>
-              <div className='banner-stand'>
-                <StandBanner/>
+              <div className="map">
+                <i className="fa-solid fa-location-dot"></i>
+                <span>Find a Book Store</span>
               </div>
           </div>
-
-          <div className="homepage__right">
-              <div className='homepage__right--slide'>
-                  {
-                    <Slider {...settings}>
-                        {
-                          slideData.map(data => {
-                            return(
-                              <div key={data.id}>
-                                  <img src={data.img} alt="" />
-                              </div>
-                            )
-                          })
-                        }
-                    </Slider>
-                  }
-              </div>
-              <div className="homepage__right--product">
-                  <div className="heading">
-                      <p className='title'>Popular Books</p>
-                      <button className='view' onClick={handleViewAll}>View All</button>
-                  </div>
-                  <div className='product-container'>
+          <div className="homepage-container">
+            <div className='homepage__left'>
+                <div className='homepage__left--category'>
+                    <CategoryList/>
+                </div>
+                <div className='homepage__left--top'>
+                  <TopProduct/>
+                </div>
+                <div className="homepage__left--best">
+                  <BestSeller/>
+                </div>
+                <div className='banner-stand'>
+                  <StandBanner/>
+                </div>
+            </div>
+    
+            <div className="homepage__right">
+                <div className='homepage__right--slide'>
                     {
-                      allBook?.data?.slice(0,6).map(data => {
-                        return (
-                          <div key={data?.id}>
-                            <Card data={data}/>
-                          </div>
-                        )
-                      })
-                    }
-                  </div>
-              </div>
-              
-              <div className='lie-banner'>
-                    <LieBanner/>
-              </div>
-
-              <div className="homepage__right--product">
-                  <div className="heading">
-                      <p className='title'>On sale</p>
-                      <button className='view' onClick={handleViewAll}>View All</button>
-                  </div>
-                  <div className='product-container'>
-                    {
-                      allBook?.data?.slice(0,6).map(data => {
-                        return (
-                          <div key={data?.id}>
-                            <Card data={data}/>
-                          </div>
-                        )
-                      })
-                    }
-                  </div>
-              </div>
-          </div>
-        </div> 
-        <div className='homepage-vendor'>
-              <div className="homepage-vendor--vendor">
-                  <div className="heading">
-                      <p className='title'>Top selling vendor</p>
-                      <button className='view' onClick={handleViewAllVendor}>View All</button>
-                  </div>
-                  <div className='product-vendor'>
-                      {
-                        <Slider {...settingsVendor}>
+                      <Slider {...settings}>
                           {
-                            allStore.map(data => {
+                            slideData.map(data => {
                               return(
-                                <div key={data?.id}>
-                                    <CardVendor data={data}/>
+                                <div key={data.id}>
+                                    <img src={data.img} alt="" />
                                 </div>
                               )
                             })
                           }
-                        </Slider>
+                      </Slider>
+                    }
+                </div>
+                <div className="homepage__right--product">
+                    <div className="heading">
+                        <p className='title'>Popular Books</p>
+                        <button className='view' onClick={handleViewAll}>View All</button>
+                    </div>
+                    <div className='product-container'>
+                      {
+                        allBook?.data?.slice(0,6).map(data => {
+                          return (
+                            <div key={data?.id}>
+                              <Card data={data}/>
+                            </div>
+                          )
+                        })
                       }
-                  </div>
-              </div>
-        </div>
-    </div>
+                    </div>
+                </div>
+                
+                <div className='lie-banner'>
+                      <LieBanner/>
+                </div>
+    
+                <div className="homepage__right--product">
+                    <div className="heading">
+                        <p className='title'>On sale</p>
+                        <button className='view' onClick={handleViewAll}>View All</button>
+                    </div>
+                    <div className='product-container'>
+                      {
+                        allBook?.data?.filter(card => card.discount > 0).slice(0,6).map(data => {
+                          return (
+                            <div key={data?.id}>
+                              <Card data={data}/>
+                            </div>
+                          )
+                        })
+                      }
+                    </div>
+                </div>
+            </div>
+          </div> 
+          <div className='homepage-vendor'>
+                <div className="homepage-vendor--vendor">
+                    <div className="heading">
+                        <p className='title'>Top selling vendor</p>
+                        <button className='view' onClick={handleViewAllVendor}>View All</button>
+                    </div>
+                    <div className='product-vendor'>
+                        {
+                          <Slider {...settingsVendor}>
+                            {
+                              allStore.map(data => {
+                                return(
+                                  <div key={data?.id}>
+                                      <CardVendor data={data}/>
+                                  </div>
+                                )
+                              })
+                            }
+                          </Slider>
+                        }
+                    </div>
+                </div>
+          </div>
+      </div>
+        ) : (
+          <Loading/>
+        )
+      }
+    </>
+
   )
 }
 

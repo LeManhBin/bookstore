@@ -11,17 +11,18 @@ import { actCreateBook } from '../../redux/features/bookSlice/bookSlice';
 
 const StoreAddProductPage = () => {
     const [avatar, setAvatar] = useState([])
-    const [tag, setTag] = useState([])
+    const [tagId, setTagId] = useState([])
     const {allCategory} = useSelector((state) => state.category)
     const {allTopic} = useSelector((state) => state.topic)
     const dispatch = useDispatch()
+    const {user} = useSelector((state) => state.user)
     const initialState = {
         name: '',
         author: '',
         categoryId: '',
         publishing: '',
         publishingYear: '',
-        storeId: 2,
+        storeId: user.storeId,
         pageNumber: '',
         length: '',
         width: '',
@@ -76,23 +77,22 @@ const StoreAddProductPage = () => {
         const value = event.target.value;
         const isChecked = event.target.checked;
         if (isChecked) {
-          setTag([...tag, Number(value)]);
+          setTagId([...tagId, Number(value)]);
         } else {
-          setTag(tag.filter((item) => item != value));
+          setTagId(tagId.filter((item) => item != value));
         }
       };
         
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log({...formState, description, tag});
-        // const formData =  new FormData();
-        // formData.append("object", JSON.stringify({...formState, description}));
-        // formData.append("files", avatar[0]);
-        // formData.append("files", avatar[1]);
-        // formData.append("files", avatar[2]);
-        // formData.append("files", avatar[3]);
-        // dispatch(actCreateBook(formData))
+        const formData =  new FormData();
+        formData.append("object", JSON.stringify({...formState, description, tagId}));
+        formData.append("files", avatar[0]);
+        formData.append("files", avatar[1]);
+        formData.append("files", avatar[2]);
+        formData.append("files", avatar[3]);
+        dispatch(actCreateBook(formData))
     }
 
   return (
@@ -175,7 +175,7 @@ const StoreAddProductPage = () => {
                         allTopic.map(topic => {
                             return(
                                 <div key={topic.id} style={{display: 'flex', alignItems: 'center', gap: '5px'}}>
-                                    <input type="checkbox" value={Number(topic.id)} name={topic.id} checked={tag.includes(topic.id)} onChange={handleCheckboxChange}/> 
+                                    <input type="checkbox" value={Number(topic.id)} name={topic.id} checked={tagId.includes(topic.id)} onChange={handleCheckboxChange}/> 
                                     <label htmlFor={topic.id}>{topic.name}</label>
                                 </div>
 

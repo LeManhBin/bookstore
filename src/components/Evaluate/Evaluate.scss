@@ -1,0 +1,48 @@
+.evaluate-container {
+    width: 500px;
+    height: 400px;
+    padding: 50px 10px;
+    background: #fff;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28000px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+    .close {
+        position: absolute;
+        right: 10px;
+        top: 5px;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .title {
+    
+    }
+
+    .rating {
+
+    }
+
+    textarea {
+        padding: 5px 10px;
+        border: 1px solid #eee;
+        outline: none;
+        border-radius: 5px;
+        height: 100px;
+    }
+
+    button {
+        padding: 5px 10px;
+        border: none;
+        font-weight: bold;
+        color: #fff;
+        background-color: #f65d4e;
+    }
+}

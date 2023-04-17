@@ -8,6 +8,8 @@ import contactReducer from '../features/contactSlice/contactSlice'
 import bookReducer from '../features/bookSlice/bookSlice'
 import cartReducer from '../features/cartSlice/cartSlice'
 import paymentReducer from '../features/paymentSlice/paymentSlice'
+import orderReducer from '../features/orderSlice/orderSlice'
+import evaluateReducer from '../features/evaluateSlice/evaluateSlice'
 export const  store = configureStore({
     reducer: {
         category: categoryReducer,
@@ -19,6 +21,8 @@ export const  store = configureStore({
         book: bookReducer,
         cart: cartReducer,
         payment: paymentReducer,
+        order: orderReducer,
+        evaluate: evaluateReducer,
     },
 });
 

@@ -21,19 +21,18 @@ const SaleRegisterPage = () => {
   },[isOtp])
 
   const [formState, setFormState] = useState({
-    idkh: user?.id,
+    userId: user?.id,
     name: '',
     email: '',
     phone: '',
     address: '',
   })
 
-  useEffect(() => {
-    setFormState({
-      ...formState,
-      idkh: user?.id
-    })
-  },[user])
+  // useEffect(() => {
+  //   setFormState({
+  //     ...formState,
+  //   })
+  // },[user])
 
   const handleOnChange = (e) => {
     const {name, value} = e.target
@@ -51,7 +50,6 @@ const SaleRegisterPage = () => {
     }else {
       toast.warning('Tài khoản email này đã tồn tại !!!')
     }
-    console.log(formState);
   }
   return (
     <div className='sale-register-page'>

@@ -9,6 +9,7 @@ import Pagination from '../../components/Pagination/Pagination';
 import UpdateAccount from './UpdateAccount';
 import ModalDelete from '../../components/Modal/ModalDelete';
 import ModalAcces from '../../components/ModalAcces/ModalAcces';
+import { IMG_URL } from '../../constants/config';
 
 
 const AccountManagerPage = () => {
@@ -23,7 +24,7 @@ const AccountManagerPage = () => {
 
   // phân trang
   const [currentPage, setCurrentPage] = useState(1);
-  const [limit, setLimit] = useState(5)
+  const [limit, setLimit] = useState(8)
   const lastPageIndex = currentPage * limit;
   const firstPageIndex = lastPageIndex - limit;
   const currentItems = allUser.slice(firstPageIndex, lastPageIndex);
@@ -32,7 +33,7 @@ const AccountManagerPage = () => {
 
   const handleFilterBlog = () => {
     return allUser?.filter((user) => {
-      return user?.object?.fullName.toLowerCase().includes(searchTerm.toLowerCase());
+      return user?.fullName?.toLowerCase()?.includes(searchTerm.toLowerCase());
     }).slice(firstPageIndex, lastPageIndex);
   }
 
@@ -42,8 +43,6 @@ const AccountManagerPage = () => {
   const handleAddNewPage = () => {
     navigate('/admin/add-new-account')
   }
-
-  console.log(allUser);
 
   const handleModalDelete = (id) => {
     setIsDelete(true)
@@ -81,32 +80,40 @@ const AccountManagerPage = () => {
                       <th>SĐT</th>
                       <th>Giới tính</th>
                       <th>Quyền</th>
+                      <th>Trạng thái</th>
                       <th>Thao Tác</th>
                     </tr>
                   </thead>
                   <tbody>
                     {
                         handleFilterBlog().map((data, index) => {
+                          let active
+                          if (data.status === 0) {
+                            active = 'Hoạt động'
+                          }else {
+                            active = 'Ngừng hoạt động'
+                          }
                           let role
-                          if(data?.object?.role == 1) {
+                          if(data?.role == 1) {
                             role = "Admin"
                           }else{
                             role = "Khách hàng"
                           }
                         return(
-                          <tr key={data?.object?.id}>
+                          <tr key={data?.id}>
                             <td>{currentPage + index}</td>
-                            <td className='name'>{data?.object?.fullName}</td>
+                            <td className='name'>{data?.fullName}</td>
                             <td className='img'>
-                                <img src={`data:image/jpeg;base64,${data?.file}`} alt="Avatar" />
+                                <img src={`${IMG_URL}${data?.avatar}`} alt="Avatar" />
                             </td>
-                            <td className='email'>{data?.object?.email}</td>
-                            <td>{data?.object?.phone}</td>
-                            <td>{data?.object?.gender}</td>
+                            <td className='email'>{data?.email}</td>
+                            <td>{data?.phone}</td>
+                            <td>{data?.gender}</td>
                             <td>{role}</td>
+                            <td>{active}</td>
                             <td className='button'>
-                              <button className='edit-btn' onClick={() => handleModalUpdate(data?.object?.id)}><i className="fa-regular fa-pen-to-square"></i></button>
-                              <button className='delete-btn' onClick={() => handleModalDelete(data?.object?.id)}><i className="fa-sharp fa-solid fa-trash"></i></button>
+                              <button className='edit-btn' onClick={() => handleModalUpdate(data?.id)}><i className="fa-regular fa-pen-to-square"></i></button>
+                              <button className='delete-btn' onClick={() => handleModalDelete(data?.id)}><i className="fa-sharp fa-solid fa-trash"></i></button>
                             </td>
                         </tr>
                         )

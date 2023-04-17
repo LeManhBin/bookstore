@@ -3,12 +3,13 @@ import './Header.scss'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import {actLogout} from '../../redux/features/userSlice/userSlice'
+import { IMG_URL } from '../../constants/config'
 const Header = () => {
     const navigate = useNavigate()
     const {isLogged} = useSelector((state) => state.user)
     const dispatch = useDispatch()
     const {cartItems} = useSelector((state) => state.cart)
-
+    const {user} = useSelector((state) => state.user)
     const [cartSize, setCartSize] = useState(cartItems.length)
 
     useEffect(() => {
@@ -29,6 +30,8 @@ const Header = () => {
         dispatch(actLogout())
         navigate('/login-layout')
     }
+
+    console.log(user, 'heading');
   return (
     <div className='header'>
         <div className='header__left'>
@@ -56,7 +59,7 @@ const Header = () => {
                     {
                         isLogged ? 
                         <div className='avatar-container'>
-                            <img onClick={handleAccountPage} className='avatar' src='https://e7.pngegg.com/pngimages/178/595/png-clipart-user-profile-computer-icons-login-user-avatars-monochrome-black.png'/>
+                            <img onClick={handleAccountPage} className='avatar' src={user.avatar ?  `${IMG_URL}${user.avatar}` : 'https://e7.pngegg.com/pngimages/178/595/png-clipart-user-profile-computer-icons-login-user-avatars-monochrome-black.png'} alt=""/>
                             <ul className='avatar-act'>
                                 <li onClick={handleLogout}>Đăng xuất</li>
                             </ul>

@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice, getDefaultMiddleware  } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import { fetchCheckEmailUser, fetchOtp, fetchRegisterUser } from "../../../apis/registerApi";
-import { fetchAllDataUser, fetchCreateUser, fetchDataUserById, fetchDeleteUser, fetchUpdateUser } from "../../../apis/userApi";
+import { fetchAllDataUser, fetchCreateUser, fetchDataUserById, fetchDeleteUser, fetchUpdatePassword, fetchUpdateUser } from "../../../apis/userApi";
 import { KEY_ACCESS_TOKEN, KEY_IS_LOGGER, KEY_USER } from "../../../constants/config";
 import * as Jwt from "jsonwebtoken";
 import { fetchInforMe, fetchLoginUser } from "../../../apis/loginApi";
+import { fetchResetPassword } from "../../../apis/resetPasswordApi";
 const initialState = {
     allUser: [],
     user: localStorage.getItem(KEY_USER) ? JSON.parse(localStorage.getItem(KEY_USER)) : {},
@@ -243,6 +244,7 @@ export const actDeleteUser = (id) => async (dispatch) => {
 export const actUpdateUser = (id, payload) => async (dispatch) => {
     try {
         await fetchUpdateUser(id, payload);
+        console.log(payload, 'payload nè sss');
         await dispatch(actFetchAllUser());
         await dispatch(actFetchUserById(id));
         dispatch(actUpdateLoadingCreate(true));
@@ -253,6 +255,42 @@ export const actUpdateUser = (id, payload) => async (dispatch) => {
         dispatch(actUpdateLoadingCreate(false))
     }
 } 
+export const actUpdateProfile = (id, payload, formState) => async (dispatch) => {
+    try {
+        await fetchUpdateUser(id, payload);
+        localStorage.setItem(KEY_USER, JSON.stringify(formState));
+        await dispatch(actFetchUserById(id));
+        dispatch(actUpdateLoadingCreate(true));
+        toast.success('Cập nhật thành công')
+    } catch (error) {
+        console.log(error);
+    } finally {
+        dispatch(actUpdateLoadingCreate(false))
+    }
+} 
+
+export const actUpdatePassword = (id, payload) => async (dispatch) => {
+    try {
+        await fetchUpdatePassword(id, payload);
+        await dispatch(actFetchUserById(id));
+        dispatch(actUpdateLoadingCreate(true));
+    } catch (error) {
+        console.log(error);
+    } finally {
+        dispatch(actUpdateLoadingCreate(false))
+    }
+}
+
+export const actResetPassword = (payload) => async (dispatch) => {
+    try {
+        await fetchResetPassword(payload)
+        dispatch(actUpdateLoadingCreate(true));
+    } catch (error) {
+        console.log(error);
+    } finally {
+        dispatch(actUpdateLoadingCreate(false))
+    }
+}
 
 export const {actUpdateLoadingCreate, actGetMe, loginSuccess, actLogout} = userSlice.actions
 export default userSlice.reducer

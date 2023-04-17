@@ -5,11 +5,13 @@ import './AllProductPage.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { actFetchBookByIdStore } from '../../redux/features/bookSlice/bookSlice'
 import { useNavigate } from 'react-router-dom'
+import { IMG_URL } from '../../constants/config'
 const AllProductPage = () => {
   const navigate = useNavigate()
   const {bookByStore} = useSelector((state) => state.book)
   const dispatch = useDispatch()
-  const idStore = 2
+  const {user} = useSelector((state) => state.user)
+  const idStore = user.storeId
   useEffect(() => {
     dispatch(actFetchBookByIdStore(idStore))
   },[idStore])
@@ -17,6 +19,8 @@ const AllProductPage = () => {
   const handleShowDetailProduct = (id) => {
     navigate(`/store/detail-product/${id}`)
   }
+
+  console.log(bookByStore);
   return (
     <div className='all-product-page'>
               <div className='heading'>
@@ -38,8 +42,6 @@ const AllProductPage = () => {
                       <th>Tên sản phẩm</th>
                       <th>Ảnh Đại diện</th>
                       <th>Tác giả</th>
-                      <th>Thể loại</th>
-                      <th>Số lượng</th>
                       <th>Giá</th>
                       <th>Thao Tác</th>
                     </tr>
@@ -48,18 +50,18 @@ const AllProductPage = () => {
                     {
                       bookByStore.map((book, index) => {
                         return(
-                          <tr key={book?.object?.id}> 
+                          <tr key={book?.id}> 
                             <td>{index + 1}</td>
-                            <td>{book?.object.name}</td>
+                            <td>{book?.name}</td>
                             <td className='img'>
-                                <img src={`data:image/jpeg;base64,${book?.file}`} alt="Avatar" />
+                                <img src={`${IMG_URL}${book.image}`} alt="Avatar" />
                             </td>
-                            <td>{book?.object.author}</td>
-                            <td>{book?.object?.categoryEntity?.name}</td>
-                            <td>{book?.object?.quantity}</td>
-                            <td>{book?.object?.price}</td> 
+                            <td>{book?.author}</td>
+                            {/* <td>{book?.categoryEntity?.name}</td>
+                            <td>{book?.quantity}</td> */}
+                            <td>{book?.price}</td> 
                             <td className='button'>
-                              <button className='edit-btn' onClick={() => handleShowDetailProduct(book?.object?.id)}><i className="fa-solid fa-eye"></i></button>
+                              <button className='edit-btn' onClick={() => handleShowDetailProduct(book?.id)}><i className="fa-solid fa-eye"></i></button>
                               <button className='edit-btn'><i className="fa-regular fa-pen-to-square"></i></button>
                               <button className='delete-btn'><i className="fa-sharp fa-solid fa-trash"></i></button>
                             </td>

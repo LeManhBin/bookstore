@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { actAddToCart, actCreateCart, actFetchAllDataCartByIdUser } from '../../redux/features/cartSlice/cartSlice'
 import './Card.scss'
+import { IMG_URL } from '../../constants/config'
 const Card = ({data}) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -12,6 +13,8 @@ const Card = ({data}) => {
         bookId: data?.id,
         amount: 1,
     }
+
+    const priceAfterDiscount = data.price - (data.price * (data.discount/100)) 
 
     const [cartState, setCartState] = useState(initialState)
 
@@ -26,11 +29,20 @@ const Card = ({data}) => {
     const handleAddToCard = () => {
         dispatch(actCreateCart(cartState))
     }
+
+    console.log(data.image);
   return (
     <div className='card'>
+        {
+            (data.discount > 0) ? (
+                <div className="discount">
+                    <span>{data.discount}%</span>
+                </div>
+            ): (<></>)
+        }
         <div className='card-img'>
-        {data.images && data.images.length > 0 && (
-                    <img src={`data:image/jpeg;base64,${data.images[0]}`} alt="Product" />
+        {data.image && data.image.length > 0 && (
+                    <img src={`${IMG_URL}${data?.image}`} alt="Product" />
             )}
 
             <div className='card-action'>
@@ -54,8 +66,13 @@ const Card = ({data}) => {
                 </div>
                 <span className='quantity'>10</span>
             </div>
-            <span className='card-author'>{data?.authorEntity?.name}</span>
-            <span className='card-price'>${data?.price}</span>
+            <span className='card-author'>{data?.author}</span>
+            <div className='card-price'>
+                {
+                    (data.discount > 0) && <span className='adv-price'>${data?.price}</span>
+                }
+                <span className='later-price'>${priceAfterDiscount}</span>
+            </div>
         </div>
     </div>
   )

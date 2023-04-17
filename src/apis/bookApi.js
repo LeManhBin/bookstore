@@ -40,3 +40,23 @@ export const fetchSearchBook = async (search) => {
     const res = await axios.get(`${BE_URL}book/search/${search}`);
     return res.data
 }
+
+export const fetchBookPromotionsByTime = async (idStore, start, end) => {
+    const res = await axios.get(`${BE_URL}promotions/book/${idStore}?startDate=${start}&endDate=${end}`)
+    return res
+}
+
+export const fetchCreatePromotion = async (payload) => {
+    const res = await axios.post(`${BE_URL}promotion`, payload);
+    return res
+}
+
+export const fetchPromotionByIdStore = async (id) => {
+    const res = await axios.get(`${BE_URL}promotions/${id}`);
+    return res
+}
+
+// export const fetchPromotionByIdStore = async (id) => {
+//     const res = await axios.get(`${BE_URL}promotions/book/${id}`);
+//     return res
+// }

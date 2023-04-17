@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice, getDefaultMiddleware  } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import { fetchAllDataService, fetchCreateService, fetchDataServiceById, fetchDeleteService, fetchUpdateService } from "../../../apis/serviceApi";
+import { fetchAllDataService, fetchCreateService, fetchDataServiceById, fetchDeleteService, fetchRegisterService, fetchUpdateService } from "../../../apis/serviceApi";
 
 const initialState = {
     allService: [],
     service: {},
+    payCode: {},
     isLoading: false,
     isLoadingCreate: false,
     errors: {},
@@ -19,6 +20,11 @@ export const actFetchAllService = createAsyncThunk('service/actFetchAllService',
 
 export const actFetchServiceById = createAsyncThunk('service/actFetchServiceById', async (id) => {
     const data = await fetchDataServiceById(id)
+    return data || {}
+})
+
+export const actFetchRegisterService = createAsyncThunk('service/actFetchRegisterService', async (payload) => {
+    const data = await fetchRegisterService(payload)
     return data || {}
 })
 
@@ -69,6 +75,13 @@ export const serviceSlice = createSlice({
             // state.user = action.payload.data.user || {}
             // state.image =  action.payload.data.image|| {}
         })
+
+        //register service
+        builder.addCase(actFetchRegisterService.fulfilled, (state, action) => {
+            state.isLoading = false;
+            console.log(action.payload.data,'register service');
+            state.payCode = action.payload.data
+        })
     }
 })
 
@@ -111,6 +124,18 @@ export const actUpdateService = (id, payload) => async (dispatch) => {
         dispatch(actUpdateLoadingCreate(false))
     }
 } 
+
+// export const actRegisterService = (payload) => async (dispatch) => {
+//     try {
+//         const data = await fetchRegisterService(payload);
+//         console.log(data, 'cái này pay bên redux');
+//         toast.success('Đăng ký thành công')
+//     } catch (error) {
+//         console.log(error);
+//     } finally {
+//         dispatch(actUpdateLoadingCreate(false))
+//     }
+// }
 
 export const {actUpdateLoadingCreate} = serviceSlice.actions
 export default serviceSlice.reducer

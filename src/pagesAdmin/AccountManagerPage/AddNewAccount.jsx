@@ -7,7 +7,7 @@ import FormData from 'form-data'
 import './AddNewAccount.scss'
 
 const initialState = {
-    name: '',
+    fullName: '',
     email: '',
     phone: '',
     password: '',
@@ -72,8 +72,7 @@ const AddNewAccount = () => {
         formData.append("object", JSON.stringify(formState));
         formData.append("file", dataImg);
         dispatch(actCreateUser(formData))
-        console.log(JSON.stringify(formState), '43243243');
-        navigate("/admin/account-manager")
+        // navigate("/admin/account-manager")
 
     }
     const handleBack = () => {
@@ -89,7 +88,7 @@ const AddNewAccount = () => {
             <div className='left'>
                 <div className="form-input">
                     <label htmlFor="">Họ và tên</label>
-                    <input required type="text" name='fullName' value={formState.name} onChange={handleOnChange} placeholder='Nhập họ và tên'/>
+                    <input required type="text" name='fullName' value={formState.fullName} onChange={handleOnChange} placeholder='Nhập họ và tên'/>
                 </div>
                 <div className="form-input">
                     <label htmlFor="">Số điện thoại</label>

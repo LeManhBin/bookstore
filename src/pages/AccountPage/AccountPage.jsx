@@ -4,15 +4,25 @@ import useScrollToTop from '../../hooks/useScrollToTop'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { actFetchUserById } from '../../redux/features/userSlice/userSlice'
+import { actFetchOrderUserByStatus } from '../../redux/features/orderSlice/orderSlice'
+import Evaluate from '../../components/Evaluate/Evaluate'
+import PopupCancelOrder from '../../components/PopupCancelOrder/PopupCancelOrder'
+import Account from '../../components/Account/Account'
+import { IMG_URL } from '../../constants/config'
 
 const AccountPage = () => {
+  const [isRating,setIsRating ] = useState(false)
+  const [isCancelOrder, setIsCancelOrder] = useState(false)
+  const [idTemp, setIdtemp] = useState("")
   useScrollToTop()
+  const [status, setStatus] = useState(0)
   const [isPending, setIsPending] = useState(true)
   const [isApproved, setIsApproved] = useState(false)
   const [isMoving, setIsMoving] = useState(false)
   const [isComplete, setIsComplete] = useState(false)
   const [isCancel, setIsCancel] = useState(false)
-  
+  const [isHistory, setIsHistory] = useState(false)
+
   const styleActive = ({isActive}) => {
     return {
       color: isActive ? '#F65D4E' : '#000',
@@ -20,12 +30,15 @@ const AccountPage = () => {
     }
 }
 
+
   const handleIsPending = () => {
     setIsPending(true)
     setIsApproved(false)
     setIsMoving(false)
     setIsComplete(false)
     setIsCancel(false)
+    setIsHistory(false)
+    setStatus(0)
   }
   const handleIsApproved = () => {
     setIsPending(false)
@@ -33,6 +46,8 @@ const AccountPage = () => {
     setIsMoving(false)
     setIsComplete(false)
     setIsCancel(false)
+    setIsHistory(false)
+    setStatus(1)
   }
   const handleIsMoving = () => {
     setIsPending(false)
@@ -40,6 +55,8 @@ const AccountPage = () => {
     setIsMoving(true)
     setIsComplete(false)
     setIsCancel(false)
+    setIsHistory(false)
+    setStatus(2)
   }
   const handleIsComplete = () => {
     setIsPending(false)
@@ -47,6 +64,8 @@ const AccountPage = () => {
     setIsMoving(false)
     setIsComplete(true)
     setIsCancel(false)
+    setIsHistory(false)
+    setStatus(3)
   }
   const handleIsCancel = () => {
     setIsPending(false)
@@ -54,17 +73,44 @@ const AccountPage = () => {
     setIsMoving(false)
     setIsComplete(false)
     setIsCancel(true)
+    setIsHistory(false)
+    setStatus(4)
+  }
+  const handleIsHistory = () => {
+    setIsPending(false)
+    setIsApproved(false)
+    setIsMoving(false)
+    setIsComplete(false)
+    setIsCancel(false)
+    setIsHistory(true)
+    setStatus(5)
   }
 
   const navigate = useNavigate()
   const {user} = useSelector((state) => state.user)
   const dispatch = useDispatch()
+  const {orderByStatus} = useSelector((state) => state.order)
 
-  console.log(user);
 
   useEffect(() => {
     dispatch(actFetchUserById(user.id))
   },[])
+
+
+
+  useEffect(() => {
+    dispatch(actFetchOrderUserByStatus(user.id))
+  },[user])
+
+  const handleCancelOrder = (id) => {
+    setIdtemp(id)
+    setIsCancelOrder(true)
+  }
+
+  const handleEvaluate = (id) => {
+    setIsRating(true)
+    setIdtemp(id)
+  }
 
   const handleProfilePage = () => {
     navigate('/account/profile')
@@ -73,21 +119,29 @@ const AccountPage = () => {
   const handleRegisterSalePage = () => {
     navigate('/sale-register')
   }
+
+  const handleMyStore= () => {
+    navigate('/store')
+  }
+
+  
   return (
     <div className='account-page'>
+          {
+            isCancelOrder && 
+            <PopupCancelOrder
+            setIsCancelOrder={setIsCancelOrder} 
+            color={"#F65D4E"}
+            handleCancelOrder={handleCancelOrder}
+            idTemp={idTemp}
+            idUser={user.id}
+            />
+          }
+        {
+          isRating && <Evaluate setIsRating={setIsRating} idTemp={idTemp}/>
+        }
         <div className='left'>
-            <div className='info'>
-                <img src={`data:image/jpeg;base64,${user?.image}`} alt="Product" />  
-                <div className="name">
-                  <p>{user?.fullName}</p>
-                  <span onClick={handleProfilePage}>Sửa hồ sơ</span>
-                </div>
-            </div>
-            <ul>
-              <li>Tài Khoản Của Tôi</li>
-              <li onClick={handleRegisterSalePage}>Đăng ký bán hàng</li>
-              <li>Đơn Mua</li>
-            </ul>
+            <Account/>
         </div>
         <div className="right">
             <div className="heading">
@@ -97,146 +151,355 @@ const AccountPage = () => {
                   <li onClick={handleIsMoving} style={isMoving ? {color: '#F65D4E', borderBottom: '2px solid #F65D4E'} : {color: '#000', borderBottom: 'none'} }>Đang vận chuyển</li>
                   <li onClick={handleIsComplete} style={isComplete ? {color: '#F65D4E', borderBottom: '2px solid #F65D4E'} : {color: '#000', borderBottom: 'none'} }>Đã giao</li>
                   <li onClick={handleIsCancel} style={isCancel ? {color: '#F65D4E', borderBottom: '2px solid #F65D4E'} : {color: '#000', borderBottom: 'none'} }>Đã huỷ</li>
+                  <li onClick={handleIsHistory} style={isHistory ? {color: '#F65D4E', borderBottom: '2px solid #F65D4E'} : {color: '#000', borderBottom: 'none'} }>Đơn hàng đã mua</li>
               </ul>
             </div>
           {
             isPending &&
             <div className='pending'>
-              <div className="pending-heading">
-                <p>Nhà xuất bản</p>
-              </div>
-              {/* ------- */}
-              <div className='pending-card'>
-                <div className="desc-card">
-                  <img src="" alt="" />
-                  <div className="info-card">
-                      <p className='name'>Sách hai ten</p>
-                      <span className='author'>ABCSAD</span>
-                      <span className='quantity'>Số lượng: 2</span>
+              { 
+                Object?.entries(
+                  orderByStatus.filter(order => order.status === 0).reduce((acc, item) => {
+                    if(!acc[item.store.name]) {
+                      acc[item.store.name] = [];
+                    }
+                    acc[item.store.name].push(item);
+                    return acc;
+                  },{})
+                ).map(([storeName, items]) => (
+                  <div key={storeName}>
+                    <div className="pending-heading">
+                      <p>{storeName}</p>
+                    </div>
+                    {
+                      items.map((item, index) => {
+                          let price = item?.orderDetails[index]?.price;
+                          let formattedPrice = price?.toLocaleString('vi-VN', {
+                              style: 'currency',
+                              currency: 'VND',
+                          });
+                          let totalPrice = item?.orderDetails[index]?.price * item?.orderDetails[index]?.amount;
+                          let formattedTotalPrice = totalPrice?.toLocaleString('vi-VN', {
+                              style: 'currency',
+                              currency: 'VND',
+                          });
+                        return item.orderDetails.map((itemChild) => (
+                          <>
+                          <div className='pending-card'>
+                            <div className="desc-card">
+                              <img src={`${IMG_URL}${itemChild.image}`} alt="" />
+                              <div className="info-card">
+                                  <p className='name'>{itemChild.name}</p>
+                                  <span className='author'>{itemChild.author}</span>
+                                  <span className='quantity'>{itemChild.amount}</span>
+                              </div>
+                            </div>
+                            <div className="price-card">
+                              <p className='cost'>$10000</p>
+                              <p className="real-price">{formattedPrice}</p>
+                            </div>
+                          </div>
+                          <div className="order-button">
+                            <button onClick={() => handleCancelOrder(item.id)}>Huỷ đơn hàng</button>
+                          </div>
+                          </>
+                        ))
+                      })
+                    }
+                    {/* <div className='total-payment'>
+                        <p className='total'>Thành tiền: $0</p>
+                    </div> */}
                   </div>
-                </div>
-                <div className="price-card">
-                  <p className='cost'>$10000</p>
-                  <p className="real-price">$9999</p>
-                </div>
-              </div>
-              {/* --------- */}
-              <div className='total-payment'>
-                  <p className='total'>Thành tiền: $9999</p>
-              </div>
-          </div>
+                )) 
+              }
+
+            </div>
           }
 
             {/* approved */}
             {
-              isApproved &&
+            isApproved &&
               <div className='approved'>
-                  <div className="approved-heading">
-                    <p>Nhà xuất bản</p>
-                  </div>
-                  {/* ------- */}
-                  <div className='approved-card'>
-                    <div className="desc-card">
-                      <img src="" alt="" />
-                      <div className="info-card">
-                          <p className='name'>Sách hai ten</p>
-                          <span className='author'>ABCSAD</span>
-                          <span className='quantity'>Số lượng: 2</span>
+                { 
+                  Object?.entries(
+                    orderByStatus.filter(order => order.status === 1).reduce((acc, item) => {
+                      if(!acc[item.store.name]) {
+                        acc[item.store.name] = [];
+                      }
+                      acc[item.store.name].push(item);
+                      return acc;
+                    },{})
+                  ).map(([storeName, items]) => (
+                    <div key={storeName}>
+                      <div className="approved-heading">
+                        <p>{storeName}</p>
                       </div>
+                      {
+                        items.map((item, index) => {
+
+                            let price = item?.orderDetails[index]?.price;
+                            let formattedPrice = price?.toLocaleString('vi-VN', {
+                                style: 'currency',
+                                currency: 'VND',
+                            });
+                            let totalPrice = item?.orderDetails[index]?.price * item?.orderDetails[index]?.amount;
+                            let formattedTotalPrice = totalPrice?.toLocaleString('vi-VN', {
+                                style: 'currency',
+                                currency: 'VND',
+                            });
+                          return item.orderDetails.map((itemChild) => (
+                            <div className='approved-card'>
+                              <div className="desc-card">
+                                <img src={`${IMG_URL}${itemChild.image}`} alt="" />
+                                <div className="info-card">
+                                    <p className='name'>{itemChild.name}</p>
+                                    <span className='author'>{itemChild.author}</span>
+                                    <span className='quantity'>{itemChild.amount}</span>
+                                </div>
+                              </div>
+                              <div className="price-card">
+                                <p className='cost'>$10000</p>
+                                <p className="real-price">{formattedPrice}</p>
+                              </div>
+                            </div>
+                          ))
+                        })
+                      }
+                      {/* <div className='total-payment'>
+                          <p className='total'>Thành tiền: 0</p>
+                      </div> */}
                     </div>
-                    <div className="price-card">
-                      <p className='cost'>$10000</p>
-                      <p className="real-price">$9999</p>
-                    </div>
-                  </div>
-                  {/* --------- */}
-                  <div className='total-payment'>
-                      <p className='total'>Thành tiền: $9999</p>
-                  </div>
+                  )) 
+                }
               </div>
             }
             {/* moving */}
             {
-              isMoving &&
-              <div className='approved'>
-                  <div className="approved-heading">
-                    <p>Nhà xuất bản</p>
-                  </div>
-                  {/* ------- */}
-                  <div className='approved-card'>
-                    <div className="desc-card">
-                      <img src="" alt="" />
-                      <div className="info-card">
-                          <p className='name'>Sách hai ten</p>
-                          <span className='author'>ABCSAD</span>
-                          <span className='quantity'>Số lượng: 2</span>
-                      </div>
+            isMoving &&
+            <div className='pending'>
+              { 
+                Object?.entries(
+                  orderByStatus.filter(order => order.status === 2).reduce((acc, item) => {
+                    if(!acc[item.store.name]) {
+                      acc[item.store.name] = [];
+                    }
+                    acc[item.store.name].push(item);
+                    return acc;
+                  },{})
+                ).map(([storeName, items]) => (
+                  <div key={storeName}>
+                    <div className="pending-heading">
+                      <p>{storeName}</p>
                     </div>
-                    <div className="price-card">
-                      <p className='cost'>$10000</p>
-                      <p className="real-price">$9999</p>
-                    </div>
+                    {
+                      items.map((item, index) => {
+                          let price = item?.orderDetails[index]?.price;
+                          let formattedPrice = price?.toLocaleString('vi-VN', {
+                              style: 'currency',
+                              currency: 'VND',
+                          });
+                          let totalPrice = item?.orderDetails[index]?.price * item?.orderDetails[index]?.amount;
+                          let formattedTotalPrice = totalPrice?.toLocaleString('vi-VN', {
+                              style: 'currency',
+                              currency: 'VND',
+                          });
+                        return item.orderDetails.map((itemChild) => (
+                          <div className='pending-card'>
+                            <div className="desc-card">
+                              <img src={`${IMG_URL}${itemChild.image}`} alt="" />
+                              <div className="info-card">
+                                  <p className='name'>{itemChild.name}</p>
+                                  <span className='author'>{itemChild.author}</span>
+                                  <span className='quantity'>{itemChild.amount}</span>
+                              </div>
+                            </div>
+                            <div className="price-card">
+                              <p className='cost'>$10000</p>
+                              <p className="real-price">{formattedPrice}</p>
+                            </div>
+                          </div>
+                        ))
+                      })
+                    }
+                    {/* <div className='total-payment'>
+                        <p className='total'>Thành tiền: 0</p>
+                    </div> */}
                   </div>
-                  {/* --------- */}
-                  <div className='total-payment'>
-                      <p className='total'>Thành tiền: $9999</p>
-                  </div>
-              </div>
+                )) 
+              }
+            </div>
             }
                  {/* complete */}
             {
-              isComplete &&
-              <div className='approved'>
-                  <div className="approved-heading">
-                    <p>Nhà xuất bản</p>
-                  </div>
-                  {/* ------- */}
-                  <div className='approved-card'>
-                    <div className="desc-card">
-                      <img src="" alt="" />
-                      <div className="info-card">
-                          <p className='name'>Sách hai ten</p>
-                          <span className='author'>ABCSAD</span>
-                          <span className='quantity'>Số lượng: 2</span>
+            isComplete &&
+              <div className='pending'>
+                { 
+                  Object?.entries(
+                    orderByStatus.filter(order => order.status === 3).reduce((acc, item) => {
+                      if(!acc[item.store.name]) {
+                        acc[item.store.name] = [];
+                      }
+                      acc[item.store.name].push(item);
+                      return acc;
+                    },{})
+                  ).map(([storeName, items]) => (
+                    <div key={storeName}>
+                      <div className="pending-heading">
+                        <p>{storeName}</p>
                       </div>
+                      {
+                        items.map((item, index) => {
+                            let price = item?.orderDetails[index]?.price;
+                            let formattedPrice = price?.toLocaleString('vi-VN', {
+                                style: 'currency',
+                                currency: 'VND',
+                            });
+                            let totalPrice = item?.orderDetails[index]?.price * item?.orderDetails[index]?.amount;
+                            let formattedTotalPrice = totalPrice?.toLocaleString('vi-VN', {
+                                style: 'currency',
+                                currency: 'VND',
+                            });
+                          return item.orderDetails.map((itemChild) => (
+                            <div className='pending-card'>
+                              <div className="desc-card">
+                              <img src={`${IMG_URL}${itemChild.image}`} alt="" />
+                                <div className="info-card">
+                                    <p className='name'>{itemChild.name}</p>
+                                    <span className='author'>{itemChild.author}</span>
+                                    <span className='quantity'>{itemChild.amount}</span>
+                                </div>
+                              </div>
+                              <div className="price-card">
+                                <p className='cost'>$10000</p>
+                                <p className="real-price">{formattedPrice}</p>
+                              </div>
+                              <div className="order-button">
+                                <button onClick={() => handleEvaluate(item.id)}>Đánh giá</button>
+                            </div>
+                            </div>
+                          ))
+                        })
+                      }
+                      {/* <div className='total-payment'>
+                          <p className='total'>Thành tiền: 0</p>
+                      </div> */}
                     </div>
-                    <div className="price-card">
-                      <p className='cost'>$10000</p>
-                      <p className="real-price">$9999</p>
-                    </div>
-                  </div>
-                  {/* --------- */}
-                  <div className='total-payment'>
-                      <p className='total'>Thành tiền: $9999</p>
-                  </div>
+                  )) 
+                }
               </div>
             }
             {/* cancel */}
             {
-              isCancel &&
-              <div className='approved'>
-                  <div className="approved-heading">
-                    <p>Nhà xuất bản</p>
-                  </div>
-                  {/* ------- */}
-                  <div className='approved-card'>
-                    <div className="desc-card">
-                      <img src="" alt="" />
-                      <div className="info-card">
-                          <p className='name'>Sách hai ten</p>
-                          <span className='author'>ABCSAD</span>
-                          <span className='quantity'>Số lượng: 2</span>
+            isCancel && 
+              <div className='pending'>
+                { 
+                  Object?.entries(
+                    orderByStatus.filter(order => order.status === 4).reduce((acc, item) => {
+                      if(!acc[item.store.name]) {
+                        acc[item.store.name] = [];
+                      }
+                      acc[item.store.name].push(item);
+                      return acc;
+                    },{})
+                  ).map(([storeName, items]) => (
+                    <div key={storeName}>
+                      <div className="pending-heading">
+                        <p>{storeName}</p>
                       </div>
+                      {
+                        items.map((item, index) => {
+
+                            let price = item?.orderDetails[index]?.price;
+                            let formattedPrice = price?.toLocaleString('vi-VN', {
+                                style: 'currency',
+                                currency: 'VND',
+                            });
+                            let totalPrice = item?.orderDetails[index]?.price * item?.orderDetails[index]?.amount;
+                            let formattedTotalPrice = totalPrice?.toLocaleString('vi-VN', {
+                                style: 'currency',
+                                currency: 'VND',
+                            });
+                          return item.orderDetails.map((itemChild) => (
+                            <div className='pending-card'>
+                              <div className="desc-card">
+                              <img src={`${IMG_URL}${itemChild.image}`} alt="" />
+                                <div className="info-card">
+                                    <p className='name'>{itemChild.name}</p>
+                                    <span className='author'>{itemChild.author}</span>
+                                    <span className='quantity'>{itemChild.amount}</span>
+                                </div>
+                              </div>
+                              <div className="price-card">
+                                <p className='cost'>$10000</p>
+                                <p className="real-price">{formattedPrice}</p>
+                              </div>
+                            </div>
+                          ))
+                        })
+                      }
+                      {/* <div className='total-payment'>
+                          <p className='total'>Thành tiền: 0</p>
+                      </div> */}
                     </div>
-                    <div className="price-card">
-                      <p className='cost'>$10000</p>
-                      <p className="real-price">$9999</p>
+                  )) 
+                } 
+              </div>
+            }
+            {/* history */}
+            {
+            isHistory && 
+              <div className='pending'>
+                { 
+                  Object?.entries(
+                    orderByStatus.filter(order => order.status === 5).reduce((acc, item) => {
+                      if(!acc[item.store.name]) {
+                        acc[item.store.name] = [];
+                      }
+                      acc[item.store.name].push(item);
+                      return acc;
+                    },{})
+                  ).map(([storeName, items]) => (
+                    <div key={storeName}>
+                      <div className="pending-heading">
+                        <p>{storeName}</p>
+                      </div>
+                      {
+                        items.map((item, index) => {
+
+                            let price = item?.orderDetails[index]?.price;
+                            let formattedPrice = price?.toLocaleString('vi-VN', {
+                                style: 'currency',
+                                currency: 'VND',
+                            });
+                            let totalPrice = item?.orderDetails[index]?.price * item?.orderDetails[index]?.amount;
+                            let formattedTotalPrice = totalPrice?.toLocaleString('vi-VN', {
+                                style: 'currency',
+                                currency: 'VND',
+                            });
+                          return item.orderDetails.map((itemChild) => (
+                            <div className='pending-card'>
+                              <div className="desc-card">
+                              <img src={`${IMG_URL}${itemChild.image}`} alt="" />
+                                <div className="info-card">
+                                    <p className='name'>{itemChild.name}</p>
+                                    <span className='author'>{itemChild.author}</span>
+                                    <span className='quantity'>{itemChild.amount}</span>
+                                </div>
+                              </div>
+                              <div className="price-card">
+                                <p className='cost'>$10000</p>
+                                <p className="real-price">{formattedPrice}</p>
+                              </div>
+                            </div>
+                          ))
+                        })
+                      }
+                      {/* <div className='total-payment'>
+                          <p className='total'>Thành tiền: 0</p>
+                      </div> */}
                     </div>
-                  </div>
-                  {/* --------- */}
-                  <div className='total-payment'>
-                      <p className='total'>Thành tiền: $9999</p>
-                  </div>
+                  )) 
+                } 
               </div>
             }
         </div>

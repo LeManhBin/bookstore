@@ -3,9 +3,10 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { actCreateStore } from '../../redux/features/storeSlice/storeSlice';
+import { useNavigate } from 'react-router-dom';
 
 const PopupOtpStore = ({formState, otp, setCheckOtp}) => {
-
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const [formOtp, setFormOtp] = useState("")
   const handleSubmit = () => {
@@ -15,7 +16,7 @@ const PopupOtpStore = ({formState, otp, setCheckOtp}) => {
       const formData =  new FormData();
       formData.append("object", JSON.stringify(formState));
       dispatch(actCreateStore(formData))
-      console.log(formState);
+      navigate("/register-service")
     }else {
       toast.error("Mã xác nhận không chính xác!!")
     }

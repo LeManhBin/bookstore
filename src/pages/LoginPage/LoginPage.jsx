@@ -15,6 +15,7 @@ const LoginPage = () => {
   const dispatch = useDispatch()
   const {isLoading} = useSelector((state) => state.user) 
   const {isLogged} = useSelector((state) => state.user) 
+  const {user} = useSelector((state) => state.user)
     const navigate = useNavigate()
     const [isShowPass, setIsShowPass] = useState(false)
     //Validate
@@ -25,18 +26,23 @@ const LoginPage = () => {
   const {control, handleSubmit, formState: {errors}} = methods
 
   const onLogin = (values) => {
-    console.log(values);
    dispatch(actFetchLogin(values))
   }
 
   useEffect(() => {
-    if(isLogged === true) {
+    if(isLogged === true && user.role === 0) {
       navigate('/')
+    }else if(isLogged === true && user.role === 1) {
+      navigate('/admin')
     }
   },[isLogged, navigate])
 
   const handlePageRegister = () => {
     navigate("/login-layout/register")
+  }
+
+  const handleForgotPassPage = () =>{
+    navigate("/login-layout/forgot-password")
   }
 
   return (
@@ -71,7 +77,8 @@ const LoginPage = () => {
                         </div>
                     )}
                     />
-                    <span onClick={handlePageRegister}>I don't have an account?</span>
+                    <span onClick={handlePageRegister}>Chưa có tài khoản ?</span>
+                    <span onClick={handleForgotPassPage}>Quên mật khẩu ?</span>
                     <div className='login__btn'>
                         <button className='login__btn--signin' type='submit' disabled={isLoading}>Sign in</button>
                         <button className='login__btn--google'>

@@ -1,17 +1,18 @@
 import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom'
-import Navbar from '../../components/Navbar/Navbar'
+
 import SideStore from '../../components/SideStore/SideStore'
 import './StoreLayout.scss'
+import NavbarStore from '../../components/NavbarStore/NavbarStore'
 const StoreLayout = () => {
   return (
-    <div className='admin-layout'>
+    <div className='store-layout'>
         <div className='left'>
             <SideStore/>
         </div>
         <div className='right'>
             <div className="navbar">
-                <Navbar/>
+                <NavbarStore/>
             </div>
             <div className="outlet">
                 <Outlet/>

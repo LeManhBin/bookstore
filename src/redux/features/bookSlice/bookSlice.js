@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, getDefaultMiddleware  } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import { fetchAllDataBook, fetchCreateBook, fetchDataBookById, fetchDataBookByIdCategory, fetchDataBookByIdStore, fetchDeleteBook, fetchSearchBook, fetchUpdateBook } from "../../../apis/bookApi";
+import { fetchAllDataBook, fetchBookPromotionsByTime, fetchCreateBook, fetchCreatePromotion, fetchDataBookById, fetchDataBookByIdCategory, fetchDataBookByIdStore, fetchDeleteBook, fetchPromotionByIdStore, fetchSearchBook, fetchUpdateBook } from "../../../apis/bookApi";
 
 const initialState = {
     allBook: [],
@@ -8,6 +8,8 @@ const initialState = {
     bookByCategory: [],
     bookByStore: [],
     bookSearch: [],
+    bookPromotionByTime: [],
+    bookPromotionByIdStore: [],
     isLoading: false,
     isLoadingCreate: false,
     errors: {},
@@ -35,6 +37,17 @@ export const actFetchBookByIdStore = createAsyncThunk('book/actFetchBookByIdStor
 
 export const actFetchSearchBook = createAsyncThunk('book/actFetchSearchBook', async (search) => {
     const data = await fetchSearchBook(search)
+    return data || []
+})
+
+export const actFetchBookPromotionsByTime = createAsyncThunk('book/actFetchBookPromotionsByTime', async ({ idStore, start, end }) => {
+    console.log( idStore, start, end , 'bên fetch');
+    const data = await fetchBookPromotionsByTime( idStore, start, end )
+    return data || []
+})
+
+export const actFetchPromotionByStoreId = createAsyncThunk('book/actFetchPromotionByStoreId', async (idStore) => {
+    const data = await fetchPromotionByIdStore(idStore)
     return data || []
 })
 export const bookSlice = createSlice({
@@ -138,6 +151,41 @@ export const bookSlice = createSlice({
             state.bookSearch = action.payload || []
         })
 
+        //fetchBookPromotionsByTime
+        builder.addCase(actFetchBookPromotionsByTime.pending, (state) => {
+            state.isLoading = true;
+        });
+
+        builder.addCase(actFetchBookPromotionsByTime.rejected, (state) => {
+            state.errors = {
+                errors: "Có lỗi xảy ra!"
+            };
+            state.isLoading = false
+            toast.warning(state.errors);
+        });
+        builder.addCase(actFetchBookPromotionsByTime.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.bookPromotionByTime = action.payload.data.data || []
+        })
+
+        //fetchBookPromotionsByIdStore
+        builder.addCase(actFetchPromotionByStoreId.pending, (state) => {
+            state.isLoading = true;
+        });
+
+        builder.addCase(actFetchPromotionByStoreId.rejected, (state) => {
+            state.errors = {
+                errors: "Có lỗi xảy ra!"
+            };
+            state.isLoading = false
+            toast.warning(state.errors);
+        });
+        builder.addCase(actFetchPromotionByStoreId.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.bookPromotionByIdStore = action.payload.data.data || []
+        })
+        
+
     }
 })
 
@@ -181,5 +229,17 @@ export const actUpdateBook = (id, payload) => async (dispatch) => {
     }
 } 
 
+export const actCreatePromotion = (payload) => async (dispatch) => {
+    try {
+        await fetchCreatePromotion(payload);
+        await dispatch(actFetchAllBook());
+        dispatch(actUpdateLoadingCreate(true));
+        toast.success('Thêm thành công')
+    } catch (error) {
+        console.log(error);
+    } finally {
+        dispatch(actUpdateLoadingCreate(false))
+    }
+}
 export const {actUpdateLoadingCreate} = bookSlice.actions
 export default bookSlice.reducer

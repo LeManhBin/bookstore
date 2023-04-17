@@ -8,6 +8,27 @@
     align-items: center;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
     cursor: pointer;
+    position: relative;
+
+    .discount {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        background-color: #F65D4E;
+        right: -15px;
+        top: -15px;
+        z-index: 10;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        span {
+            font-weight: bold;
+            font-size: 16px;
+            color: #fff;
+        }
+    }
 
     &-img {
         width: 280px;
@@ -106,10 +127,25 @@
         }
 
         .card-price {
-            font-size: 24px;
-            font-weight: 600;
-            color: #F65D4E;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+
+            .adv-price {
+                font-size: 20px;
+                font-weight: 600;
+                color: #5a5a5a;
+                text-decoration: line-through;
+            }
+
+            .later-price {
+                font-size: 20px;
+                font-weight: 600;
+                color: #F65D4E;
+            }
+
         }
+
     }
 }
 

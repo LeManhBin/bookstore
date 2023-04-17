@@ -15,47 +15,47 @@
         border-radius: 8px;
         height: 250px;
 
-        .info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
+        // .info {
+        //     display: flex;
+        //     align-items: center;
+        //     gap: 10px;
+        //     padding-bottom: 10px;
+        //     border-bottom: 1px solid #eee;
 
-            img {
-                height: 80px;
-                width: 80px;
-                border-radius: 50%;
-                object-fit: cover;
-                border: 2px solid #5a5a5a;
-            }
+        //     img {
+        //         height: 80px;
+        //         width: 80px;
+        //         border-radius: 50%;
+        //         object-fit: cover;
+        //         border: 2px solid #5a5a5a;
+        //     }
 
-            .name {
+        //     .name {
 
-                p {
-                    margin: 0;
-                    font-weight: 600;
-                }
+        //         p {
+        //             margin: 0;
+        //             font-weight: 600;
+        //         }
 
-                span {
-                    font-size: 14px;
-                    color:  #5a5a5a;
-                    cursor: pointer;
-                }
-            }
-        }
+        //         span {
+        //             font-size: 14px;
+        //             color:  #5a5a5a;
+        //             cursor: pointer;
+        //         }
+        //     }
+        // }
 
-        ul {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+        // ul {
+        //     list-style: none;
+        //     display: flex;
+        //     flex-direction: column;
+        //     gap: 10px;
 
-            li {
-                cursor: pointer;
-                font-size: 14px;
-            }
-        }
+        //     li {
+        //         cursor: pointer;
+        //         font-size: 14px;
+        //     }
+        // }
     }
 
     .right {
@@ -105,6 +105,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+                margin-bottom: 20px;
 
 
                 .desc-card {
@@ -168,6 +169,18 @@
                     font-weight: bold;
                     color: #F65D4E;
                     margin: 0;
+                }
+            }
+
+            .order-button {
+                display: flex;
+                justify-content: flex-end;
+
+                button {
+                    padding: 5px 10px;
+                    border: none;
+                    background-color: #F65D4E;
+                    color: #fff;
                 }
             }
         }

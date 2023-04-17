@@ -7,6 +7,7 @@ import Pagination from '../../components/Pagination/Pagination'
 import useScrollToTop from '../../hooks/useScrollToTop'
 import { actFetchBookByIdCategory } from '../../redux/features/bookSlice/bookSlice'
 import { actFetchCategoryById } from '../../redux/features/categorySlice/categorySlide'
+import Loading from '../../components/Loading/Loading'
 
 const SearchBookByCategoryPage = () => {
     const param = useParams()
@@ -17,7 +18,12 @@ const SearchBookByCategoryPage = () => {
   const [numberShow, setNumberShow] = useState(8)
   const {isLoading} = useSelector((state) => state.book)
 
-  console.log(bookByCategory);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(!isLoading);
+  }, [isLoading]);
+
       //phân trang
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(8)
@@ -32,9 +38,6 @@ const SearchBookByCategoryPage = () => {
     },[param.idCategoryBook])
 
 
-
-    console.log(bookByCategory);
-
     useEffect(() => {
         setLimit(numberShow)
       },[numberShow])
@@ -45,59 +48,67 @@ const SearchBookByCategoryPage = () => {
         setNumberShow(number)
   }
   return (
-    <div className='product-container'>
-      <div className="heading">
-          <Heading title={`${category.name}`}/>
-      </div>
+    <>
       {
-        (currentItems.length > 0) ? <div className='product'>
-        <div className='sort'>
-            <div className="sort-filter">
-              <i className="fa-solid fa-arrow-up-z-a"></i>
-              <span>Sắp xếp</span>
-            </div>
-            <div className='sorting'>
-                <div className='default-sort'>
-                  <select name="" id="">
-                      <option value="">Xếp theo</option>
-                      <option value="">Giá thấp đến cao</option>
-                      <option value="">Giá cao đến thấp</option>
-                  </select>
+        isLoaded ?(
+          <div className='product-container'>
+          <div className="heading">
+              <Heading title={`${category.name}`}/>
+          </div>
+          {
+            (currentItems.length > 0) ? <div className='product'>
+            <div className='sort'>
+                <div className="sort-filter">
+                  <i className="fa-solid fa-arrow-up-z-a"></i>
+                  <span>Sắp xếp</span>
                 </div>
-                <div className='show-sort'> 
-                  <span>Show</span>
-                  <select name="" id="" value={numberShow} onChange={handleOnChangeNumberShow}>
-                        <option value="8">8</option>
-                        <option value="12">12</option>
-                        <option value="16">16</option>
-                        <option value="20">20</option>
-                  </select>
+                <div className='sorting'>
+                    <div className='default-sort'>
+                      <select name="" id="">
+                          <option value="">Xếp theo</option>
+                          <option value="">Giá thấp đến cao</option>
+                          <option value="">Giá cao đến thấp</option>
+                      </select>
+                    </div>
+                    <div className='show-sort'> 
+                      <span>Show</span>
+                      <select name="" id="" value={numberShow} onChange={handleOnChangeNumberShow}>
+                            <option value="8">8</option>
+                            <option value="12">12</option>
+                            <option value="16">16</option>
+                            <option value="20">20</option>
+                      </select>
+                    </div>
                 </div>
             </div>
+            <div className="all-product">
+                    {
+                      currentItems?.map(data => {
+                        return (
+                          <div key={data?.object?.id}>
+                            <Card data={data}/>
+                          </div>
+                        )
+                      })
+                    }
+            </div>
+            <div className='pagination'>
+                <Pagination
+                currentPage={currentPage}
+                limit={limit}
+                setCurrentPage={setCurrentPage}
+                totalPage={totalPage}
+                background={'#AEE2FF'}
+            />
+            </div>
+        </div> : <div className='product-empty'>Không tìm thấy sản phẩm nào</div>
+          }
         </div>
-        <div className="all-product">
-                {
-                  currentItems?.map(data => {
-                    return (
-                      <div key={data?.object?.id}>
-                        <Card data={data}/>
-                      </div>
-                    )
-                  })
-                }
-        </div>
-        <div className='pagination'>
-            <Pagination
-            currentPage={currentPage}
-            limit={limit}
-            setCurrentPage={setCurrentPage}
-            totalPage={totalPage}
-            background={'#AEE2FF'}
-        />
-        </div>
-    </div> : <div className='product-empty'>Không tìm thấy sản phẩm nào</div>
+        ):(
+          <Loading/>
+        )
       }
-    </div>
+    </>
   )
 }
 

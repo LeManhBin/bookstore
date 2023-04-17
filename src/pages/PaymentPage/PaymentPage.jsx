@@ -6,38 +6,80 @@ import { useDispatch, useSelector } from 'react-redux'
 import { actFetchAllPayment } from '../../redux/features/paymentSlice/paymentSlice'
 import { actFetchUserById } from '../../redux/features/userSlice/userSlice'
 import { actChangeQuantity, actDeleteCart, actFetchAllDataCartByIdUser } from '../../redux/features/cartSlice/cartSlice'
+import { actCreateOrder } from '../../redux/features/orderSlice/orderSlice'
+import { useNavigate } from 'react-router-dom'
+import { IMG_URL } from '../../constants/config'
 const PaymentPage = () => {
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const {user} = useSelector((state) => state.user)
     const idUser = user.id
     const {allPayment} = useSelector((state) => state.payment)
+    const [clicked, setClicked] = useState(false);
+    const initialState = {
+        stores: [],
+        recipient: {},
+        payment: 0,
+    }
+    const [order, setOrder] = useState(initialState)
 
-    console.log(idUser);
-    console.log(allPayment);
+    const [recipient, setRecipient] = useState({
+        userId: idUser,
+        name: user.fullName,
+        phone: user.phone,
+        address: user.address,
+    })
+    const [payment, setPayment] = useState(0)
+
     useEffect(() => {
         dispatch(actFetchAllPayment(idUser))
     },[])
     const [totalPayment, setTotalPayment] = useState(0)
     let formattedTotalPayment = totalPayment.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'});
-  
-  
+    
+    const handleOnChange = (e) => {
+        const {name, value} = e.target
+        setRecipient({
+            ...recipient,
+            [name]: value,
+        })
+    }
+
+    const handleChangePayment = (e) => {
+        const {value} = e.target;
+        const payment = value
+        setPayment(payment)
+    }
+
+
+    
+    const stores = allPayment.map(payment => {
+        const storeId = payment.store.id;
+        const cartIds = payment.cartDetails.map(detail => detail.id);
+        const note = "Giao hanh nhanh nhanh dum em";
+        return { id: storeId, note, cartIds };
+    });
+
+
     
     const handleRemove = (item) => {
       dispatch(actDeleteCart(item, idUser))
     }
-  
-    useEffect(() => {
-        let totalPrice = 0;
-        allPayment.forEach((payment) => {
-          payment.cartDetails.forEach((cart) => {
-            totalPrice += cart.price;
+
+      const handleGetTotal = () => {
+        let totalPayment = 0;
+        allPayment.forEach((item) => {
+          item.cartDetails.forEach((itemChild) => {
+              totalPayment += itemChild.amount * itemChild.price;
           });
         });
-        setTotalPayment(totalPrice);
-      }, []);
-
-      console.log(totalPayment);
-  
+        setTotalPayment(totalPayment);
+    
+      }
+    
+      useEffect(() => {
+        handleGetTotal();
+      }, [allPayment]);
     
       useEffect(() => {
           dispatch(actFetchAllDataCartByIdUser(user?.id))
@@ -54,6 +96,29 @@ const PaymentPage = () => {
       quantity--
       dispatch(actChangeQuantity(item, quantity, idUser))
     }
+
+    const handlePayment = (e) => {
+        e.preventDefault()
+        setClicked(true)
+        setOrder({
+            stores: stores,
+            recipient: recipient,
+            payment: Number(payment),
+        })
+    }
+
+    useEffect(() => {
+        if (clicked) {
+            dispatch(actCreateOrder(order))
+    
+            const timeoutId = setTimeout(() => {
+              setClicked(false);
+            }, 1000);
+            return () => {
+              clearTimeout(timeoutId);
+            };
+          }
+    },[clicked])
 
   return (
     <div className='payment-page'>
@@ -115,7 +180,7 @@ const PaymentPage = () => {
                                     return item.cartDetails.map((itemChild) => (
                                     <tr key={itemChild?.id}>
                                         <td className='img' style={{width: "120px", height: "150px"}}>
-                                            <img src={`data:image/jpeg;base64,${itemChild?.imagebyte}`} alt='Product' style={{width: '100%', height: '100%', objectFit: 'cover'}}/>
+                                            <img src={`${IMG_URL}${itemChild.image}`} alt='Product' style={{width: '100%', height: '100%', objectFit: 'cover'}}/>
                                         </td>
                                         <td className='name'>{itemChild?.name}</td>
                                         <td className='price'>{formattedPrice}</td>
@@ -132,6 +197,10 @@ const PaymentPage = () => {
                                     ));
                                 })}
                                 </tbody>
+                                {/* <div className="form-input">
+                                    <label htmlFor="">Ghi chú</label>
+                                    <textarea name="" id="" cols="30" rows="3" placeholder='Nhập ghi chú'></textarea>
+                                </div> */}
                             </Table>
                             </div>
                         ))}
@@ -144,34 +213,30 @@ const PaymentPage = () => {
                 <form action="">
                     <div className="form-input">
                         <label htmlFor="">Họ và tên</label>
-                        <input type="text" placeholder='Nhập họ và tên' />
+                        <input type="text" name='name' placeholder='Nhập họ và tên' value={recipient.name} onChange={handleOnChange}/>
                     </div>
                     <div className="form-input">
                         <label htmlFor="">Số điện thoại</label>
-                        <input type="text" placeholder='Nhập số điện thoại' />
+                        <input type="text" name='phone' placeholder='Nhập số điện thoại' value={recipient.phone} onChange={handleOnChange}/>
                     </div>
                     <div className="form-input">
                         <label htmlFor="">Địa chỉ</label>
-                        <input type="text" placeholder='Nhập địa chỉ nhận hàng' />
-                    </div>
-                    <div className="form-input">
-                        <label htmlFor="">Ghi chí</label>
-                        <textarea name="" id="" cols="30" rows="3" placeholder='Nhập ghi chú'></textarea>
+                        <input type="text" name='address' placeholder='Nhập địa chỉ nhận hàng' value={recipient.address} onChange={handleOnChange}/>
                     </div>
                     <div className="payment-methods">
                         <label htmlFor="" className='title'>Phương thức thanh toán</label>
                         <div className='method'>
-                            <input  type="radio" id="direct" name="payment" value="1"/>
+                            <input  type="radio" id="direct" name="payment" value="1" onChange={handleChangePayment}/>
                             <label htmlFor="direct">Thanh toán khi nhận hàng</label>
                         </div>
                         <div className='method'>
-                            <input  type="radio" id="zalo" name="payment" value="2"/>
+                            <input  type="radio" id="zalo" name="payment" value="2" onChange={handleChangePayment}/>
                             <img src="https://img.websosanh.vn/v2/users/financial/images/ypa8r8jf575ck.jpg?compress=85" alt="" />
                         </div>
                     </div>
 
                     <div className="payment-btn">
-                        <button>Thanh toán</button>
+                        <button onClick={handlePayment}>Thanh toán</button>
                     </div>
                 </form>
             </div>

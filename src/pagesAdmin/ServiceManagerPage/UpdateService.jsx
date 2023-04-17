@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import AdminHeading from '../../components/AdminHeading/AdminHeading'
 import { actFetchServiceById, actUpdateService } from '../../redux/features/serviceSlice/serviceSlide'
+import { IMG_URL } from '../../constants/config'
 
 
 const UpdateService = () => {
@@ -41,26 +42,25 @@ const UpdateService = () => {
         const value = e.target.value;
         setFormState((prevState) => ({
             ...prevState,
-            object: {
-            ...prevState.object,
             [name]: value,
-            },
         }));
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
         const formData =  new FormData();
-        formData.append("object", JSON.stringify(formState.object));
+        const formPost = Object.assign({}, formState);
+        delete formPost.thumbnailByte;
+        formData.append("object", JSON.stringify(formPost));
         formData.append("file", avatar);
-        dispatch(actUpdateService(service?.object?.id,formData))
+        dispatch(actUpdateService(service?.id,formData))
         navigate("/admin/service")
       }
     
       const handleBack = () => {
         navigate("/admin/service")
       }
-    
+      
   return (
     <div className='add-new-service'>
     <div className="heading">
@@ -72,28 +72,28 @@ const UpdateService = () => {
         <div className='left'>
             <div className="form-input">
                 <label htmlFor="">Tên gói</label>
-                <input required type="text" name='name' value={formState?.object?.name} onChange={handleOnChange} placeholder='Nhập tên gói'/>
+                <input required type="text" name='name' value={formState?.name} onChange={handleOnChange} placeholder='Nhập tên gói'/>
             </div>
             <div className="form-input">
                 <label htmlFor="">Cước gói</label>
-                <input required type="text" name='price' value={formState?.object?.price} onChange={handleOnChange} placeholder='Nhập cước gói'/>
+                <input required type="text" name='price' value={formState?.price} onChange={handleOnChange} placeholder='Nhập cước gói'/>
             </div>
             <div className="form-input">
                 <label htmlFor="">Số sản phẩm</label>
-                <input required type="text" name='quantityProduct' value={formState?.object?.quantityProduct} onChange={handleOnChange} placeholder='Nhập số sản phẩm'/>
+                <input required type="text" name='quantityProduct' value={formState?.quantityProduct} onChange={handleOnChange} placeholder='Nhập số sản phẩm'/>
             </div>
             <div className="form-input">
                 <label htmlFor="">Thời hạn</label>
-                <input required type="number" name='expirationDate' value={formState?.object?.expirationDate} onChange={handleOnChange} placeholder='Nhập thời hạn'/>
+                <input required type="number" name='expirationDate' value={formState?.expirationDate} onChange={handleOnChange} placeholder='Nhập thời hạn'/>
             </div>
             <div className="form-input">
                 <label htmlFor="">Chi tiết gói</label>
-                <textarea name="description" id="" cols="30" rows="5" value={formState?.object?.description}  onChange={handleOnChange} placeholder='Nhập chi tiết dịch vụ'></textarea>
+                <textarea name="description" id="" cols="30" rows="5" value={formState?.description}  onChange={handleOnChange} placeholder='Nhập chi tiết dịch vụ'></textarea>
             </div>
         </div>
         <div className='right'>
             <div className='form-input'>
-                <img src={`${avatar ? avatar.preview : `data:image/jpeg;base64,${formState.file}`}`} />
+                <img src={`${avatar ? avatar.preview : `${IMG_URL}${service.thumbnail}`}`} />
                 <input type="file" id="file-input" name='thumbnail' onChange={(e) => handlePreviewAvatar(e) }/>
                 <label htmlFor="file-input" id="custom-button">Chọn ảnh</label>
             </div>

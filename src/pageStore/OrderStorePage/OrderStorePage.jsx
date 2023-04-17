@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table } from 'react-bootstrap'
 import Pagination from '../../components/Pagination/Pagination'
 import './OrderStorePage.scss'
+import { useDispatch, useSelector } from 'react-redux'
+import { actChangeOrderStatus, actFetchOrderByIdStore } from '../../redux/features/orderSlice/orderSlice'
 const OrderStorePage = () => {
   const [isPending, setIsPending] = useState(true)
   const [isApproved, setIsApproved] = useState(false)
@@ -44,6 +46,31 @@ const OrderStorePage = () => {
     setIsComplete(false)
     setIsCancel(true)
   }
+
+  const dispatch = useDispatch()
+  const {orderByIdStore} = useSelector((state) => state.order)
+  const {user} = useSelector((state) => state.user)
+  const idStore = user.storeId
+
+  useEffect(() => {
+    dispatch(actFetchOrderByIdStore(idStore))
+  },[idStore])
+
+  const handleConfirm = (id) => {
+      dispatch(actChangeOrderStatus(id,1, idStore))
+
+  }
+  const handleTransport = (id) => {
+      dispatch(actChangeOrderStatus(id,2, idStore))
+
+  }
+  const handleComplete = (id) => {
+      dispatch(actChangeOrderStatus(id,3, idStore))
+  }
+
+  console.log(orderByIdStore, 'order');
+
+
   return (
     <div className='order-page'>
       <div className="heading">
@@ -67,29 +94,41 @@ const OrderStorePage = () => {
                 <Table striped bordered hover>
                   <thead style={{backgroundColor: '#F65D4E', color: '#fff'}}>
                     <tr>
-                      <th>STT</th>
-                      <th>Mã đơn hàng</th>
-                      <th>Tên khách hàng</th>
-                      <th>Số điện thoại</th>
-                      <th>Địa chỉ</th>
-                      <th>Tổng tiền đơn hàng</th>
-                      <th>Thao Tác</th>
+                    <th>Mã đơn hàng</th>
+                    <th>Thông tin người nhận</th>
+                    <th>Loại thanh toán</th>
+                    <th>Tổng tiền đơn hàng</th>
+                    <th>Thao Tác</th>
                     </tr>
                   </thead>
                   <tbody>
-                        <tr>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td className='button'>
-                            <button className='edit-btn' ><i className="fa-solid fa-binoculars"></i></button>
-                            <button className='edit-btn' ><i className="fa-regular fa-pen-to-square"></i></button>
-                            <button className='delete-btn' ><i className="fa-sharp fa-solid fa-trash"></i></button>
-                          </td>
-                        </tr>
+                      {
+                        orderByIdStore?.filter(item => item.status === 0).map((order, index) => {
+                          let loaiThanhToan;
+                          if(order.payment === 1) {
+                            loaiThanhToan = 'Trực tiếp'
+                          }else {
+                            loaiThanhToan = 'Zalo Pay'
+                          }
+                          return(
+                            <tr key={order.id}>
+                              <td>{order.id}</td>
+                              <td style={{textAlign: 'left'}}>
+                                {order.name}
+                                <br />{order.phone}
+                                <br />{order.address}
+                              </td>
+                              <td>{loaiThanhToan}</td>
+                              <td></td>
+                              <td className='button'>
+                                <button className='edit-btn' ><i className="fa-solid fa-binoculars"></i></button>
+                                <button className='edit-btn' onClick={() => handleConfirm(order.id)}>Xác nhận</button>
+                                <button className='delete-btn' ><i className="fa-sharp fa-solid fa-trash"></i></button>
+                              </td>
+                            </tr>
+                          )
+                        })
+                      }
                   </tbody>
                 </Table>
                 {/* <div className='pagination'>
@@ -116,34 +155,46 @@ const OrderStorePage = () => {
                   {/* ------- */}
                   <div className='order-card'>
                   <div className='table'>
-                    <Table striped bordered hover>
-                      <thead style={{backgroundColor: '#F65D4E', color: '#fff'}}>
-                        <tr>
-                          <th>STT</th>
-                          <th>Mã đơn hàng</th>
-                          <th>Tên khách hàng</th>
-                          <th>Số điện thoại</th>
-                          <th>Địa chỉ</th>
-                          <th>Tổng tiền đơn hàng</th>
-                          <th>Thao Tác</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                            <tr>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td className='button'>
-                                <button className='edit-btn' ><i className="fa-solid fa-binoculars"></i></button>
-                                <button className='edit-btn' ><i className="fa-regular fa-pen-to-square"></i></button>
-                                <button className='delete-btn' ><i className="fa-sharp fa-solid fa-trash"></i></button>
-                              </td>
-                            </tr>
-                      </tbody>
-                    </Table>
+                  <Table striped bordered hover>
+                    <thead style={{backgroundColor: '#F65D4E', color: '#fff'}}>
+                      <tr>
+                      <th>Mã đơn hàng</th>
+                      <th>Thông tin người nhận</th>
+                      <th>Loại thanh toán</th>
+                      <th>Tổng tiền đơn hàng</th>
+                      <th>Thao Tác</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {
+                          orderByIdStore?.filter(item => item.status === 1).map((order, index) => {
+                            let loaiThanhToan;
+                            if(order.payment === 1) {
+                              loaiThanhToan = 'Trực tiếp'
+                            }else {
+                              loaiThanhToan = 'Zalo Pay'
+                            }
+                            return(
+                              <tr key={order.id}>
+                                <td>{order.id}</td>
+                                <td style={{textAlign: 'left'}}>
+                                  {order.name}
+                                  <br />{order.phone}
+                                  <br />{order.address}
+                                </td>
+                                <td>{loaiThanhToan}</td>
+                                <td></td>
+                                <td className='button'>
+                                  <button className='edit-btn' ><i className="fa-solid fa-binoculars"></i></button>
+                                  <button className='edit-btn' onClick={() => handleTransport(order.id)}>Giao</button>
+                                  <button className='delete-btn' ><i className="fa-sharp fa-solid fa-trash"></i></button>
+                                </td>
+                              </tr>
+                            )
+                          })
+                        }
+                    </tbody>
+                  </Table>
                     {/* <div className='pagination'>
                         <Pagination
                         currentPage={currentPage}
@@ -167,34 +218,46 @@ const OrderStorePage = () => {
                   {/* ------- */}
                   <div className='order-card'>
                   <div className='table'>
-                    <Table striped bordered hover>
-                      <thead style={{backgroundColor: '#F65D4E', color: '#fff'}}>
-                        <tr>
-                          <th>STT</th>
-                          <th>Mã đơn hàng</th>
-                          <th>Tên khách hàng</th>
-                          <th>Số điện thoại</th>
-                          <th>Địa chỉ</th>
-                          <th>Tổng tiền đơn hàng</th>
-                          <th>Thao Tác</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                            <tr>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td className='button'>
-                                <button className='edit-btn' ><i className="fa-solid fa-binoculars"></i></button>
-                                <button className='edit-btn' ><i className="fa-regular fa-pen-to-square"></i></button>
-                                <button className='delete-btn' ><i className="fa-sharp fa-solid fa-trash"></i></button>
-                              </td>
-                            </tr>
-                      </tbody>
-                    </Table>
+                  <Table striped bordered hover>
+                    <thead style={{backgroundColor: '#F65D4E', color: '#fff'}}>
+                      <tr>
+                      <th>Mã đơn hàng</th>
+                      <th>Thông tin người nhận</th>
+                      <th>Loại thanh toán</th>
+                      <th>Tổng tiền đơn hàng</th>
+                      <th>Thao Tác</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {
+                          orderByIdStore?.filter(item => item.status === 2).map((order, index) => {
+                            let loaiThanhToan;
+                            if(order.payment === 1) {
+                              loaiThanhToan = 'Trực tiếp'
+                            }else {
+                              loaiThanhToan = 'Zalo Pay'
+                            }
+                            return(
+                              <tr key={order.id}>
+                                <td>{order.id}</td>
+                                <td style={{textAlign: 'left'}}>
+                                  {order.name}
+                                  <br />{order.phone}
+                                  <br />{order.address}
+                                </td>
+                                <td>{loaiThanhToan}</td>
+                                <td></td>
+                                <td className='button'>
+                                  <button className='edit-btn' ><i className="fa-solid fa-binoculars"></i></button>
+                                  <button className='edit-btn' onClick={() => handleComplete(order.id)}><i className="fa-regular fa-pen-to-square"></i></button>
+                                  <button className='delete-btn' ><i className="fa-sharp fa-solid fa-trash"></i></button>
+                                </td>
+                              </tr>
+                            )
+                          })
+                        }
+                    </tbody>
+                  </Table>
                     {/* <div className='pagination'>
                         <Pagination
                         currentPage={currentPage}
@@ -218,34 +281,46 @@ const OrderStorePage = () => {
                   {/* ------- */}
                   <div className='order-card'>
                   <div className='table'>
-                    <Table striped bordered hover>
-                      <thead style={{backgroundColor: '#F65D4E', color: '#fff'}}>
-                        <tr>
-                          <th>STT</th>
-                          <th>Mã đơn hàng</th>
-                          <th>Tên khách hàng</th>
-                          <th>Số điện thoại</th>
-                          <th>Địa chỉ</th>
-                          <th>Tổng tiền đơn hàng</th>
-                          <th>Thao Tác</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                            <tr>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td className='button'>
-                                <button className='edit-btn' ><i className="fa-solid fa-binoculars"></i></button>
-                                <button className='edit-btn' ><i className="fa-regular fa-pen-to-square"></i></button>
-                                <button className='delete-btn' ><i className="fa-sharp fa-solid fa-trash"></i></button>
-                              </td>
-                            </tr>
-                      </tbody>
-                    </Table>
+                  <Table striped bordered hover>
+                    <thead style={{backgroundColor: '#F65D4E', color: '#fff'}}>
+                      <tr>
+                      <th>Mã đơn hàng</th>
+                      <th>Thông tin người nhận</th>
+                      <th>Loại thanh toán</th>
+                      <th>Tổng tiền đơn hàng</th>
+                      <th>Thao Tác</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {
+                          orderByIdStore?.filter(item => item.status === 3).map((order, index) => {
+                            let loaiThanhToan;
+                            if(order.payment === 1) {
+                              loaiThanhToan = 'Trực tiếp'
+                            }else {
+                              loaiThanhToan = 'Zalo Pay'
+                            }
+                            return(
+                              <tr key={order.id}>
+                                <td>{order.id}</td>
+                                <td style={{textAlign: 'left'}}>
+                                  {order.name}
+                                  <br />{order.phone}
+                                  <br />{order.address}
+                                </td>
+                                <td>{loaiThanhToan}</td>
+                                <td></td>
+                                <td className='button'>
+                                  <button className='edit-btn' ><i className="fa-solid fa-binoculars"></i></button>
+                                  <button className='edit-btn'><i className="fa-regular fa-pen-to-square"></i></button>
+                                  <button className='delete-btn' ><i className="fa-sharp fa-solid fa-trash"></i></button>
+                                </td>
+                              </tr>
+                            )
+                          })
+                        }
+                    </tbody>
+                  </Table>
                     {/* <div className='pagination'>
                         <Pagination
                         currentPage={currentPage}
@@ -269,34 +344,46 @@ const OrderStorePage = () => {
                   {/* ------- */}
                   <div className='order-card'>
                   <div className='table'>
-                    <Table striped bordered hover>
-                      <thead style={{backgroundColor: '#F65D4E', color: '#fff'}}>
-                        <tr>
-                          <th>STT</th>
-                          <th>Mã đơn hàng</th>
-                          <th>Tên khách hàng</th>
-                          <th>Số điện thoại</th>
-                          <th>Địa chỉ</th>
-                          <th>Tổng tiền đơn hàng</th>
-                          <th>Thao Tác</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                            <tr>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td className='button'>
-                                <button className='edit-btn' ><i className="fa-solid fa-binoculars"></i></button>
-                                <button className='edit-btn' ><i className="fa-regular fa-pen-to-square"></i></button>
-                                <button className='delete-btn' ><i className="fa-sharp fa-solid fa-trash"></i></button>
-                              </td>
-                            </tr>
-                      </tbody>
-                    </Table>
+                  <Table striped bordered hover>
+                    <thead style={{backgroundColor: '#F65D4E', color: '#fff'}}>
+                      <tr>
+                      <th>Mã đơn hàng</th>
+                      <th>Thông tin người nhận</th>
+                      <th>Loại thanh toán</th>
+                      <th>Tổng tiền đơn hàng</th>
+                      <th>Thao Tác</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {
+                          orderByIdStore?.filter(item => item.status === 4).map((order, index) => {
+                            let loaiThanhToan;
+                            if(order.payment === 1) {
+                              loaiThanhToan = 'Trực tiếp'
+                            }else {
+                              loaiThanhToan = 'Zalo Pay'
+                            }
+                            return(
+                              <tr key={order.id}>
+                                <td>{order.id}</td>
+                                <td style={{textAlign: 'left'}}>
+                                  {order.name}
+                                  <br />{order.phone}
+                                  <br />{order.address}
+                                </td>
+                                <td>{loaiThanhToan}</td>
+                                <td></td>
+                                <td className='button'>
+                                  <button className='edit-btn' ><i className="fa-solid fa-binoculars"></i></button>
+                                  <button className='edit-btn' ><i className="fa-regular fa-pen-to-square"></i></button>
+                                  <button className='delete-btn' ><i className="fa-sharp fa-solid fa-trash"></i></button>
+                                </td>
+                              </tr>
+                            )
+                          })
+                        }
+                    </tbody>
+                  </Table>
                     {/* <div className='pagination'>
                         <Pagination
                         currentPage={currentPage}
