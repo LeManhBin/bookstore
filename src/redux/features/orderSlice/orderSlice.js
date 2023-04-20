@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import { fetchChangeOrderStatus, fetchCreateOrder, fetchOrderByIdStore, fetchOrderUserByStatus } from "../../../apis/orderApi";
+import { fetchChangeOrderStatus, fetchCreateOrder, fetchDetailOrder, fetchOrderByIdStore, fetchOrderUserByStatus } from "../../../apis/orderApi";
 
 
 const initialState = {
@@ -23,6 +23,10 @@ export const actFetchOrderByIdStore = createAsyncThunk('order/actFetchOrderByIdS
     return data || []
 })
 
+export const actFetchOrderDetail = createAsyncThunk('order/actFetchOrderDetail', async (id) => {
+    const data = await fetchDetailOrder(id)
+    return data || []
+})
 
 export const orderSlice = createSlice({
     name: 'order',
@@ -69,6 +73,24 @@ export const orderSlice = createSlice({
         builder.addCase(actFetchOrderByIdStore.fulfilled, (state, action) => {
             state.isLoading = false;
             state.orderByIdStore = action.payload.data || [];
+        });
+
+        //actFetchOrderDetail
+        builder.addCase(actFetchOrderDetail.pending, (state) => {
+            state.isLoading = true;
+        });
+
+        builder.addCase(actFetchOrderDetail.rejected, (state) => {
+            state.errors = {
+                errors: "Có lỗi xảy ra!"
+            };
+            state.isLoading = false
+            toast.warning(state.errors);
+        });
+
+        builder.addCase(actFetchOrderDetail.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.order = action.payload.data || [];
         });
     }
 })

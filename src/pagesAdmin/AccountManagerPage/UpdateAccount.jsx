@@ -55,6 +55,8 @@ const UpdateAccount = () => {
         }));
     }
 
+
+
     const handleUpdate = (e) => {
         e.preventDefault()
         const formData =  new FormData();
@@ -104,8 +106,8 @@ const UpdateAccount = () => {
                 <div className="form-input">
                     <label htmlFor="">Quyền</label>
                     <select name='role' value={formUpdate?.role} onChange={handleChangeRole}>
-                        <option value="1">Quản trị viên</option>
-                        <option value="0">Người dùng</option>
+                        <option value={1}>Quản trị viên</option>
+                        <option value={0}>Người dùng</option>
                     </select>
                 </div>
             </div>

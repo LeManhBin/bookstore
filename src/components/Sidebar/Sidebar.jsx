@@ -8,6 +8,7 @@ const Sidebar = () => {
     const [showItem4, setShowItem4] = useState(false)
     const [showItem5, setShowItem5] = useState(false)
     const [showItem6, setShowItem6] = useState(false)
+    const [showItem7, setShowItem7] = useState(false)
 
   return (
     <div className='sidebar'>
@@ -81,8 +82,11 @@ const Sidebar = () => {
                     {
                         showItem3 && 
                         <ul className='links'>
-                            <Link to={'/admin/account-manager'}>
-                                <li className='link'>Danh sách tài khoản</li>
+                            <Link to={'/admin/account-manager/user'}>
+                                <li className='link'>Người dùng</li>
+                            </Link>
+                            <Link to={'/admin/account-manager/admin'}>
+                                <li className='link'>Quản trị viên</li>
                             </Link>
                             <Link to={'/admin/add-new-account'}>
                                 <li className='link'>Thêm tài khoản</li>
@@ -123,6 +127,23 @@ const Sidebar = () => {
                         <ul className='links'>
                             <Link to={'/admin/contact'}>
                                 <li className='link'>Quản lý liên hệ</li>
+                            </Link>
+                        </ul>
+                    }
+                </li>
+                <li className='item'>
+                    <div className='title' onClick={() => setShowItem7(!showItem7)}>
+                        <div className="name">
+                            <i className="fa-solid fa-bell"></i>
+                            <span>Cài đặt</span>
+                        </div>
+                        <i className="fa-solid fa-angle-down"></i>
+                    </div>
+                    {
+                        showItem7 && 
+                        <ul className='links'>
+                            <Link to={'/admin/contact'}>
+                                <li className='link'>Quản lý slide</li>
                             </Link>
                         </ul>
                     }

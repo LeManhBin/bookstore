@@ -1,11 +1,15 @@
 import { createAsyncThunk, createSlice, getDefaultMiddleware  } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import { fetchAllDataBook, fetchBookPromotionsByTime, fetchCreateBook, fetchCreatePromotion, fetchDataBookById, fetchDataBookByIdCategory, fetchDataBookByIdStore, fetchDeleteBook, fetchPromotionByIdStore, fetchSearchBook, fetchUpdateBook } from "../../../apis/bookApi";
+import { fetchAllDataBook, fetchBookBestSelling, fetchBookPromotionsByTime, fetchCreateBook, fetchCreatePromotion, fetchDataBookById, fetchDataBookByIdCategory, fetchDataBookByIdStore, fetchDeleteBook, fetchDeletePromotion, fetchDetailPromotion, fetchPromotionByIdPromotion, fetchPromotionByIdStore, fetchSearchBook, fetchUpdateBook, fetchUpdatePromotion } from "../../../apis/bookApi";
 
 const initialState = {
     allBook: [],
+    bookBestSelling: [],
     book: {},
+    promotion: [],
+    promotionByPromotion: {},
     bookByCategory: [],
+    bookByPromotion: [],
     bookByStore: [],
     bookSearch: [],
     bookPromotionByTime: [],
@@ -18,6 +22,11 @@ const initialState = {
 export const actFetchAllBook = createAsyncThunk('book/actFetchAllBook', async () => {
     const data = await fetchAllDataBook()
     return data || []
+})
+
+export const actFetchBookBestSelling = createAsyncThunk('book/actFetchBookBestSelling', async () => {
+    const data = await fetchBookBestSelling()
+    return data | []
 })
 
 export const actFetchBookById = createAsyncThunk('book/actFetchBookById', async (id) => {
@@ -50,6 +59,15 @@ export const actFetchPromotionByStoreId = createAsyncThunk('book/actFetchPromoti
     const data = await fetchPromotionByIdStore(idStore)
     return data || []
 })
+
+export const actFetchDetailPromotion = createAsyncThunk('book/actFetchDetailPromotion', async ({idStore, idPromotion}) => {
+    const data = await fetchDetailPromotion(idStore, idPromotion)
+    return data || []
+})
+export const actFetchPromotionByIdPromotion = createAsyncThunk('book/actFetchPromotionByIdPromotion', async (id) => {
+    const data = await fetchPromotionByIdPromotion(id)
+    return data || {}
+})
 export const bookSlice = createSlice({
     name: 'book',
     initialState,
@@ -77,6 +95,26 @@ export const bookSlice = createSlice({
         builder.addCase(actFetchAllBook.fulfilled, (state, action) => {
             state.isLoading = false;
             state.allBook = action.payload.data || []
+
+        })
+
+        //best selling
+
+        builder.addCase(actFetchBookBestSelling.pending, (state) => {
+            state.isLoading = true;
+        });
+
+        builder.addCase(actFetchBookBestSelling.rejected, (state) => {
+            state.errors = {
+                errors: "Có lỗi xảy ra!"
+            };
+            state.isLoading = false
+            toast.warning(state.errors);
+        });
+
+        builder.addCase(actFetchBookBestSelling.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.bookBestSelling = action.payload.data || []
 
         })
 
@@ -168,6 +206,7 @@ export const bookSlice = createSlice({
             state.bookPromotionByTime = action.payload.data.data || []
         })
 
+        
         //fetchBookPromotionsByIdStore
         builder.addCase(actFetchPromotionByStoreId.pending, (state) => {
             state.isLoading = true;
@@ -185,7 +224,39 @@ export const bookSlice = createSlice({
             state.bookPromotionByIdStore = action.payload.data.data || []
         })
         
+        //fetchDetailPromotion
+        builder.addCase(actFetchDetailPromotion.pending, (state) => {
+            state.isLoading = true;
+        });
 
+        builder.addCase(actFetchDetailPromotion.rejected, (state) => {
+            state.errors = {
+                errors: "Có lỗi xảy ra!"
+            };
+            state.isLoading = false
+            toast.warning(state.errors);
+        });
+        builder.addCase(actFetchDetailPromotion.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.promotion = action.payload.data.data || []
+        })
+        //fetchPromotionByIdPromotion
+        builder.addCase(actFetchPromotionByIdPromotion.pending, (state) => {
+            state.isLoading = true;
+        });
+
+        builder.addCase(actFetchPromotionByIdPromotion.rejected, (state) => {
+            state.errors = {
+                errors: "Có lỗi xảy ra!"
+            };
+            state.isLoading = false
+            toast.warning(state.errors);
+        });
+        builder.addCase(actFetchPromotionByIdPromotion.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.promotionByPromotion = action.payload.data.data || {}
+        })
+        
     }
 })
 
@@ -232,9 +303,34 @@ export const actUpdateBook = (id, payload) => async (dispatch) => {
 export const actCreatePromotion = (payload) => async (dispatch) => {
     try {
         await fetchCreatePromotion(payload);
-        await dispatch(actFetchAllBook());
+        await dispatch(actFetchPromotionByStoreId(payload.storeId));
         dispatch(actUpdateLoadingCreate(true));
         toast.success('Thêm thành công')
+    } catch (error) {
+        console.log(error);
+    } finally {
+        dispatch(actUpdateLoadingCreate(false))
+    }
+}
+
+export const actDeletePromotion = (id, storeId) => async (dispatch) => {
+    try {
+        await fetchDeletePromotion(id);
+        await dispatch(actFetchPromotionByStoreId(storeId));
+        dispatch(actUpdateLoadingCreate(true));
+        toast.success('Thành công')
+    } catch (error) {
+        console.log(error);
+    } finally {
+        dispatch(actUpdateLoadingCreate(false))
+    }
+}
+
+export const actUpdatePromotion = (id, payload) => async (dispatch) => {
+    try {
+        await fetchUpdatePromotion(id, payload);
+        dispatch(actUpdateLoadingCreate(true));
+        toast.success('Thành công')
     } catch (error) {
         console.log(error);
     } finally {

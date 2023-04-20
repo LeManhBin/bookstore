@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-
+    height: 100vh;
     .heading {
 
         &-links {
@@ -106,6 +106,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-direction: column;
 
 
             .desc-card {

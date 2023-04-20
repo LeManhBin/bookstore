@@ -1,10 +1,11 @@
 import React from 'react'
 import './Comment.scss'
+import { IMG_URL } from '../../constants/config';
 const Comment = ({data}) => {
 
   return (
     <div className='comment'>
-        <img src={`data:image/jpeg;base64,${data?.image}`} alt="avatar"  className='avatar'/>  
+        <img src={`${IMG_URL}${data.avatar}`} alt="avatar"  className='avatar'/>  
         <div className='comment-desc'>
             <div className="star">
                 {

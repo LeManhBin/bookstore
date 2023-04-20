@@ -101,6 +101,21 @@
 
                 .desc {
                     font-size: 12px;
+
+                    .tags-container {
+                        display: flex;
+                        align-items: center;
+                        gap: 20px;
+
+                        .tag {
+                            background-color: #F65D4E;
+                            font-weight: bold;
+                            padding: 2px 4px;
+                            border-radius: 5px;
+                            color: #fff;
+
+                        }
+                    }
                 }
             }
 

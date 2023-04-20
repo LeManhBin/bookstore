@@ -6,6 +6,11 @@ export const fetchAllDataBook =  async () => {
     return  res;
 }
 
+export const fetchBookBestSelling = async() => {
+    const res = await axios.get(`${BE_URL}book/bestselling`);
+    return res
+}
+
 export const fetchDataBookById =  async (id) => {
     const res = await axios.get(`${BE_URL}book/${id}`);
     return res;
@@ -56,7 +61,22 @@ export const fetchPromotionByIdStore = async (id) => {
     return res
 }
 
-// export const fetchPromotionByIdStore = async (id) => {
-//     const res = await axios.get(`${BE_URL}promotions/book/${id}`);
-//     return res
-// }
+export const fetchPromotionByIdPromotion = async (id) => {
+    const res = await axios.get(`${BE_URL}promotion/${id}`);
+    return res
+}
+
+export const fetchDetailPromotion= async (idStore, idPromotion) => {
+    const res = await axios.get(`${BE_URL}promotions/book/${idStore}/${idPromotion}`);
+    return res
+}
+
+export const fetchDeletePromotion = async (id) => {
+    const res = await axios.delete(`${BE_URL}promotion/${id}`);
+    return res
+}
+
+export const fetchUpdatePromotion = async (id, payload) => {
+    const res = await axios.put(`${BE_URL}promotion/${id}`, payload);
+    return res
+}

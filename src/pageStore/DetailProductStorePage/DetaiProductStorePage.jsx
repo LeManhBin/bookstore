@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { actFetchBookById } from '../../redux/features/bookSlice/bookSlice'
 import AdminHeading from '../../components/AdminHeading/AdminHeading'
 import ReactQuill from 'react-quill'
+import { IMG_URL } from '../../constants/config'
 const DetailProductStorePage = () => {
   const param = useParams()
   const dispatch = useDispatch()
@@ -31,7 +32,7 @@ const DetailProductStorePage = () => {
                     {
                         book?.images?.map((img, index) => {
                             return(
-                                <img src={`data:image/jpeg;base64,${img}`} alt="Avatar" key={index}/>
+                                <img src={`${IMG_URL}${img}`} alt="Avatar" key={index}/>
                             )
                         })
                     }
@@ -70,7 +71,13 @@ const DetailProductStorePage = () => {
               </div>
               <div className="form-input">
                   <label htmlFor="" className='label'><span className='tick'>(*)</span>Chủ đề</label>
-                  <p></p>
+                    {
+                        book?.tags?.map(tag => {
+                            return(
+                                <p key={tag.id}>{tag.name}</p>
+                            )
+                        })
+                    }   
               </div>
           </div>
           <div className="add-new-container">
@@ -97,10 +104,6 @@ const DetailProductStorePage = () => {
               <div className="form-input">
                   <label htmlFor="" className='label'><span className='tick'>(*)</span>Chiều rộng</label>
                   <p>{book?.width}</p>
-              </div>
-              <div className="form-input">
-                  <label htmlFor="" className='label'><span className='tick'>(*)</span>Bề dày</label>
-                  <p>{book?.weight}</p>
               </div>
               <div className="form-input">
                   <label htmlFor="" className='label'><span className='tick'>(*)</span>Trọng lượng</label>

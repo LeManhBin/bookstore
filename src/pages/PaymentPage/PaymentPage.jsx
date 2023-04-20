@@ -70,7 +70,7 @@ const PaymentPage = () => {
         let totalPayment = 0;
         allPayment.forEach((item) => {
           item.cartDetails.forEach((itemChild) => {
-              totalPayment += itemChild.amount * itemChild.price;
+              totalPayment += (itemChild.price - (itemChild.price * (itemChild.discount/100))) *itemChild.amount ;
           });
         });
         setTotalPayment(totalPayment);
@@ -84,18 +84,7 @@ const PaymentPage = () => {
       useEffect(() => {
           dispatch(actFetchAllDataCartByIdUser(user?.id))
       },[])
-  
-    const handleIncre = (item) => {
-      let quantity = item.amount
-      quantity++
-      dispatch(actChangeQuantity(item, quantity, idUser))
-    }
-  
-    const handleDecre = (item) => {
-      let quantity = item.amount
-      quantity--
-      dispatch(actChangeQuantity(item, quantity, idUser))
-    }
+
 
     const handlePayment = (e) => {
         e.preventDefault()
@@ -134,8 +123,6 @@ const PaymentPage = () => {
                             <th>Hình ảnh</th>
                             <th>Tên sản phẩm</th>
                             <th>Giá</th>
-                            {/* <th>Số lượng</th> */}
-                            <th>Đơn giá</th>
                             <th>Thao Tác</th>
                         </tr>
                         </thead>
@@ -160,19 +147,13 @@ const PaymentPage = () => {
                                     </th>
                                     <th></th>
                                     <th></th>
-                                    {/* <th></th> */}
-                                    <th></th>
                                     <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {items.map((item, index) => {
                                     let price = item.cartDetails[index].price;
-                                    let formattedPrice = price.toLocaleString('vi-VN', {
-                                        style: 'currency',
-                                        currency: 'VND',
-                                    });
-                                    let totalPrice = item.cartDetails[index].price * item.cartDetails[index].amount;
+                                    let totalPrice = (item.cartDetails[index].price - (item.cartDetails[index].price * (item.cartDetails[index].discount/100))) * item.cartDetails[index].amount;
                                     let formattedTotalPrice = totalPrice.toLocaleString('vi-VN', {
                                         style: 'currency',
                                         currency: 'VND',
@@ -183,12 +164,6 @@ const PaymentPage = () => {
                                             <img src={`${IMG_URL}${itemChild.image}`} alt='Product' style={{width: '100%', height: '100%', objectFit: 'cover'}}/>
                                         </td>
                                         <td className='name'>{itemChild?.name}</td>
-                                        <td className='price'>{formattedPrice}</td>
-                                        {/* <td className='button'>
-                                        <button onClick={() => handleDecre(itemChild)}>-</button>
-                                        <input type='number' min={1} value={itemChild.amount} />
-                                        <button onClick={() => handleIncre(itemChild)}>+</button>
-                                        </td> */}
                                         <td>${formattedTotalPrice}</td>
                                         <td className='button'>
                                         <button onClick={() => handleRemove(itemChild)}>Gỡ</button>

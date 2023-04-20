@@ -31,6 +31,12 @@ const StoreListPage = () => {
 
   const totalPage = allStore.length
 
+  const handleFilterStore = () => {
+    return allStore?.filter((store) => {
+      return store?.name?.toLowerCase()?.includes(searchTerm.toLowerCase());
+    }).slice(firstPageIndex, lastPageIndex);
+  }
+
   // const handleAddNewPage = () => {
   //   navigate('/admin/add-new-store')
   // }
@@ -81,7 +87,7 @@ const StoreListPage = () => {
                 </thead>
                 <tbody>
                     {
-                      currentItems.map((store, index)=> {
+                      handleFilterStore().map((store, index)=> {
                         let status;
                         if(store?.status === 0) {
                           status = "Đang Hoạt Động"

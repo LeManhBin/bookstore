@@ -41,7 +41,7 @@ const RegisterServicePage = () => {
         }
     },[payCode] )
 
-    console.log(payCode,'ngoài');
+
 
     return (
         <div className='register-service'>
@@ -56,7 +56,7 @@ const RegisterServicePage = () => {
                                 <div className='service-desc'>
                                     <p className='name'>Tên gói: <span>{service?.name}</span></p>
                                     <p className='price'>Cước phí: <span>{service?.price}</span></p>
-                                    <p className='quantity'>Số lượng: <span>{service?.quantityProduct}</span></p>
+                                    {/* <p className='quantity'>Số lượng: <span>{service?.quantityProduct}</span></p> */}
                                 </div>
                                 <ul className='service-act'>
                                     <li onClick={() => handleRegister(service.price)}>Đăng ký</li>

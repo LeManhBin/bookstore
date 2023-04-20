@@ -31,6 +31,15 @@ const ProductDetailPage = () => {
 
     const priceAfterDiscount = book.price - (book.price * (book.discount/100)) 
 
+    let formattedPrice = book?.price?.toLocaleString('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+    });
+    let formattedpriceAfterDiscount = priceAfterDiscount.toLocaleString('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+    });
+
     useEffect(() => {
         setIsLoaded(!isLoading);
     }, [isLoading]);
@@ -96,6 +105,7 @@ const ProductDetailPage = () => {
     const handleAddToCard = () => {
         dispatch(actCreateCart(cartState))
     }
+
     
   return (
     <>
@@ -105,7 +115,7 @@ const ProductDetailPage = () => {
             <div className='product-detail-content'>
                 <div className='left'>
                 {cardState.images && cardState.images.length > 0 && (
-                        <img src={`${IMG_URL}${book?.image}`} alt="Product" />
+                        <img src={`${IMG_URL}${book?.images[0]}`} alt="Product" />
                 )}
                 </div>
     
@@ -132,14 +142,23 @@ const ProductDetailPage = () => {
                         }
                         <div className='price'>
                             {
-                                (book?.discount > 0) && <span className='adv-price'>${book?.price}</span>
+                                (book?.discount > 0) && <span className='adv-price'>{formattedPrice}</span>
                             }
-                            <span className='later-price'>${priceAfterDiscount}</span>
+                            <span className='later-price'>{formattedpriceAfterDiscount}</span>
                         </div>
                         <div className='desc'>
                             <p>Thể Loại: <span>{book?.category}</span></p>
                             <p>Nhà xuất bản: <span>{book?.publishing}</span></p>
                             <p>Số lượng: <span>{book?.quantity}</span></p>
+                            <p className='tags-container'>
+                                {
+                                    book?.tags.map(tag => {
+                                        return(
+                                            <span className='tag' key={tag.id}>{tag.name}</span>
+                                        )
+                                    })
+                                }
+                            </p>
                         </div>
                     </div>
                     <div className='bot'>
@@ -208,7 +227,7 @@ const ProductDetailPage = () => {
                 </div>
                 <div className='related'>
                     {
-                        bookByCategory.slice(0,4).map(data => {
+                        bookByCategory.filter(book => book.status === 0).slice(0,4).map(data => {
                             return(
                                 <div key={data?.id}>
                                     <Card data={data}/>

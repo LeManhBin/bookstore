@@ -1,13 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { cardData } from '../../constants/cartData'
 import './TopProduct.scss'
+import { useDispatch, useSelector } from 'react-redux'
+import { IMG_URL } from '../../constants/config'
+import { actFetchAllBook } from '../../redux/features/bookSlice/bookSlice'
 const TopProduct = () => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const {allBook} = useSelector((state) => state.book)
 
+    useEffect(() => {
+        dispatch(actFetchAllBook())
+    },[])
+    
     const handleClickDetail = (id) => {
         navigate(`/product/${id}`)
     }
+
   return (
     <div className='top__product'>
         <div className='top__product--heading'>
@@ -15,11 +24,11 @@ const TopProduct = () => {
         </div>
         <div className='top__product--container'>
             {
-                cardData.slice(0,6).map((data, index) => {
+                allBook?.data?.slice(0,6).map((data, index) => {
                     return(
                         <div className='product-box'  key={data.id} onClick={() => handleClickDetail(data.id)}> 
                             <div className='product-img'>
-                                <img src={data.img} alt="" />
+                                <img src={`${IMG_URL}${data.images[0]}`} alt="" />
                                 <span className='top'>{index + 1}</span>
                             </div>
                             <div className='product-desc'>

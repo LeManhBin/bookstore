@@ -79,61 +79,61 @@ const AddPromotionPage = () => {
     }
   return (
     <div className='add-new-promotion'>
-    <div className="heading">
-        <AdminHeading title={'Thêm mới khuyến mãi'}/>
-    </div>
-    <form onSubmit={handleSubmit}>
-        <div className='left'>
-            <div className="form-input">
-                <label htmlFor="">Tên Khuyến mãi</label>
-                <input type="text" name='name' value={formState.name} onChange={handleOnChange}/>
+            <div className="heading">
+                <AdminHeading title={'Thêm mới khuyến mãi'}/>
             </div>
-            <div className="form-input">
-                <label htmlFor="">Tỷ lệ KM</label>
-                <input type="number" min={0} max={100} name='discount' value={formState.discount} onChange={handleOnChange}/>
-            </div>
-            <div className="form-input">
-                <label htmlFor="">Ngày bắt đầu</label>
-                {/* <DatePicker
-                    selected={startDate}
-                    minDate={new Date()}
-                    onChange={handleStartDate}
-                    disabled={true}
-                /> */}
-                <input type="date" value={startDate} disabled={true}/>
-            </div>
-            <div className="form-input">
-                <label htmlFor="">Ngày kết thúc</label>
-                {/* <DatePicker
-                    selected={endDate}
-                    minDate={new Date()}
-                    onChange={(date) => handleEndDate(date)}
-                /> */}
-                <input type="date" name='endDate' value={endDate} onChange={handleEndDate}/>
-            </div>
-            <div className="button-btn">
-                <button type='submit'>Thêm mới</button>
-            </div>
+            <form onSubmit={handleSubmit}>
+                <div className='left'>
+                    <div className="form-input">
+                        <label htmlFor="">Tên Khuyến mãi</label>
+                        <input type="text" name='name' value={formState.name} onChange={handleOnChange}/>
+                    </div>
+                    <div className="form-input">
+                        <label htmlFor="">Tỷ lệ KM</label>
+                        <input type="number" min={0} max={100} name='discount' value={formState.discount} onChange={handleOnChange}/>
+                    </div>
+                    <div className="form-input">
+                        <label htmlFor="">Ngày bắt đầu</label>
+                        {/* <DatePicker
+                            selected={startDate}
+                            minDate={new Date()}
+                            onChange={handleStartDate}
+                            disabled={true}
+                        /> */}
+                        <input type="date" value={startDate} disabled={true}/>
+                    </div>
+                    <div className="form-input">
+                        <label htmlFor="">Ngày kết thúc</label>
+                        {/* <DatePicker
+                            selected={endDate}
+                            minDate={new Date()}
+                            onChange={(date) => handleEndDate(date)}
+                        /> */}
+                        <input type="date" name='endDate' value={endDate} onChange={handleEndDate}/>
+                    </div>
+                    <div className="button-btn">
+                        <button type='submit'>Thêm mới</button>
+                    </div>
+                </div>
+                <div className="right">
+                    <div className='title'>
+                        <h5>Danh sách sản phẩm</h5>
+                    </div>
+                    <div className='product-list'>
+                        {
+                            bookPromotionByTime.map(book => {
+                                return(
+                                    <div className="product" key={book?.id}>
+                                        <input type="checkbox" value={Number(book.id)} name={book.id} checked={productChecked.includes(book.id)} onChange={handleCheckboxChange}/>
+                                        <label htmlFor="">{book?.name}</label>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                </div>
+            </form>
         </div>
-        <div className="right">
-            <div className='title'>
-                <h5>Danh sách sản phẩm</h5>
-            </div>
-            <div className='product-list'>
-                {
-                    bookPromotionByTime.map(book => {
-                        return(
-                            <div className="product" key={book?.id}>
-                                <input type="checkbox" value={Number(book.id)} name={book.id} checked={productChecked.includes(book.id)} onChange={handleCheckboxChange}/>
-                                <label htmlFor="">{book?.name}</label>
-                            </div>
-                        )
-                    })
-                }
-            </div>
-        </div>
-    </form>
-</div>
   )
 }
 

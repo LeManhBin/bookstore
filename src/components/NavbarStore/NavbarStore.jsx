@@ -17,8 +17,6 @@ const NavbarStore = () => {
     useEffect(() => {
         dispatch(actFetchStoreById(user.storeId))
     },[user])
-
-    console.log(store);
     
   return (
     <div className='navbar-store'>

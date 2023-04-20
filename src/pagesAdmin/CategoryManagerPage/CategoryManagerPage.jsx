@@ -11,12 +11,13 @@ import Pagination from '../../components/Pagination/Pagination';
 import ModalDelete from '../../components/Modal/ModalDelete';
 import ModalAcces from '../../components/ModalAcces/ModalAcces';
 import Loading from '../../components/Loading/Loading';
+import { IMG_URL } from '../../constants/config';
+import FormData from 'form-data';
 
 
 
 const initialFormValue = {
   name: '',
-  thumbnail: '',
 }
 const CategoryManagerPage = () => {
   const [isEdit, setIsEdit] = useState(false)
@@ -25,7 +26,7 @@ const CategoryManagerPage = () => {
   const {isLoading} = useSelector((state) => state.category)
   const {allCategory} = useSelector((state) => state.category)
   const {category} = useSelector((state) => state.category)
- 
+  const [thumbnail, setThumbnail] = useState(null)
   const [formUpdate, setFormUpdate] = useState(category)
 
   const dispatch = useDispatch()
@@ -39,6 +40,19 @@ const CategoryManagerPage = () => {
 
   const totalPage = allCategory.length
 
+  const handlePreviewThumbnail = (e) => {
+    const file = e.target.files[0]
+    file.preview = URL.createObjectURL(file)
+    setThumbnail(file)
+    e.target.value = null
+  }
+
+  useEffect(() => {
+      return () => {
+        thumbnail && URL.revokeObjectURL(thumbnail.preview)
+      }
+
+  },[thumbnail])
 
 
   useEffect(() => {
@@ -62,12 +76,11 @@ const CategoryManagerPage = () => {
   const {control, handleSubmit, formState: {errors}, reset} = methods
 
   const onValid = (values) => {
-    const payload = {
-      name: values.name,
-      thumbnail: values.thumbnail,
-    }
-    dispatch(actCreateCategory(payload))
 
+    const formData =  new FormData();
+    formData.append("object", JSON.stringify(values));
+    formData.append("file", thumbnail);
+    dispatch(actCreateCategory(formData))
     reset();
   }
 
@@ -93,11 +106,20 @@ const CategoryManagerPage = () => {
     })
   }
 
+
   const onUpdate = (e) => {
     e.preventDefault()
-    dispatch(actUpdateCategory(idTemp,formUpdate))
-    setIsEdit(false)
+    const data = {
+      name: formUpdate.name,
+      thumbnail: thumbnail.preview,
+      status: formUpdate.status,
+    }
+    const formData =  new FormData();
+    formData.append("object", JSON.stringify(data));
+    formData.append("file", thumbnail);
+    dispatch(actUpdateCategory(idTemp,formData))
     setFormUpdate("")
+    setIsEdit(false)
   }
 
 
@@ -113,7 +135,7 @@ const CategoryManagerPage = () => {
                     <tr>
                       <th>STT</th>
                       <th>Tên Danh Mục</th>
-                      <th>Icon</th>
+                      <th>Thumbnail</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -124,7 +146,9 @@ const CategoryManagerPage = () => {
                             <tr key={data.id}>
                               <td>{index + 1}</td>
                               <td>{data?.name}</td>
-                              <td>{data?.thumbnail}</td>
+                              <td className='image'>
+                                <img src={`${IMG_URL}${data?.thumbnail}`} alt=""  />
+                              </td>
                               <td className='button'>
                                 <button className='edit-btn' onClick={() => handleIsEdit(data)}><i className="fa-regular fa-pen-to-square"></i></button>
                                 <button className='delete-btn' onClick={() => handleModalDelete(data.id)}><i className="fa-sharp fa-solid fa-trash"></i></button>
@@ -173,17 +197,18 @@ const CategoryManagerPage = () => {
                         <label htmlFor="">Icon <span className='tick'>*</span></label>
                          {
                           isEdit ?
-                          <input name='thumbnail' value={formUpdate?.thumbnail} onChange={handleOnChange} type="text" placeholder='Nhập tên danh mục'/>
+                          <div className='image-input'>
+                              <img src={`${thumbnail ?  thumbnail.preview : `${IMG_URL}${formUpdate?.thumbnail}`}  `} />
+                              <input type="file" id="file-input" name='thumbnail' onChange={(e) => handlePreviewThumbnail(e) }/>
+                              <label htmlFor="file-input" id="custom-button">Chọn ảnh</label>
+                          </div>
                           :
                           <>
-                            <Controller
-                              name='thumbnail'
-                              control={control}
-                              render={({field: {value, onChange}})  => (
-                                <input name='thumbnail' value={isEdit ? formUpdate.thumbnail : value} onChange={isEdit ? handleOnChange : onChange} type="text" placeholder='Nhập Icon'/>
-                              )}
-                            />
-                            {!!errors.thumbnail && <span style={{color: 'red', textAlign:'center', fontSize: '12px'}}>{errors.thumbnail.message}</span>}
+                            <div className='image-input'>
+                                <img src={`${thumbnail ?  thumbnail.preview : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}`} />
+                                <input type="file" id="file-input" name='thumbnail' onChange={(e) => handlePreviewThumbnail(e) }/>
+                                <label htmlFor="file-input" id="custom-button">Chọn ảnh</label>
+                            </div>
                           </>
                           
                         }

@@ -43,7 +43,7 @@ const CartPage = () => {
     cartItems.forEach((item) => {
       item.cartDetails.forEach((itemChild) => {
         if (cartChecked.includes(itemChild.id)) {
-          totalPayment += itemChild.amount * itemChild.price;
+          totalPayment += (itemChild.price - (itemChild.price * (itemChild.discount/100))) *itemChild.amount ;
         }
       });
     });
@@ -72,10 +72,6 @@ const CartPage = () => {
     dispatch(actChangeQuantity(item, quantity, idUser))
   }
 
-  // useEffect(() => {
-  //   // dispatch(actGetTotal())
-  // },[cartItems])
-
   const handleCheckboxChange = (event) => {
     const value = event.target.value;
     const isChecked = event.target.checked;
@@ -88,6 +84,7 @@ const CartPage = () => {
   };
 
 
+
   const handleSubmit = () => {
     if(cartChecked.length == 0) {
       toast.warning('Bạn chưa chọn sản phẩm nào')
@@ -97,7 +94,6 @@ const CartPage = () => {
     }
 
   }
-
 
   return (
     <>
@@ -142,7 +138,7 @@ const CartPage = () => {
                          <input type="checkbox" />
                        </th>
                        <th>
-                         <h4>{storeName}</h4>
+                         <h4 style={{cursor: 'pointer'}}>{storeName}</h4>
                        </th>
                        <th></th>
                        <th></th>
@@ -158,13 +154,18 @@ const CartPage = () => {
                          style: 'currency',
                          currency: 'VND',
                        });
-                       let totalPrice =
-                         item.cartDetails[index].price * item.cartDetails[index].amount;
+                       let totalPrice = (item.cartDetails[index].price - (item.cartDetails[index].price * (item.cartDetails[index].discount/100))) * item.cartDetails[index].amount;
+                       let priceAfterDiscount = (item.cartDetails[index].price - (item.cartDetails[index].price * (item.cartDetails[index].discount/100)))
+                       let formattedPriceAfterDiscount = priceAfterDiscount.toLocaleString('vi-VN', {
+                        style: 'currency',
+                        currency: 'VND',
+                      });
                        let formattedTotalPrice = totalPrice.toLocaleString('vi-VN', {
                          style: 'currency',
                          currency: 'VND',
                        });
                        return item.cartDetails.map((itemChild) => (
+                        
                          <tr key={itemChild?.id}>
                            <td>
                            <input type="checkbox" value={Number(itemChild.id)} name={itemChild.id} checked={cartChecked.includes(itemChild.id)} onChange={handleCheckboxChange}/> 
@@ -176,13 +177,24 @@ const CartPage = () => {
                              />
                            </td>
                            <td className='name'>{itemChild?.name}</td>
-                           <td className='price'>{formattedPrice}</td>
+                           <td className='price'>
+                            {
+                              itemChild.discount > 0 ? 
+                              (   
+                                  <>
+                                    <p style={{textDecoration: 'line-through'}}>{formattedPrice}</p>
+                                    <p>{formattedPriceAfterDiscount}</p>
+                                  </>
+                              ):
+                              <p>{formattedPrice}</p>
+                            }
+                           </td>
                            <td className='button'>
                              <button onClick={() => handleDecre(itemChild)}>-</button>
                              <input type='number' min={1} value={itemChild.amount} />
                              <button onClick={() => handleIncre(itemChild)}>+</button>
                            </td>
-                           <td>${formattedTotalPrice}</td>
+                           <td className='total-price'>${formattedTotalPrice}</td>
                            <td className='button'>
                              <button onClick={() => handleRemove(itemChild)}>Gỡ</button>
                            </td>

@@ -78,10 +78,10 @@ const UpdateService = () => {
                 <label htmlFor="">Cước gói</label>
                 <input required type="text" name='price' value={formState?.price} onChange={handleOnChange} placeholder='Nhập cước gói'/>
             </div>
-            <div className="form-input">
+            {/* <div className="form-input">
                 <label htmlFor="">Số sản phẩm</label>
                 <input required type="text" name='quantityProduct' value={formState?.quantityProduct} onChange={handleOnChange} placeholder='Nhập số sản phẩm'/>
-            </div>
+            </div> */}
             <div className="form-input">
                 <label htmlFor="">Thời hạn</label>
                 <input required type="number" name='expirationDate' value={formState?.expirationDate} onChange={handleOnChange} placeholder='Nhập thời hạn'/>

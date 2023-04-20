@@ -31,7 +31,6 @@ const Header = () => {
         navigate('/login-layout')
     }
 
-    console.log(user, 'heading');
   return (
     <div className='header'>
         <div className='header__left'>
@@ -42,7 +41,7 @@ const Header = () => {
                 <li className='link'><NavLink style={styleActive} to={"/"}> Home</NavLink></li>
                 <li className='link'><NavLink style={styleActive} to={"/product"}> Product</NavLink></li>
                 <li className='link'><NavLink style={styleActive} to={"/vendor"}> Vendor</NavLink></li>
-                <li className='link'><NavLink style={styleActive} to={"/blog"}> Blog</NavLink></li>
+                {/* <li className='link'><NavLink style={styleActive} to={"/blog"}> Blog</NavLink></li> */}
                 <li className='link'><NavLink style={styleActive} to={"/contact"}> Contact</NavLink></li>
             </ul>
         </div>

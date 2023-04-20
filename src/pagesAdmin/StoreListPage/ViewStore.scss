@@ -31,6 +31,7 @@
                 bottom: 0;
                 object-fit: cover;  
                 width: 100%;
+                filter: brightness(1);
             }
 
             .thumbnail-desc {
@@ -58,17 +59,24 @@
     
                     .name {
                         font-weight: bold;
-                        font-weight: 18px;
+                        font-size: 22px;
                         color: #fff;
                     }
     
                     .address {
-                        color: #fff;
+                        color: #404258;
                         font-size: 14px;
+                        font-weight: 600;
+                    }
+                    .email {
+                        color: #404258;
+                        font-size: 14px;
+                        font-weight: 600;
                     }
                     .phone {
-                        color: #fff;
+                        color: #404258;
                         font-size: 14px;
+                        font-weight: 600;
                     }
                 }
             }

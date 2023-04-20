@@ -13,21 +13,10 @@ const ViewStore = () => {
   const {store} = useSelector((state) => state.store)
   const {bookByStore} = useSelector((state) => state.book)
   const [isDetail, setIsDetail] = useState(true)
-  const [isAllProduct, setIsAllProduct] = useState(false)
+  const [isAllProduct, setIsAllProduct] = useState(true)
   const [isStatistical, setIsStatistical] = useState(false)
 
-
-  const handleSetImage = () => {
-    if (store && store.file && store.file.length > 0) {
-      setAvatar(store?.file[0])
-      setCoverImage(store?.file[1])
-    }
-  }
-
-  useEffect(() => {
-    handleSetImage()
-  },[store])
-
+  const productStore = bookByStore.length
 
   const handleDetail = () => {
     setIsDetail(true)
@@ -64,6 +53,7 @@ const ViewStore = () => {
                   <div className='desc'>
                     <p className='name'>{store?.data?.name}</p>
                     <p className='address'>{store?.data?.address}</p>
+                    <p className='email'>{store?.data?.email}</p>
                     <p className='phone'>{store?.data?.phone}</p>
                   </div>
                 </div>
@@ -72,7 +62,7 @@ const ViewStore = () => {
                 <div className='_left'>
                     <div className='content'>
                       <i className="fa-solid fa-box"></i>
-                      <p>Sản Phẩm: <span>10</span></p>
+                      <p>Sản Phẩm: <span>{productStore}</span></p>
                     </div>
                     <div className='content'>
                       <i className="fa-solid fa-box"></i>
@@ -93,16 +83,16 @@ const ViewStore = () => {
         </div>
         <div className='bottom'>
             <ul className='links'>
-               <li onClick={handleDetail} style={{color: `${isDetail ? '#F65D4E' : '#000'}`, borderBottom: `${isDetail ? '2px solid #F65D4E' : 'none'}`}} >Thông tin cửa hàng</li>
+               {/* <li onClick={handleDetail} style={{color: `${isDetail ? '#F65D4E' : '#000'}`, borderBottom: `${isDetail ? '2px solid #F65D4E' : 'none'}`}} >Thông tin cửa hàng</li> */}
                <li onClick={handleAllProduct} style={{color: `${isAllProduct ? '#F65D4E' : '#000'}`, borderBottom: `${isAllProduct ? '2px solid #F65D4E' : 'none'}`}}>Tất cả sản phẩm</li>
                <li onClick={handleStatistical} style={{color: `${isStatistical ? '#F65D4E' : '#000'}`, borderBottom: `${isStatistical ? '2px solid #F65D4E' : 'none'}`}}>Thống kê</li>
             </ul>
-            {
+            {/* {
               isDetail && 
               <div className='detail-store-page'>
                   <h1>Trang thông tin sản phẩm</h1>
               </div>
-            }
+            } */}
             {
               isAllProduct &&
               <div className="all-product-page">

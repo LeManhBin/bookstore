@@ -4,7 +4,7 @@ import { actReplyContact } from '../../redux/features/contactSlice/contactSlice'
 import './ViewContact.scss'
 const ViewContact = ({setIsWatchContact, contactData}) => {
     const initialContact = {
-        name: "",
+        name: contactData.name,
         gmail: contactData.gmail,
         subject: "",
         content: "",
@@ -39,7 +39,7 @@ const ViewContact = ({setIsWatchContact, contactData}) => {
             ?
             <form onSubmit={handleSubmit}>
                 <div className='input-form'>
-                    <input required type="text" placeholder='Full Name' name='name' value={formContact.name} onChange={handleOnChange}/>
+                    <input required type="text" placeholder='Full Name' name='name' value={formContact.name} onChange={handleOnChange} disabled={true}/>
                     <input   type="email" placeholder='Your Email' name='gmail' value={formContact.gmail} />
                 </div>
                 <input required type="text" placeholder='Subject' name='subject' value={formContact.subject} onChange={handleOnChange}/>

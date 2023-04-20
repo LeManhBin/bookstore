@@ -12,7 +12,7 @@ import ModalAcces from '../../components/ModalAcces/ModalAcces';
 import { IMG_URL } from '../../constants/config';
 
 
-const AccountManagerPage = () => {
+const AccountAdmin = () => {
   const [isDelete, setIsDelete] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   const [idTemp, setIdtemp] = useState('')
@@ -28,14 +28,14 @@ const AccountManagerPage = () => {
   const [limit, setLimit] = useState(8)
   const lastPageIndex = currentPage * limit;
   const firstPageIndex = lastPageIndex - limit;
-  const currentItems = allUser.slice(firstPageIndex, lastPageIndex);
+  const currentItems = allUser.filter(user => user.role === 1).slice(firstPageIndex, lastPageIndex);
 
   const totalPage = allUser.length
 
   const handleFilterAccount = () => {
     return allUser?.filter((user) => {
       return user?.email?.toLowerCase()?.includes(searchTerm.toLowerCase());
-    }).filter(user => user.role === 0).slice(firstPageIndex, lastPageIndex);
+    }).filter(user => user.role === 1).slice(firstPageIndex, lastPageIndex);
   }
 
   useEffect(() => {
@@ -60,7 +60,7 @@ const AccountManagerPage = () => {
   return (
     <div className='manager'>
         <div className='heading'>
-            <AdminHeading title={'Quản lý tài khoản người dùng'}/>
+            <AdminHeading title={'Quản lý tài khoản quản trị viên'}/>
         </div>
         <div className='search'>
             <div className='search-input'>
@@ -147,4 +147,4 @@ const AccountManagerPage = () => {
   )
 }
 
-export default AccountManagerPage
+export default AccountAdmin

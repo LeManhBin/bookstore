@@ -16,6 +16,15 @@ const Card = ({data}) => {
 
     const priceAfterDiscount = data.price - (data.price * (data.discount/100)) 
 
+    let formattedPrice = data?.price?.toLocaleString('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+    });
+    let formattedpriceAfterDiscount = priceAfterDiscount.toLocaleString('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+    });
+
     const [cartState, setCartState] = useState(initialState)
 
     const handleSeeDetail = (id) => {
@@ -30,7 +39,6 @@ const Card = ({data}) => {
         dispatch(actCreateCart(cartState))
     }
 
-    console.log(data.image);
   return (
     <div className='card'>
         {
@@ -41,8 +49,8 @@ const Card = ({data}) => {
             ): (<></>)
         }
         <div className='card-img'>
-        {data.image && data.image.length > 0 && (
-                    <img src={`${IMG_URL}${data?.image}`} alt="Product" />
+        {data.images && data.images.length > 0 && (
+                    <img src={`${IMG_URL}${data?.images[0]}`} alt="Product" />
             )}
 
             <div className='card-action'>
@@ -69,9 +77,9 @@ const Card = ({data}) => {
             <span className='card-author'>{data?.author}</span>
             <div className='card-price'>
                 {
-                    (data.discount > 0) && <span className='adv-price'>${data?.price}</span>
+                    (data.discount > 0) && <span className='adv-price'>${formattedPrice}</span>
                 }
-                <span className='later-price'>${priceAfterDiscount}</span>
+                <span className='later-price'>${formattedpriceAfterDiscount}</span>
             </div>
         </div>
     </div>

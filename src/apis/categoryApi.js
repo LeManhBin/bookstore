@@ -22,6 +22,6 @@ export const fetchDeleteCategory = async (id) => {
 }
 
 export const fetchUpdateCategory = async (id, payload) => {
-    const res = await axios.put(`${BE_URL}category/${id}`, payload);
+    const res = await axios.post(`${BE_URL}category/${id}`, payload);
     return res.data
 }

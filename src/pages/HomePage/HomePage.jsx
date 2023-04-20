@@ -16,7 +16,7 @@ import { vendorData } from '../../constants/vendorData'
 import useScrollToTop from '../../hooks/useScrollToTop'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { actFetchAllBook } from '../../redux/features/bookSlice/bookSlice'
+import { actFetchAllBook, actFetchBookBestSelling } from '../../redux/features/bookSlice/bookSlice'
 import { actFetchAllStore } from '../../redux/features/storeSlice/storeSlice'
 import Loading from '../../components/Loading/Loading'
 const HomePage = () => {
@@ -78,41 +78,41 @@ const HomePage = () => {
     initialSlide: 0,
     autoplay: true,
     autoplaySpeed: 3000,
-    // responsive: [
-    //   {
-    //     breakpoint: 1200,
-    //     settings: {
-    //       slidesToShow: 2,
-    //       slidesToScroll: 3,
-    //       infinite: true,
-    //       dots: true
-    //     }
-    //   },
-    //   {
-    //     breakpoint: 1415,
-    //     settings: {
-    //       slidesToShow: 3,
-    //       slidesToScroll: 3,
-    //       infinite: true,
-    //       dots: true
-    //     }
-    //   },
-    //   {
-    //     breakpoint: 600,
-    //     settings: {
-    //       slidesToShow: 2,
-    //       slidesToScroll: 2,
-    //       initialSlide: 2
-    //     }
-    //   },
-    //   {
-    //     breakpoint: 480,
-    //     settings: {
-    //       slidesToShow: 1,
-    //       slidesToScroll: 1
-    //     }
-    //   }
-    // ]
+    responsive: [
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 1415,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
   };
   const dispatch = useDispatch()
   const {allBook} = useSelector((state) => state.book)
@@ -121,6 +121,7 @@ const HomePage = () => {
   const {isLoading} = useSelector((state) => state.book)
 
   const [isLoaded, setIsLoaded] = useState(false);
+
 
   useEffect(() => {
     setIsLoaded(!isLoading);
@@ -147,6 +148,7 @@ const HomePage = () => {
   const handleSearch = (searchTerm) => {
     navigate(`/product/search?payload=${searchTerm}`);
   }
+
   return  (
     <>
       {
@@ -192,7 +194,7 @@ const HomePage = () => {
                     {
                       <Slider {...settings}>
                           {
-                            slideData.map(data => {
+                            slideData?.map(data => {
                               return(
                                 <div key={data.id}>
                                     <img src={data.img} alt="" />
@@ -210,7 +212,7 @@ const HomePage = () => {
                     </div>
                     <div className='product-container'>
                       {
-                        allBook?.data?.slice(0,6).map(data => {
+                        allBook?.data?.filter(book => book.status === 0).slice(0,6).map(data => {
                           return (
                             <div key={data?.id}>
                               <Card data={data}/>
@@ -232,7 +234,7 @@ const HomePage = () => {
                     </div>
                     <div className='product-container'>
                       {
-                        allBook?.data?.filter(card => card.discount > 0).slice(0,6).map(data => {
+                        allBook?.data?.filter(book => book.status === 0).filter(card => card.discount > 0).slice(0,6).map(data => {
                           return (
                             <div key={data?.id}>
                               <Card data={data}/>
@@ -254,7 +256,7 @@ const HomePage = () => {
                         {
                           <Slider {...settingsVendor}>
                             {
-                              allStore.map(data => {
+                              allStore?.map(data => {
                                 return(
                                   <div key={data?.id}>
                                       <CardVendor data={data}/>

@@ -34,7 +34,7 @@ const ProductPage = () => {
   const [limit, setLimit] = useState(8)
   const lastPageIndex = currentPage * limit;
   const firstPageIndex = lastPageIndex - limit;
-  const currentItems = allBook?.data?.slice(firstPageIndex, lastPageIndex);
+  const currentItems = allBook?.data?.filter(book => book.status === 0).slice(firstPageIndex, lastPageIndex);
   const totalPage = allBook?.data?.length
 
   useEffect(() => {

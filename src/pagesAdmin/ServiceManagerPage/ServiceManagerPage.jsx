@@ -74,7 +74,7 @@ const ServiceManagerPage = () => {
                       <th>Tên gói</th>
                       <th>Hình ảnh</th>
                       <th>Cước Phí</th>
-                      <th>Số lượng</th>
+                      {/* <th>Số lượng</th> */}
                       <th>Thời hạn</th>
                       {/* <th>Trạng thái</th> */}
                       <th>Thao Tác</th>
@@ -91,7 +91,7 @@ const ServiceManagerPage = () => {
                                 <img src={`${IMG_URL}${service?.thumbnail}`} alt="service" />
                             </td>
                             <td>{service?.price}</td>
-                            <td>{service?.quantityProduct}</td>
+                            {/* <td>{service?.quantityProduct}</td> */}
                             <td>{service?.expirationDate}</td>
                             {/* <td>{service?.status}</td> */}
                             <td className='button'>

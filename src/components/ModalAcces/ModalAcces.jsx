@@ -1,9 +1,16 @@
 import React from 'react'
 import './ModalAccses.scss'
+import { KEY_USER } from '../../constants/config';
+import { toast } from 'react-toastify';
 const ModalAcces = ({setIsDelete, title, color, handleDelete, idTemp}) => {
+    const userCurrent = localStorage.getItem(KEY_USER) ? JSON.parse(localStorage.getItem(KEY_USER)) : {}
 
     const handleClick = () => {
+      if(idTemp === userCurrent.id){
+        toast.warning("Tài khoản đang online")
+      }else{
         handleDelete(idTemp)
+      }
         setIsDelete(false)
     }
   return (

@@ -38,7 +38,7 @@ import SaleRegisterPage from "./pages/SaleRegisterPage/SaleRegisterPage";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actReLogin } from "./redux/features/userSlice/userSlice";
-import { KEY_ACCESS_TOKEN } from "./constants/config";
+import { KEY_ACCESS_TOKEN, KEY_USER } from "./constants/config";
 import StoreLayout from "./layouts/StoreLayout/StoreLayout";
 import RevenueStorePage from "./pageStore/RevenueStorePage/RevenueStorePage";
 import OrderStorePage from "./pageStore/OrderStorePage/OrderStorePage";
@@ -57,6 +57,11 @@ import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import RegisterServicePage from "./pages/RegisterServicePage/RegisterServicePage";
 import ROR404 from "./components/ROR404/ROR404"
 import PaymentSuccess from "./components/PaymentSuccess/PaymentSuccess";
+import DetailPromotion from "./pageStore/DetailPromotion/DetailPromotion";
+import OrderDetailPage from "./pageStore/OrderDetailPage/OrderDetailPage";
+import UpdateProductPage from "./pageStore/UpdateProductPage/UpdateProductPage";
+import UpdatePromotionPage from "./pageStore/UpdatePromotionPage/UpdatePromotionPage";
+import AccountAdmin from "./pagesAdmin/AccountManagerPage/AccountAdmin";
 
 
 
@@ -70,7 +75,7 @@ function App() {
   }
   },[])
 
-  const userCurrent = localStorage.getItem("user")
+  const userCurrent = localStorage.getItem(KEY_USER) ? JSON.parse(localStorage.getItem(KEY_USER)) : {}
 
   return (
     <div className="App">
@@ -97,7 +102,7 @@ function App() {
           </Route>
           <Route path="sale-register" element={<SaleRegisterPage/>}/>
           <Route path="register-service" element={<RegisterServicePage/>}/>
-          <Route path="payment-success" element={<PaymentSuccess/>}/>
+          <Route path="payment-result" element={<PaymentSuccess/>}/>
           <Route path="/admin" element={(userCurrent.role === 0 ? <ROR404/> : <AdminLayout/>)}>
               <Route index element={<DashboardPage/>}/>
               <Route path="store-list" element={<StoreListPage/>}/>
@@ -105,7 +110,8 @@ function App() {
               <Route path="store-list/:idStore" element={<ViewStore/>}/>
               <Route path="category" element={<CategoryManagerPage/>}/>
               <Route path="topic" element={<TopicPage/>}/>
-              <Route path="account-manager" element={<AccountManagerPage/>}/>
+              <Route path="account-manager/user" element={<AccountManagerPage/>}/>
+              <Route path="account-manager/admin" element={<AccountAdmin/>}/>
               <Route path="add-new-account" element={<AddNewAccount/>}/>
               <Route path="account-manager/:idAccount" element={<UpdateAccount/>}/>
               <Route path="service" element={<ServiceManagerPage/>}/>
@@ -118,11 +124,15 @@ function App() {
           <Route path="/store" element={(userCurrent.storeId === 0 ? <ROR404/> : <StoreLayout/>)}>
               <Route index element={<RevenueStorePage/>}/>
               <Route path="order-store" element={<OrderStorePage/>}/>
+              <Route path="order-store/:idOrder" element={<OrderDetailPage/>}/>
               <Route path="add-product" element={<StoreAddProductPage/>}/>
               <Route path="detail-product/:idBook" element={<DetailProductStorePage/>}/>
+              <Route path="product/:idBook" element={<UpdateProductPage/>}/>
               <Route path="all-product" element={<AllProductPage/>}/>
               <Route path="add-promotion" element={<AddPromotionPage/>}/>
+              <Route path="update-promotion/:idPromotion" element={<UpdatePromotionPage/>}/>
               <Route path="list-promotion" element={<ListPromotionPage/>}/>
+              <Route path="promotion/:idPromotion" element={<DetailPromotion/>}/>
               <Route path="list-service" element={<ListServicePage/>}/>
               <Route path="profile-store" element={<ProfileStore/>}/>
           </Route>

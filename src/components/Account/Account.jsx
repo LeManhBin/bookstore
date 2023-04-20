@@ -23,7 +23,6 @@ const Account = () => {
         navigate('/account')
     }
 
-    console.log(user, 'account');
   return (
     <div className='account'>
         <div className='info'>

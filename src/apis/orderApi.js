@@ -21,4 +21,9 @@ export const fetchChangeOrderStatus = async (id, status) => {
     return res.data;
 };
 
+export const fetchDetailOrder = async (id) => {
+    const res = await axios.get(`${BE_URL}store/order/${id}`);
+    return res.data
+}
+
 
