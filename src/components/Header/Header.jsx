@@ -4,6 +4,7 @@ import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import {actLogout} from '../../redux/features/userSlice/userSlice'
 import { IMG_URL } from '../../constants/config'
+import { actFetchAllDataCartByIdUser } from '../../redux/features/cartSlice/cartSlice'
 const Header = () => {
     const navigate = useNavigate()
     const {isLogged} = useSelector((state) => state.user)
@@ -12,9 +13,16 @@ const Header = () => {
     const {user} = useSelector((state) => state.user)
     const [cartSize, setCartSize] = useState(cartItems.length)
 
+
     useEffect(() => {
-        setCartSize(cartItems.length)
-    },[cartItems])
+        dispatch(actFetchAllDataCartByIdUser(user?.id))
+    },[])
+
+    let totalItems = 0;
+
+    for (let i = 0; i < cartItems.length; i++) {
+        totalItems += cartItems[i].cartDetails.length;
+    }
  
     const styleActive = ({isActive}) => {
         return {
@@ -66,13 +74,13 @@ const Header = () => {
                         : <Link to={'/login-layout'}><i className="fa-regular fa-user"></i></Link>
                     }
                 </div>
-                <div className='wishlist'>
+                {/* <div className='wishlist'>
                     <NavLink style={styleActive} to={"/wish-list"}><i className="fa-regular fa-heart"></i></NavLink>
                     <span className='quantity'>4</span>
-                </div>
+                </div> */}
                 <div className='cart'>
                     <NavLink style={styleActive} to={"/cart"}><i className="fa-solid fa-cart-shopping"></i></NavLink>
-                    <span className="quantity">{cartSize}</span>
+                    <span className="quantity">{totalItems}</span>
                 </div>
             </div>
         </div>

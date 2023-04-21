@@ -7,6 +7,7 @@ import { Table } from 'react-bootstrap'
 import { actDeletePromotion, actFetchPromotionByStoreId } from '../../redux/features/bookSlice/bookSlice'
 import { useNavigate } from 'react-router-dom'
 import Pagination from '../../components/Pagination/Pagination'
+import Status from '../../components/Status/Status'
 
 const ListPromotionPage = () => {
   const dispatch = useDispatch()
@@ -49,7 +50,7 @@ const ListPromotionPage = () => {
   return (
     <div className='all-promotion-page'>
       <div className='heading'>
-        <AdminHeading title={'Danh sách gói dịch vụ'}/>
+        <AdminHeading title={'Danh sách khuyến mãi'}/>
       </div>
       <div className='search'>
         <div className='search-input'>
@@ -59,61 +60,49 @@ const ListPromotionPage = () => {
       </div>
       <div className='manager-container'>
       <div className='table'>
-                <Table striped bordered hover>
-                  <thead style={{backgroundColor: '#F65D4E', color: '#fff'}}>
-                    <tr>
-                      <th>ID</th>
-                      <th>Tên khuyễn mãi</th>
-                      <th>Tỉ lệ khuyến mãi</th>
-                      <th>Ngày bắt đầu</th>
-                      <th>Ngày kết thúc</th>
-                      <th>Trạng thái</th>
-                      <th>Thao Tác</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      handleFilterPromotion().map((data, index) => {
-                        let status
-                        if(data.status === 0 ) {
-                          status = "Đang hoạt động"
-                        }else {
-                          status = "Ngừng hoạt động"
-                        }
-                        return(
-                          <>
-                            <tr key={data?.id}>
-                              <td>{data?.id}</td>
-                              <td>{data.name}</td>
-                              <td>{data.discount}%</td>
-                              <td>{data.startDate}</td>
-                              <td>{data.endDate}</td>
-                              <td>{status}</td>
-                              <td className='button'>
-                                <button className='edit-btn' onClick={() => handleDetailPromotionPage(data.id)}><i className="fa-solid fa-eye"></i></button>
-                                <button className='edit-btn' onClick={() => handleUpdatePromotionPage(data.id)}><i className="fa-regular fa-pen-to-square"></i></button>
-                                <button className='delete-btn' onClick={() => handleDeletePromotion(data.id)}><i className="fa-sharp fa-solid fa-trash"></i></button>
-                              </td>
-                            </tr>
-                          </>
-                        )
-                      })
+            <Table striped bordered hover>
+              <thead style={{backgroundColor: '#F65D4E', color: '#fff'}}>
+                <tr>
+                  <th>ID</th>
+                  <th>Tên khuyễn mãi</th>
+                  <th>Tỉ lệ khuyến mãi</th>
+                  <th>Ngày bắt đầu</th>
+                  <th>Ngày kết thúc</th>
+                  <th>Trạng thái</th>
+                  <th>Thao Tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  handleFilterPromotion().map((data, index) => {
+                    let status
+                    if (data.status === 0) {
+                      status = <Status text={"Hoạt động"} className={"active"}/>
+                    }else {
+                      status = <Status text={"Ngừng hoạt động"} className={"stop"}/>
                     }
-        
-                    
-                  </tbody>
-                </Table>
-                {/* <div className='pagination'>
-                    <Pagination
-                    currentPage={currentPage}
-                    limit={limit}
-                    setCurrentPage={setCurrentPage}
-                    totalPage={totalPage}
-                    background={'#AEE2FF'}
-                />
-                </div> */}
-              </div>
-            <div className='pagination'>
+                    return(
+                        <tr key={data?.id}>
+                          <td>{data?.id}</td>
+                          <td>{data.name}</td>
+                          <td>{data.discount}%</td>
+                          <td>{data.startDate}</td>
+                          <td>{data.endDate}</td>
+                          <td>{status}</td>
+                          <td className='button'>
+                            <button className='edit-btn' onClick={() => handleDetailPromotionPage(data.id)}><i className="fa-solid fa-eye"></i></button>
+                            <button className='edit-btn' onClick={() => handleUpdatePromotionPage(data.id)}><i className="fa-regular fa-pen-to-square"></i></button>
+                            <button className='delete-btn' onClick={() => handleDeletePromotion(data.id)}><i className="fa-sharp fa-solid fa-trash"></i></button>
+                          </td>
+                        </tr>
+                    )
+                  })
+                }
+    
+                
+              </tbody>
+            </Table>
+            {/* <div className='pagination'>
                 <Pagination
                 currentPage={currentPage}
                 limit={limit}
@@ -121,7 +110,17 @@ const ListPromotionPage = () => {
                 totalPage={totalPage}
                 background={'#AEE2FF'}
             />
-            </div>
+            </div> */}
+          </div>
+        <div className='pagination'>
+            <Pagination
+            currentPage={currentPage}
+            limit={limit}
+            setCurrentPage={setCurrentPage}
+            totalPage={totalPage}
+            background={'#AEE2FF'}
+        />
+        </div>
 
       </div>
     </div>

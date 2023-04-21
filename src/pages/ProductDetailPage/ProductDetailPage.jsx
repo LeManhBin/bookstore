@@ -24,7 +24,6 @@ const ProductDetailPage = () => {
     const {evaluate} = useSelector((state) => state.evaluate)
     const {user} = useSelector((state) => state.user)
 
-    
     const {isLoading} = useSelector((state) => state.book)
 
     const [isLoaded, setIsLoaded] = useState(false);
@@ -152,9 +151,9 @@ const ProductDetailPage = () => {
                             <p>Số lượng: <span>{book?.quantity}</span></p>
                             <p className='tags-container'>
                                 {
-                                    book?.tags.map(tag => {
+                                    book?.tags?.map(tag => {
                                         return(
-                                            <span className='tag' key={tag.id}>{tag.name}</span>
+                                            <span className='tag' key={tag?.id}>{tag?.name}</span>
                                         )
                                     })
                                 }
@@ -166,7 +165,7 @@ const ProductDetailPage = () => {
                             <span>Quantity</span>
                             <div className="quantity-input">
                                 <button className='decrease' onClick={handleDecrease}>-</button>
-                                <input type="number" min={1} value={quantity}/>
+                                <input type="number" min={1} value={quantity} onChange={(e) => setQuantity(e.target.value)}/>
                                 <button className='increase' onClick={handleIncrease}>+</button>
                             </div>
                         </div>

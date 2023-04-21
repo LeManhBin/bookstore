@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { actFetchAllCategory } from '../../redux/features/categorySlice/categorySlide'
 import './CategoryList.scss'
+import { IMG_URL } from '../../constants/config'
 const CategoryList = () => {
   const {allCategory} = useSelector((state) => state.category)
   const dispatch = useDispatch()
@@ -23,8 +24,11 @@ const CategoryList = () => {
             {
               allCategory?.map(data => {
                 return(
-                  <div key={data.id}>
-                    <li onClick={() => handleFilterBook(data.id)}>{data.name}</li>
+                  <div key={data?.id}>
+                    <li onClick={() => handleFilterBook(data?.id)}>
+                      <img src={`${IMG_URL}${data?.thumbnail}`} alt="" className='thumbnail'/>
+                      {data?.name}
+                    </li>
                   </div>
                 )
               })

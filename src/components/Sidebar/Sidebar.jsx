@@ -97,7 +97,7 @@ const Sidebar = () => {
                 <li className='item'>
                     <div className='title' onClick={() => setShowItem4(!showItem4)}>
                         <div className="name">
-                            <i className="fa-solid fa-bell"></i>
+                            <i className="fa-solid fa-ticket"></i>
                             <span>Quản lý dịch vụ</span>
                         </div>
                         <i className="fa-solid fa-angle-down"></i>
@@ -134,7 +134,7 @@ const Sidebar = () => {
                 <li className='item'>
                     <div className='title' onClick={() => setShowItem7(!showItem7)}>
                         <div className="name">
-                            <i className="fa-solid fa-bell"></i>
+                            <i className="fa-solid fa-gear"></i>
                             <span>Cài đặt</span>
                         </div>
                         <i className="fa-solid fa-angle-down"></i>
@@ -142,7 +142,7 @@ const Sidebar = () => {
                     {
                         showItem7 && 
                         <ul className='links'>
-                            <Link to={'/admin/contact'}>
+                            <Link to={'/admin/config-slide'}>
                                 <li className='link'>Quản lý slide</li>
                             </Link>
                         </ul>

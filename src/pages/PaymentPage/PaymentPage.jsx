@@ -96,6 +96,8 @@ const PaymentPage = () => {
         })
     }
 
+    
+
     useEffect(() => {
         if (clicked) {
             dispatch(actCreateOrder(order))

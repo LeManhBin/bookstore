@@ -52,7 +52,7 @@ const VendorPage = () => {
               <div className="search-container">
                   <div className="search">
                     <input type="text" placeholder='Nhập tên cửa hàng cần tìm...' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
-                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <i className="fa-solid fa-magnifying-glass"></i>
                   </div>
               </div>
           </div>

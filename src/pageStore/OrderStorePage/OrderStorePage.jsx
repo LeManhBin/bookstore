@@ -5,6 +5,7 @@ import './OrderStorePage.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { actChangeOrderStatus, actFetchOrderByIdStore } from '../../redux/features/orderSlice/orderSlice'
 import { useNavigate } from 'react-router-dom'
+import Status from '../../components/Status/Status'
 const OrderStorePage = () => {
   const [isPending, setIsPending] = useState(true)
   const [isApproved, setIsApproved] = useState(false)
@@ -61,7 +62,7 @@ const OrderStorePage = () => {
   const [limit, setLimit] = useState(8)
   const lastPageIndex = currentPage * limit;
   const firstPageIndex = lastPageIndex - limit;
-  const currentItems = orderByIdStore.filter(user => user.role === 1).slice(firstPageIndex, lastPageIndex);
+ 
   const totalPage = orderByIdStore.length
 
   const handleFilterOrder = () => {
@@ -126,19 +127,19 @@ const OrderStorePage = () => {
                         handleFilterOrder()?.filter(item => item.status === 0).map((order, index) => {
                           let loaiThanhToan;
                           if(order.payment === 1) {
-                            loaiThanhToan = 'Trực tiếp'
+                            loaiThanhToan = <Status text={"Trực tiếp"} className={"active"}/>
                           }else {
-                            loaiThanhToan = 'Zalo Pay'
+                            loaiThanhToan = <Status text={"Zalo Pay"} className={"primary"}/>
                           }
                           return(
                             <tr key={order.id}>
-                              <td>{order.id}</td>
+                              <td style={{verticalAlign: 'middle', textAlign: 'center'}}>{order.id}</td>
                               <td style={{textAlign: 'left'}}>
                                 {order.name}
                                 <br />{order.phone}
                                 <br />{order.address}
                               </td>
-                              <td>{loaiThanhToan}</td>
+                              <td style={{verticalAlign: 'middle', textAlign: 'center'}}>{loaiThanhToan}</td>
                               <td></td>
                               <td className='button'>
                                 <button className='edit-btn' onClick={() => handleDetailOrder(order.id)}><i className="fa-solid fa-binoculars"></i></button>
@@ -191,9 +192,9 @@ const OrderStorePage = () => {
                           orderByIdStore?.filter(item => item.status === 1).map((order, index) => {
                             let loaiThanhToan;
                             if(order.payment === 1) {
-                              loaiThanhToan = 'Trực tiếp'
+                              loaiThanhToan = <Status text={"Trực tiếp"} className={"active"}/>
                             }else {
-                              loaiThanhToan = 'Zalo Pay'
+                              loaiThanhToan = <Status text={"Zalo Pay"} className={"primary"}/>
                             }
                             return(
                               <tr key={order.id}>
@@ -255,9 +256,9 @@ const OrderStorePage = () => {
                           orderByIdStore?.filter(item => item.status === 2).map((order, index) => {
                             let loaiThanhToan;
                             if(order.payment === 1) {
-                              loaiThanhToan = 'Trực tiếp'
+                              loaiThanhToan = <Status text={"Trực tiếp"} className={"active"}/>
                             }else {
-                              loaiThanhToan = 'Zalo Pay'
+                              loaiThanhToan = <Status text={"Zalo Pay"} className={"primary"}/>
                             }
                             return(
                               <tr key={order.id}>
@@ -319,9 +320,9 @@ const OrderStorePage = () => {
                           orderByIdStore?.filter(item => item.status === 3).map((order, index) => {
                             let loaiThanhToan;
                             if(order.payment === 1) {
-                              loaiThanhToan = 'Trực tiếp'
+                              loaiThanhToan = <Status text={"Trực tiếp"} className={"active"}/>
                             }else {
-                              loaiThanhToan = 'Zalo Pay'
+                              loaiThanhToan = <Status text={"Zalo Pay"} className={"primary"}/>
                             }
                             return(
                               <tr key={order.id}>
@@ -383,9 +384,9 @@ const OrderStorePage = () => {
                           orderByIdStore?.filter(item => item.status === 4).map((order, index) => {
                             let loaiThanhToan;
                             if(order.payment === 1) {
-                              loaiThanhToan = 'Trực tiếp'
+                              loaiThanhToan = <Status text={"Trực tiếp"} className={"active"}/>
                             }else {
-                              loaiThanhToan = 'Zalo Pay'
+                              loaiThanhToan = <Status text={"Zalo Pay"} className={"primary"}/>
                             }
                             return(
                               <tr key={order.id}>

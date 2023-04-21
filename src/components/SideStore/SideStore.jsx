@@ -36,7 +36,7 @@ const SideStore = () => {
             <li className='item'>
                 <div className='title' onClick={() => setShowItem5(!showItem5)}>
                     <div className="name">
-                        <i className="fa-solid fa-store"></i>
+                        <i className="fa-solid fa-truck"></i>
                         <span>Quản lý đơn hàng</span>
                     </div>
                     <i className="fa-solid fa-angle-down"></i>
@@ -73,7 +73,7 @@ const SideStore = () => {
             <li className='item'>
                     <div className='title' onClick={() => setShowItem3(!showItem3)}>
                         <div className="name">
-                            <i className="fa-solid fa-user"></i>
+                            <i className="fa-solid fa-gift"></i>
                             <span>Quản lý khuyến mãi</span>
                         </div>
                         <i className="fa-solid fa-angle-down"></i>

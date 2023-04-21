@@ -1,0 +1,27 @@
+.status-container {
+    color: #fff;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+
+    .status-tag {
+        display: block;
+        padding: 5px 10px;
+        border-radius: 10px;
+        width: auto;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    .stop  {
+        background-color: #E64848;
+    }
+
+    .active {
+        background-color: #B4FF9F;
+    }
+
+    .primary {
+        background-color: #05BFDB;
+    }
+}

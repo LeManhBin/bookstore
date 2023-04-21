@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { actDeleteBook, actFetchBookByIdStore } from '../../redux/features/bookSlice/bookSlice'
 import { useNavigate } from 'react-router-dom'
 import { IMG_URL } from '../../constants/config'
+import Status from '../../components/Status/Status'
 import ModalAcces from '../../components/ModalAcces/ModalAcces'
 const AllProductPage = () => {
   const navigate = useNavigate()
@@ -120,10 +121,10 @@ const AllProductPage = () => {
                     {
                       handleFilterProduct().map((book, index) => {
                         let status
-                        if(book.status === 0) {
-                          status = 'Đang bán'
-                        }else{
-                          status = 'Ngừng bán'
+                        if (book.status === 0) {
+                          status = <Status text={"Hoạt động"} className={"active"}/>
+                        }else {
+                          status = <Status text={"Ngừng hoạt động"} className={"stop"}/>
                         }
                         return(
                           <tr key={book?.id}> 

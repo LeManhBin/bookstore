@@ -14,6 +14,16 @@
             width: 100%;
             padding: 10px 0px;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            .thumbnail {
+                width: 20px;
+                height: 20px;
+                border-radius: 3px;
+                object-fit: cover;
+            }
         }
 
         li:hover {

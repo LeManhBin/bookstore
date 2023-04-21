@@ -83,8 +83,6 @@ const CartPage = () => {
     handleGetTotal()
   };
 
-
-
   const handleSubmit = () => {
     if(cartChecked.length == 0) {
       toast.warning('Bạn chưa chọn sản phẩm nào')

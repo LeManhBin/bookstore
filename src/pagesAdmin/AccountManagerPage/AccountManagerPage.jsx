@@ -10,6 +10,7 @@ import UpdateAccount from './UpdateAccount';
 import ModalDelete from '../../components/Modal/ModalDelete';
 import ModalAcces from '../../components/ModalAcces/ModalAcces';
 import { IMG_URL } from '../../constants/config';
+import Status from '../../components/Status/Status';
 
 
 const AccountManagerPage = () => {
@@ -30,7 +31,7 @@ const AccountManagerPage = () => {
   const firstPageIndex = lastPageIndex - limit;
   const currentItems = allUser.slice(firstPageIndex, lastPageIndex);
 
-  const totalPage = allUser.length
+  const totalPage = allUser.filter(user => user.role === 0).length
 
   const handleFilterAccount = () => {
     return allUser?.filter((user) => {
@@ -90,9 +91,9 @@ const AccountManagerPage = () => {
                         handleFilterAccount().map((data, index) => {
                           let active
                           if (data.status === 0) {
-                            active = 'Hoạt động'
+                            active = <Status text={"Hoạt động"} className={"active"}/>
                           }else {
-                            active = 'Ngừng hoạt động'
+                            active = <Status text={"Ngừng hoạt động"} className={"stop"}/>
                           }
                           let role
                           if(data?.role == 1) {

@@ -1,0 +1,92 @@
+.revenue-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100vh;
+
+    .wrapper-container {
+        display: flex;
+        gap: 20px;
+    }
+
+    .chart-container {
+        display: flex;
+        gap: 10px;
+
+        .chart-left {
+            flex: 3;
+            background-color: antiquewhite;
+        }
+
+        .chart-right {
+            flex: 7;
+            background-color: aquamarine;
+        }
+    }
+
+    .table-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+        .table {
+
+            thead {
+                text-align: center;
+                white-space: nowrap;
+            }
+            tbody {
+                text-align: left;
+    
+                tr {
+
+                    td {
+                        vertical-align: middle;
+                        padding: 4px;
+                        text-align: center;
+                    }
+                    .name {
+                        text-align: left;
+                    }
+                    .img {
+                        text-align: center;
+        
+                        img {
+                            width: 40px !important;
+                            height: 40px !important;
+                            object-fit: cover;
+                            border-radius: 50%;
+                        }
+                    }
+        
+                    .email {
+                        text-align: left;
+                    }
+                    
+                    .button {
+                        text-align: center;
+                        white-space: nowrap;
+                        text-align: center;
+                        
+                        .edit-btn {
+                            background-color: #62CDFF;
+                            padding: 5px 10px;
+                            border: none;
+                            border-radius: 4px;
+                            color: #fff;
+                            margin-right: 10px;
+                        }
+                        .delete-btn {
+                            background-color: #FF6464;
+                            padding: 5px 10px;
+                            border: none;
+                            border-radius: 4px;
+                            color: #fff;
+                        }
+                    }
+                }
+    
+            }
+        }
+    }
+}

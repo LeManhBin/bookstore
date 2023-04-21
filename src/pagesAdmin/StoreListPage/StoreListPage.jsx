@@ -8,6 +8,7 @@ import Pagination from '../../components/Pagination/Pagination'
 import { actDeleteStore, actFetchAllStore } from '../../redux/features/storeSlice/storeSlice'
 import './StoreListPage.scss'
 import { IMG_URL } from '../../constants/config'
+import Status from '../../components/Status/Status'
 const StoreListPage = () => {
   const [isDelete, setIsDelete] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
@@ -89,10 +90,10 @@ const StoreListPage = () => {
                     {
                       handleFilterStore().map((store, index)=> {
                         let status;
-                        if(store?.status === 0) {
-                          status = "Đang Hoạt Động"
-                        }else{
-                          status = "Dừng Hoạt Động"
+                        if (store.status === 0) {
+                          status = <Status text={"Hoạt động"} className={"active"}/>
+                        }else {
+                          status = <Status text={"Ngừng hoạt động"} className={"stop"}/>
                         }
                         return(
                           <tr key={store?.id}>

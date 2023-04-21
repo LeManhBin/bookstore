@@ -159,11 +159,11 @@ const AccountPage = () => {
             <div className='pending'>
               { 
                 Object?.entries(
-                  orderByStatus.filter(order => order.status === 0).reduce((acc, item) => {
-                    if(!acc[item.store.name]) {
-                      acc[item.store.name] = [];
+                  orderByStatus.filter(order => order?.status === 0).reduce((acc, item) => {
+                    if(!acc[item?.store?.name]) {
+                      acc[item?.store?.name] = [];
                     }
-                    acc[item.store.name].push(item);
+                    acc[item?.store?.name].push(item);
                     return acc;
                   },{})
                 ).map(([storeName, items]) => (
@@ -172,38 +172,55 @@ const AccountPage = () => {
                       <p>{storeName}</p>
                     </div>
                     {
-                      items.map((item, index) => {
-                          let price = item?.orderDetails[index]?.price;
-                          let formattedPrice = price?.toLocaleString('vi-VN', {
-                              style: 'currency',
-                              currency: 'VND',
+                      items.map((item) => {
+                        let totalPrice = 0;
+                        let totalPriceAfterDiscount = 0;
+
+                        return item?.orderDetails?.map((itemChild) => {
+                          const price = itemChild?.price || 0;
+                          const discount = itemChild?.discount || 0;
+                          const amount = itemChild?.amount || 0;
+
+                          totalPrice += price * amount;
+                          totalPriceAfterDiscount += (price - (price * (discount / 100))) * amount;
+
+                          const formattedTotalPrice = totalPrice.toLocaleString('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND',
                           });
-                          let totalPrice = item?.orderDetails[index]?.price * item?.orderDetails[index]?.amount;
-                          let formattedTotalPrice = totalPrice?.toLocaleString('vi-VN', {
-                              style: 'currency',
-                              currency: 'VND',
+                          const formattedAfterDiscount = totalPriceAfterDiscount.toLocaleString('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND',
                           });
-                        return item.orderDetails.map((itemChild) => (
-                          <>
-                          <div className='pending-card'>
-                            <div className="desc-card">
-                              <img src={`${IMG_URL}${itemChild.image}`} alt="" />
-                              <div className="info-card">
-                                  <p className='name'>{itemChild.name}</p>
-                                  <span className='author'>{itemChild.author}</span>
-                                  <span className='quantity'>{itemChild.amount}</span>
+
+                          return (
+                            <>
+                              <div className='pending-card'>
+                                <div className="desc-card">
+                                  <img src={`${IMG_URL}${itemChild?.image}`} alt="" />
+                                  <div className="info-card">
+                                      <p className='name'>{itemChild?.name}</p>
+                                      <span className='author'>{itemChild?.author}</span>
+                                      <span className='quantity'>{itemChild?.amount}</span>
+                                  </div>
+                                </div>
+                                <div className="price-card">
+                                  {discount > 0 ? 
+                                    <>
+                                      <p className='cost'>{formattedTotalPrice}</p>
+                                      <p className="real-price">{formattedAfterDiscount}</p>
+                                    </>
+                                  :
+                                    <p className="real-price">{formattedAfterDiscount}</p>
+                                  }
+                                </div>
                               </div>
-                            </div>
-                            <div className="price-card">
-                              <p className='cost'>$10000</p>
-                              <p className="real-price">{formattedPrice}</p>
-                            </div>
-                          </div>
-                          <div className="order-button">
-                            <button onClick={() => handleCancelOrder(item.id)}>Huỷ đơn hàng</button>
-                          </div>
-                          </>
-                        ))
+                              <div className="order-button">
+                                <button onClick={() => handleCancelOrder(item.id)}>Huỷ đơn hàng</button>
+                              </div>
+                            </>
+                          );
+                        });
                       })
                     }
                     {/* <div className='total-payment'>
@@ -220,51 +237,69 @@ const AccountPage = () => {
             {
             isApproved &&
               <div className='approved'>
-                { 
-                  Object?.entries(
-                    orderByStatus.filter(order => order.status === 1).reduce((acc, item) => {
-                      if(!acc[item.store.name]) {
-                        acc[item.store.name] = [];
-                      }
-                      acc[item.store.name].push(item);
-                      return acc;
-                    },{})
-                  ).map(([storeName, items]) => (
-                    <div key={storeName}>
-                      <div className="approved-heading">
-                        <p>{storeName}</p>
-                      </div>
-                      {
-                        items.map((item, index) => {
+               { 
+                Object?.entries(
+                  orderByStatus.filter(order => order?.status === 1).reduce((acc, item) => {
+                    if(!acc[item?.store?.name]) {
+                      acc[item?.store?.name] = [];
+                    }
+                    acc[item?.store?.name].push(item);
+                    return acc;
+                  },{})
+                ).map(([storeName, items]) => (
+                  <div key={storeName}>
+                    <div className="approved-heading">
+                      <p>{storeName}</p>
+                    </div>
+                    {
+                      items.map((item) => {
+                        let totalPrice = 0;
+                        let totalPriceAfterDiscount = 0;
 
-                            let price = item?.orderDetails[index]?.price;
-                            let formattedPrice = price?.toLocaleString('vi-VN', {
-                                style: 'currency',
-                                currency: 'VND',
-                            });
-                            let totalPrice = item?.orderDetails[index]?.price * item?.orderDetails[index]?.amount;
-                            let formattedTotalPrice = totalPrice?.toLocaleString('vi-VN', {
-                                style: 'currency',
-                                currency: 'VND',
-                            });
-                          return item.orderDetails.map((itemChild) => (
-                            <div className='approved-card'>
-                              <div className="desc-card">
-                                <img src={`${IMG_URL}${itemChild.image}`} alt="" />
-                                <div className="info-card">
-                                    <p className='name'>{itemChild.name}</p>
-                                    <span className='author'>{itemChild.author}</span>
-                                    <span className='quantity'>{itemChild.amount}</span>
+                        return item?.orderDetails?.map((itemChild) => {
+                          const price = itemChild?.price || 0;
+                          const discount = itemChild?.discount || 0;
+                          const amount = itemChild?.amount || 0;
+
+                          totalPrice += price * amount;
+                          totalPriceAfterDiscount += (price - (price * (discount / 100))) * amount;
+
+                          const formattedTotalPrice = totalPrice.toLocaleString('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND',
+                          });
+                          const formattedAfterDiscount = totalPriceAfterDiscount.toLocaleString('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND',
+                          });
+
+                          return (
+                            <>
+                              <div className='approved-card'>
+                                <div className="desc-card">
+                                  <img src={`${IMG_URL}${itemChild?.image}`} alt="" />
+                                  <div className="info-card">
+                                      <p className='name'>{itemChild?.name}</p>
+                                      <span className='author'>{itemChild?.author}</span>
+                                      <span className='quantity'>{itemChild?.amount}</span>
+                                  </div>
+                                </div>
+                                <div className="price-card">
+                                  {discount > 0 ? 
+                                    <>
+                                      <p className='cost'>{formattedTotalPrice}</p>
+                                      <p className="real-price">{formattedAfterDiscount}</p>
+                                    </>
+                                  :
+                                    <p className="real-price">{formattedAfterDiscount}</p>
+                                  }
                                 </div>
                               </div>
-                              <div className="price-card">
-                                <p className='cost'>$10000</p>
-                                <p className="real-price">{formattedPrice}</p>
-                              </div>
-                            </div>
-                          ))
-                        })
-                      }
+                            </>
+                          );
+                        });
+                      })
+                    }
                       {/* <div className='total-payment'>
                           <p className='total'>Thành tiền: 0</p>
                       </div> */}
@@ -277,13 +312,13 @@ const AccountPage = () => {
             {
             isMoving &&
             <div className='pending'>
-              { 
+               { 
                 Object?.entries(
-                  orderByStatus.filter(order => order.status === 2).reduce((acc, item) => {
-                    if(!acc[item.store.name]) {
-                      acc[item.store.name] = [];
+                  orderByStatus.filter(order => order?.status === 2).reduce((acc, item) => {
+                    if(!acc[item?.store?.name]) {
+                      acc[item?.store?.name] = [];
                     }
-                    acc[item.store.name].push(item);
+                    acc[item?.store?.name].push(item);
                     return acc;
                   },{})
                 ).map(([storeName, items]) => (
@@ -292,94 +327,132 @@ const AccountPage = () => {
                       <p>{storeName}</p>
                     </div>
                     {
-                      items.map((item, index) => {
-                          let price = item?.orderDetails[index]?.price;
-                          let formattedPrice = price?.toLocaleString('vi-VN', {
-                              style: 'currency',
-                              currency: 'VND',
+                      items.map((item) => {
+                        let totalPrice = 0;
+                        let totalPriceAfterDiscount = 0;
+
+                        return item?.orderDetails?.map((itemChild) => {
+                          const price = itemChild?.price || 0;
+                          const discount = itemChild?.discount || 0;
+                          const amount = itemChild?.amount || 0;
+
+                          totalPrice += price * amount;
+                          totalPriceAfterDiscount += (price - (price * (discount / 100))) * amount;
+
+                          const formattedTotalPrice = totalPrice.toLocaleString('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND',
                           });
-                          let totalPrice = item?.orderDetails[index]?.price * item?.orderDetails[index]?.amount;
-                          let formattedTotalPrice = totalPrice?.toLocaleString('vi-VN', {
-                              style: 'currency',
-                              currency: 'VND',
+                          const formattedAfterDiscount = totalPriceAfterDiscount.toLocaleString('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND',
                           });
-                        return item.orderDetails.map((itemChild) => (
-                          <div className='pending-card'>
-                            <div className="desc-card">
-                              <img src={`${IMG_URL}${itemChild.image}`} alt="" />
-                              <div className="info-card">
-                                  <p className='name'>{itemChild.name}</p>
-                                  <span className='author'>{itemChild.author}</span>
-                                  <span className='quantity'>{itemChild.amount}</span>
+
+                          return (
+                            <>
+                              <div className='pending-card'>
+                                <div className="desc-card">
+                                  <img src={`${IMG_URL}${itemChild?.image}`} alt="" />
+                                  <div className="info-card">
+                                      <p className='name'>{itemChild?.name}</p>
+                                      <span className='author'>{itemChild?.author}</span>
+                                      <span className='quantity'>{itemChild?.amount}</span>
+                                  </div>
+                                </div>
+                                <div className="price-card">
+                                  {discount > 0 ? 
+                                    <>
+                                      <p className='cost'>{formattedTotalPrice}</p>
+                                      <p className="real-price">{formattedAfterDiscount}</p>
+                                    </>
+                                  :
+                                    <p className="real-price">{formattedAfterDiscount}</p>
+                                  }
+                                </div>
                               </div>
-                            </div>
-                            <div className="price-card">
-                              <p className='cost'>$10000</p>
-                              <p className="real-price">{formattedPrice}</p>
-                            </div>
-                          </div>
-                        ))
+                            </>
+                          );
+                        });
                       })
                     }
-                    {/* <div className='total-payment'>
-                        <p className='total'>Thành tiền: 0</p>
-                    </div> */}
-                  </div>
-                )) 
-              }
+                      {/* <div className='total-payment'>
+                          <p className='total'>Thành tiền: 0</p>
+                      </div> */}
+                    </div>
+                  )) 
+                }
             </div>
             }
                  {/* complete */}
             {
             isComplete &&
               <div className='pending'>
-                { 
-                  Object?.entries(
-                    orderByStatus.filter(order => order.status === 3).reduce((acc, item) => {
-                      if(!acc[item.store.name]) {
-                        acc[item.store.name] = [];
-                      }
-                      acc[item.store.name].push(item);
-                      return acc;
-                    },{})
-                  ).map(([storeName, items]) => (
-                    <div key={storeName}>
-                      <div className="pending-heading">
-                        <p>{storeName}</p>
-                      </div>
-                      {
-                        items.map((item, index) => {
-                            let price = item?.orderDetails[index]?.price;
-                            let formattedPrice = price?.toLocaleString('vi-VN', {
-                                style: 'currency',
-                                currency: 'VND',
-                            });
-                            let totalPrice = item?.orderDetails[index]?.price * item?.orderDetails[index]?.amount;
-                            let formattedTotalPrice = totalPrice?.toLocaleString('vi-VN', {
-                                style: 'currency',
-                                currency: 'VND',
-                            });
-                          return item.orderDetails.map((itemChild) => (
-                            <div className='pending-card'>
-                              <div className="desc-card">
-                              <img src={`${IMG_URL}${itemChild.image}`} alt="" />
-                                <div className="info-card">
-                                    <p className='name'>{itemChild.name}</p>
-                                    <span className='author'>{itemChild.author}</span>
-                                    <span className='quantity'>{itemChild.amount}</span>
+ { 
+                Object?.entries(
+                  orderByStatus.filter(order => order?.status === 3).reduce((acc, item) => {
+                    if(!acc[item?.store?.name]) {
+                      acc[item?.store?.name] = [];
+                    }
+                    acc[item?.store?.name].push(item);
+                    return acc;
+                  },{})
+                ).map(([storeName, items]) => (
+                  <div key={storeName}>
+                    <div className="pending-heading">
+                      <p>{storeName}</p>
+                    </div>
+                    {
+                      items.map((item) => {
+                        let totalPrice = 0;
+                        let totalPriceAfterDiscount = 0;
+
+                        return item?.orderDetails?.map((itemChild) => {
+                          const price = itemChild?.price || 0;
+                          const discount = itemChild?.discount || 0;
+                          const amount = itemChild?.amount || 0;
+
+                          totalPrice += price * amount;
+                          totalPriceAfterDiscount += (price - (price * (discount / 100))) * amount;
+
+                          const formattedTotalPrice = totalPrice.toLocaleString('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND',
+                          });
+                          const formattedAfterDiscount = totalPriceAfterDiscount.toLocaleString('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND',
+                          });
+
+                          return (
+                            <>
+                              <div className='pending-card'>
+                                <div className="desc-card">
+                                  <img src={`${IMG_URL}${itemChild?.image}`} alt="" />
+                                  <div className="info-card">
+                                      <p className='name'>{itemChild?.name}</p>
+                                      <span className='author'>{itemChild?.author}</span>
+                                      <span className='quantity'>{itemChild?.amount}</span>
+                                  </div>
                                 </div>
-                              </div>
-                              <div className="price-card">
-                                <p className='cost'>$10000</p>
-                                <p className="real-price">{formattedPrice}</p>
+                                <div className="price-card">
+                                  {discount > 0 ? 
+                                    <>
+                                      <p className='cost'>{formattedTotalPrice}</p>
+                                      <p className="real-price">{formattedAfterDiscount}</p>
+                                    </>
+                                  :
+                                    <p className="real-price">{formattedAfterDiscount}</p>
+                                  }
+                                </div>
                               </div>
                               <div className="order-button">
                                 <button onClick={() => handleEvaluate(item.id)}>Đánh giá</button>
                             </div>
-                            </div>
-                          ))
-                        })
-                      }
+                            </>
+                          );
+                        });
+                      })
+                    }
                       {/* <div className='total-payment'>
                           <p className='total'>Thành tiền: 0</p>
                       </div> */}
@@ -392,114 +465,150 @@ const AccountPage = () => {
             {
             isCancel && 
               <div className='pending'>
-                { 
-                  Object?.entries(
-                    orderByStatus.filter(order => order.status === 4).reduce((acc, item) => {
-                      if(!acc[item.store.name]) {
-                        acc[item.store.name] = [];
-                      }
-                      acc[item.store.name].push(item);
-                      return acc;
-                    },{})
-                  ).map(([storeName, items]) => (
-                    <div key={storeName}>
-                      <div className="pending-heading">
-                        <p>{storeName}</p>
-                      </div>
-                      {
-                        items.map((item, index) => {
+               { 
+                Object?.entries(
+                  orderByStatus.filter(order => order?.status === 4).reduce((acc, item) => {
+                    if(!acc[item?.store?.name]) {
+                      acc[item?.store?.name] = [];
+                    }
+                    acc[item?.store?.name].push(item);
+                    return acc;
+                  },{})
+                ).map(([storeName, items]) => (
+                  <div key={storeName}>
+                    <div className="pending-heading">
+                      <p>{storeName}</p>
+                    </div>
+                    {
+                      items.map((item) => {
+                        let totalPrice = 0;
+                        let totalPriceAfterDiscount = 0;
 
-                            let price = item?.orderDetails[index]?.price;
-                            let formattedPrice = price?.toLocaleString('vi-VN', {
-                                style: 'currency',
-                                currency: 'VND',
-                            });
-                            let totalPrice = item?.orderDetails[index]?.price * item?.orderDetails[index]?.amount;
-                            let formattedTotalPrice = totalPrice?.toLocaleString('vi-VN', {
-                                style: 'currency',
-                                currency: 'VND',
-                            });
-                          return item.orderDetails.map((itemChild) => (
-                            <div className='pending-card'>
-                              <div className="desc-card">
-                              <img src={`${IMG_URL}${itemChild.image}`} alt="" />
-                                <div className="info-card">
-                                    <p className='name'>{itemChild.name}</p>
-                                    <span className='author'>{itemChild.author}</span>
-                                    <span className='quantity'>{itemChild.amount}</span>
+                        return item?.orderDetails?.map((itemChild) => {
+                          const price = itemChild?.price || 0;
+                          const discount = itemChild?.discount || 0;
+                          const amount = itemChild?.amount || 0;
+
+                          totalPrice += price * amount;
+                          totalPriceAfterDiscount += (price - (price * (discount / 100))) * amount;
+
+                          const formattedTotalPrice = totalPrice.toLocaleString('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND',
+                          });
+                          const formattedAfterDiscount = totalPriceAfterDiscount.toLocaleString('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND',
+                          });
+
+                          return (
+                            <>
+                              <div className='pending-card'>
+                                <div className="desc-card">
+                                  <img src={`${IMG_URL}${itemChild?.image}`} alt="" />
+                                  <div className="info-card">
+                                      <p className='name'>{itemChild?.name}</p>
+                                      <span className='author'>{itemChild?.author}</span>
+                                      <span className='quantity'>{itemChild?.amount}</span>
+                                  </div>
+                                </div>
+                                <div className="price-card">
+                                  {discount > 0 ? 
+                                    <>
+                                      <p className='cost'>{formattedTotalPrice}</p>
+                                      <p className="real-price">{formattedAfterDiscount}</p>
+                                    </>
+                                  :
+                                    <p className="real-price">{formattedAfterDiscount}</p>
+                                  }
                                 </div>
                               </div>
-                              <div className="price-card">
-                                <p className='cost'>$10000</p>
-                                <p className="real-price">{formattedPrice}</p>
-                              </div>
-                            </div>
-                          ))
-                        })
-                      }
+                            </>
+                          );
+                        });
+                      })
+                    }
                       {/* <div className='total-payment'>
                           <p className='total'>Thành tiền: 0</p>
                       </div> */}
                     </div>
                   )) 
-                } 
+                }
               </div>
             }
             {/* history */}
             {
             isHistory && 
               <div className='pending'>
-                { 
-                  Object?.entries(
-                    orderByStatus.filter(order => order.status === 5).reduce((acc, item) => {
-                      if(!acc[item.store.name]) {
-                        acc[item.store.name] = [];
-                      }
-                      acc[item.store.name].push(item);
-                      return acc;
-                    },{})
-                  ).map(([storeName, items]) => (
-                    <div key={storeName}>
-                      <div className="pending-heading">
-                        <p>{storeName}</p>
-                      </div>
-                      {
-                        items.map((item, index) => {
+               { 
+                Object?.entries(
+                  orderByStatus.filter(order => order?.status === 5).reduce((acc, item) => {
+                    if(!acc[item?.store?.name]) {
+                      acc[item?.store?.name] = [];
+                    }
+                    acc[item?.store?.name].push(item);
+                    return acc;
+                  },{})
+                ).map(([storeName, items]) => (
+                  <div key={storeName}>
+                    <div className="pending-heading">
+                      <p>{storeName}</p>
+                    </div>
+                    {
+                      items.map((item) => {
+                        let totalPrice = 0;
+                        let totalPriceAfterDiscount = 0;
 
-                            let price = item?.orderDetails[index]?.price;
-                            let formattedPrice = price?.toLocaleString('vi-VN', {
-                                style: 'currency',
-                                currency: 'VND',
-                            });
-                            let totalPrice = item?.orderDetails[index]?.price * item?.orderDetails[index]?.amount;
-                            let formattedTotalPrice = totalPrice?.toLocaleString('vi-VN', {
-                                style: 'currency',
-                                currency: 'VND',
-                            });
-                          return item.orderDetails.map((itemChild) => (
-                            <div className='pending-card'>
-                              <div className="desc-card">
-                              <img src={`${IMG_URL}${itemChild.image}`} alt="" />
-                                <div className="info-card">
-                                    <p className='name'>{itemChild.name}</p>
-                                    <span className='author'>{itemChild.author}</span>
-                                    <span className='quantity'>{itemChild.amount}</span>
+                        return item?.orderDetails?.map((itemChild) => {
+                          const price = itemChild?.price || 0;
+                          const discount = itemChild?.discount || 0;
+                          const amount = itemChild?.amount || 0;
+
+                          totalPrice += price * amount;
+                          totalPriceAfterDiscount += (price - (price * (discount / 100))) * amount;
+
+                          const formattedTotalPrice = totalPrice.toLocaleString('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND',
+                          });
+                          const formattedAfterDiscount = totalPriceAfterDiscount.toLocaleString('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND',
+                          });
+
+                          return (
+                            <>
+                              <div className='pending-card'>
+                                <div className="desc-card">
+                                  <img src={`${IMG_URL}${itemChild?.image}`} alt="" />
+                                  <div className="info-card">
+                                      <p className='name'>{itemChild?.name}</p>
+                                      <span className='author'>{itemChild?.author}</span>
+                                      <span className='quantity'>{itemChild?.amount}</span>
+                                  </div>
+                                </div>
+                                <div className="price-card">
+                                  {discount > 0 ? 
+                                    <>
+                                      <p className='cost'>{formattedTotalPrice}</p>
+                                      <p className="real-price">{formattedAfterDiscount}</p>
+                                    </>
+                                  :
+                                    <p className="real-price">{formattedAfterDiscount}</p>
+                                  }
                                 </div>
                               </div>
-                              <div className="price-card">
-                                <p className='cost'>$10000</p>
-                                <p className="real-price">{formattedPrice}</p>
-                              </div>
-                            </div>
-                          ))
-                        })
-                      }
+                            </>
+                          );
+                        });
+                      })
+                    }
                       {/* <div className='total-payment'>
                           <p className='total'>Thành tiền: 0</p>
                       </div> */}
                     </div>
                   )) 
-                } 
+                }
               </div>
             }
         </div>
