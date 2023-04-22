@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './ChangeEmailPage.scss'
 import FormData from 'form-data'
 import { useDispatch, useSelector } from 'react-redux'
-import { actUpda, actUpdateProfileteProfile } from '../../redux/features/userSlice/userSlice'
+import {actUpdateProfile } from '../../redux/features/userSlice/userSlice'
 import Account from '../../components/Account/Account'
 const ChangeEmailPage = () => {
   const {user} = useSelector((state) => state.user)
