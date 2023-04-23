@@ -29,7 +29,7 @@ const ChangePhoneNumberPage = () => {
     dispatch(actUpdateProfile(user?.id,formData, formState))
   }
   return (
-    <div className='change-page'>
+    <div className='change-phone-page'>
         <div className="container">
           <div className="left">
             <Account/>

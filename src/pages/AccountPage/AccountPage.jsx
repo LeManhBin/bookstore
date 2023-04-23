@@ -201,7 +201,7 @@ const AccountPage = () => {
                                   <div className="info-card">
                                       <p className='name'>{itemChild?.name}</p>
                                       <span className='author'>{itemChild?.author}</span>
-                                      <span className='quantity'>{itemChild?.amount}</span>
+                                      <span className='quantity'>Số lượng: {itemChild?.amount}</span>
                                   </div>
                                 </div>
                                 <div className="price-card">
@@ -281,7 +281,7 @@ const AccountPage = () => {
                                   <div className="info-card">
                                       <p className='name'>{itemChild?.name}</p>
                                       <span className='author'>{itemChild?.author}</span>
-                                      <span className='quantity'>{itemChild?.amount}</span>
+                                      <span className='quantity'>Số lượng: {itemChild?.amount}</span>
                                   </div>
                                 </div>
                                 <div className="price-card">
@@ -356,7 +356,7 @@ const AccountPage = () => {
                                   <div className="info-card">
                                       <p className='name'>{itemChild?.name}</p>
                                       <span className='author'>{itemChild?.author}</span>
-                                      <span className='quantity'>{itemChild?.amount}</span>
+                                      <span className='quantity'>Số lượng: {itemChild?.amount}</span>
                                   </div>
                                 </div>
                                 <div className="price-card">
@@ -431,7 +431,7 @@ const AccountPage = () => {
                                   <div className="info-card">
                                       <p className='name'>{itemChild?.name}</p>
                                       <span className='author'>{itemChild?.author}</span>
-                                      <span className='quantity'>{itemChild?.amount}</span>
+                                      <span className='quantity'>Số lượng: {itemChild?.amount}</span>
                                   </div>
                                 </div>
                                 <div className="price-card">
@@ -509,7 +509,7 @@ const AccountPage = () => {
                                   <div className="info-card">
                                       <p className='name'>{itemChild?.name}</p>
                                       <span className='author'>{itemChild?.author}</span>
-                                      <span className='quantity'>{itemChild?.amount}</span>
+                                      <span className='quantity'>Số lượng: {itemChild?.amount}</span>
                                   </div>
                                 </div>
                                 <div className="price-card">
@@ -584,7 +584,7 @@ const AccountPage = () => {
                                   <div className="info-card">
                                       <p className='name'>{itemChild?.name}</p>
                                       <span className='author'>{itemChild?.author}</span>
-                                      <span className='quantity'>{itemChild?.amount}</span>
+                                      <span className='quantity'>Số lượng: {itemChild?.amount}</span>
                                   </div>
                                 </div>
                                 <div className="price-card">

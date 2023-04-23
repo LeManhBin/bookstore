@@ -8,6 +8,7 @@ import { actFetchAllCategory } from '../../redux/features/categorySlice/category
 import { actFetchAllTopic } from '../../redux/features/topicSlide/topicSlide';
 import FormData from 'form-data';
 import { actCreateBook } from '../../redux/features/bookSlice/bookSlice';
+import { toast } from 'react-toastify';
 
 const StoreAddProductPage = () => {
     const [avatar, setAvatar] = useState([])
@@ -26,6 +27,7 @@ const StoreAddProductPage = () => {
         pageNumber: '',
         length: '',
         width: '',
+        weight: '',
         height: '',
         quantity: '',
         price: '',
@@ -92,7 +94,11 @@ const StoreAddProductPage = () => {
         formData.append("files", avatar[1]);
         formData.append("files", avatar[2]);
         formData.append("files", avatar[3]);
-        dispatch(actCreateBook(formData))
+        if(!formState.name || !formState.author || !formState.categoryId || !formState.height || !formState.length || !formState.pageNumber || !formState.price || !formState.publishing || !formState.publishingYear || !formState.quantity || !formState.width || !formState.weight || avatar.length < 4 ) {
+            toast.warning("Vui lòng nhập đủ thông tin sản phẩm")
+        }else {
+            dispatch(actCreateBook(formData))
+        }
     }
 
   return (
@@ -213,10 +219,10 @@ const StoreAddProductPage = () => {
                     <label htmlFor="" className='label'><span className='tick'>(*)</span>Bề dày</label>
                     <input type="text" name='length' value={formState.length} onChange={handleOnChange}/>
                 </div>
-                {/* <div className="form-input">
+                <div className="form-input">
                     <label htmlFor="" className='label'><span className='tick'>(*)</span>Trọng lượng</label>
-                    <input type="text" />
-                </div> */}
+                    <input type="text" name='weight' value={formState.weight} onChange={handleOnChange} />
+                </div>
             </div>
             <div className='button-btn'>
                 <button onClick={handleSubmit}>Thêm sản phẩm</button>

@@ -7,12 +7,61 @@ import CommentInput from '../../components/CommentInput/CommentInput'
 import useScrollToTop from '../../hooks/useScrollToTop'
 import { actFetchBookById, actFetchBookByIdCategory } from '../../redux/features/bookSlice/bookSlice'
 import { actCreateCart } from '../../redux/features/cartSlice/cartSlice'
-
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
 import './ProductDetailPage.scss'
 import { actFetchDataEvaluateByIdBook } from '../../redux/features/evaluateSlice/evaluateSlice'
 import Loading from '../../components/Loading/Loading'
 import { IMG_URL } from '../../constants/config'
+import Slider from 'react-slick'
 const ProductDetailPage = () => {
+    const settingsVendor = {
+        dots: true,
+        infinite: true,
+        speed: 900,
+        slidesToShow: 6,
+        slidesToScroll: 1,
+        initialSlide: 0,
+        autoplay: true,
+        autoplaySpeed: 3000,
+        responsive: [
+          {
+            breakpoint: 1200,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 3,
+              infinite: true,
+              dots: true,
+              with: 800,
+            }
+          },
+          {
+            breakpoint: 1415,
+            settings: {
+              slidesToShow: 3,
+              slidesToScroll: 3,
+              infinite: true,
+              dots: true,
+              with:  800,
+            }
+          },
+          {
+            breakpoint: 600,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 2,
+              initialSlide: 2
+            }
+          },
+          {
+            breakpoint: 480,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1
+            }
+          }
+        ]
+      };
     useScrollToTop()
     const param = useParams()
     const {book} = useSelector((state) => state.book)
@@ -226,13 +275,17 @@ const ProductDetailPage = () => {
                 </div>
                 <div className='related'>
                     {
-                        bookByCategory.filter(book => book.status === 0).slice(0,4).map(data => {
+                        <Slider {...settingsVendor}>
+                        {
+                            bookByCategory?.filter(book => book.status === 0).map(data => {
                             return(
                                 <div key={data?.id}>
                                     <Card data={data}/>
                                 </div>
                             )
-                        })
+                            })
+                        }
+                        </Slider>
                     }
                 </div>
             </div>

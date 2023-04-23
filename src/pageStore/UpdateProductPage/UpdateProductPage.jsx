@@ -142,6 +142,7 @@ const UpdateProductPage = () => {
             height: Number(formState.height),
             quantity: Number(formState.quantity),
             price: Number(formState.price),
+            weight: Number(formState.weight),
             description: description,
             tagId: tagId,
         }
@@ -151,7 +152,11 @@ const UpdateProductPage = () => {
         formData.append("files", avatar[1]);
         formData.append("files", avatar[2]);
         formData.append("files", avatar[3]);
-        dispatch(actUpdateBook(book.id,formData))
+        if(!formState.name || !formState.author || !formState.categoryId || !formState.height || !formState.length || !formState.pageNumber || !formState.price || !formState.publishing || !formState.publishingYear || !formState.quantity || !formState.width || !formState.weight || avatar.length < 1){
+            toast.warning("Vui lòng nhập đầy đủ thông tin sản phẩm!!")
+        }else {
+            dispatch(actUpdateBook(book.id,formData))
+        }
     }
 
 
@@ -271,6 +276,10 @@ const UpdateProductPage = () => {
                 <div className="form-input">
                     <label htmlFor="" className='label'><span className='tick'>(*)</span>Bề dày</label>
                     <input type="text" name='length' value={formState.length} onChange={handleOnChange}/>
+                </div>
+                <div className="form-input">
+                    <label htmlFor="" className='label'><span className='tick'>(*)</span>Trọng lượng</label>
+                    <input type="text" name='weight' value={formState.weight} onChange={handleOnChange}/>
                 </div>
             </div>
             <div className='button-btn'>

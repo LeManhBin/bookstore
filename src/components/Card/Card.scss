@@ -152,3 +152,110 @@
 .card:hover .card-action{
     right: 10px;
 }
+
+@media (max-width: 481px) {
+    .card {
+        width: 180px;
+        height: 300px !important;
+    
+        .discount {
+
+    
+            span {
+
+            }
+        }
+    
+        &-img {
+  
+    
+            img {
+                width: 100%;
+                height: 100%;
+                border-radius: 10px;
+                object-fit: cover;
+            }
+    
+            .card-action {
+
+    
+                .add-wish-list {
+
+                }
+    
+                .add-wish-list:hover {
+
+                }
+    
+                .add-cart {
+   
+                }
+    
+                .add-cart:hover {
+                    color: #F65D4E;
+                }
+            }
+        }
+    
+        &-desc {
+
+    
+            .card-name {
+                margin-bottom: 0;
+                margin-top: 10px;
+                font-weight: bold;
+                font-size: 18px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 1;
+                -webkit-box-orient: vertical;
+            }
+    
+            .rating {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+    
+                .star {
+                    
+                    i {
+                        color: yellow;
+                    }
+                }
+    
+                .quantity {
+                    font-weight: 600;
+                    font-size: 12px;
+                }
+            }
+    
+            .card-author {
+                font-size: 14px;
+                color: #5a5a5a;
+                font-weight: 500;
+            }
+    
+            .card-price {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+    
+                .adv-price {
+                    font-size: 13px;
+                    font-weight: 600;
+                    color: #5a5a5a;
+                    text-decoration: line-through;
+                }
+    
+                .later-price {
+                    font-size: 13px;
+                    font-weight: 600;
+                    color: #F65D4E;
+                }
+    
+            }
+    
+        }
+    }
+}

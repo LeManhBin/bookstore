@@ -92,7 +92,6 @@ const CartPage = () => {
     }
 
   }
-
   return (
     <>
       {
@@ -103,110 +102,81 @@ const CartPage = () => {
            </div>
    
            <div className='cart-container'>
-             <Table className='heading-table'>
-               <thead style={{ backgroundColor: '#F65D4E', color: '#fff' }}>
-                 <tr>
-                   <th>
-                     <input type="checkbox" />
-                   </th>
-                   <th>Hình ảnh</th>
-                   <th>Tên sản phẩm</th>
-                   <th>Giá</th>
-                   <th>Số lượng</th>
-                   <th>Đơn giá</th>
-                   <th>Thao Tác</th>
-                 </tr>
-               </thead>
-             </Table>
-             {Object.entries(
-               cartItems.reduce((acc, item) => {
-                 if (!acc[item.store.name]) {
-                   acc[item.store.name] = [];
-                 }
-                 acc[item.store.name].push(item);
-                 return acc;
-               }, {})
-             ).map(([storeName, items]) => (
-               <div key={storeName}>
-                 
-                 <Table striped bordered hover>
-                   <thead style={{ backgroundColor: '#F65D4E', color: '#fff', width: '100%' }}>
-                     <tr>
-                       <th>
-                         <input type="checkbox" />
-                       </th>
-                       <th>
-                         <h4 style={{cursor: 'pointer'}}>{storeName}</h4>
-                       </th>
-                       <th></th>
-                       <th></th>
-                       <th></th>
-                       <th></th>
-                       <th></th>
-                     </tr>
-                   </thead>
-                   <tbody>
-                     {items.map((item, index) => {
-                       let price = item.cartDetails[index].price;
-                       let formattedPrice = price.toLocaleString('vi-VN', {
-                         style: 'currency',
-                         currency: 'VND',
-                       });
-                       let totalPrice = (item.cartDetails[index].price - (item.cartDetails[index].price * (item.cartDetails[index].discount/100))) * item.cartDetails[index].amount;
-                       let priceAfterDiscount = (item.cartDetails[index].price - (item.cartDetails[index].price * (item.cartDetails[index].discount/100)))
-                       let formattedPriceAfterDiscount = priceAfterDiscount.toLocaleString('vi-VN', {
+              
+             <div className='cart-mobile-container'>
+              {Object.entries(
+                cartItems.reduce((acc, item) => {
+                  if(!acc[item?.store?.name]){
+                    acc[item.store.name] = [];
+                  }
+                  acc[item.store.name].push(item);
+                  return acc;
+                }, {})
+              ).map(([storeName, items]) => (
+                <div className="cart-mobile" key={storeName}>
+                  <div className="store-name">{storeName}</div>
+                  {
+                    items.map((item, index) => {
+                    return item.cartDetails.map((itemChild) => {
+                      let price = (itemChild.price * itemChild.amount);
+                      let formattedPrice = price.toLocaleString('vi-VN', {
                         style: 'currency',
                         currency: 'VND',
                       });
-                       let formattedTotalPrice = totalPrice.toLocaleString('vi-VN', {
-                         style: 'currency',
-                         currency: 'VND',
-                       });
-                       return item.cartDetails.map((itemChild) => (
-                        
-                         <tr key={itemChild?.id}>
-                           <td>
-                           <input type="checkbox" value={Number(itemChild.id)} name={itemChild.id} checked={cartChecked.includes(itemChild.id)} onChange={handleCheckboxChange}/> 
-                           </td>
-                           <td className='img'>
-                             <img
-                               src={`${IMG_URL}${itemChild.image}`}
-                               alt='Product'
-                             />
-                           </td>
-                           <td className='name'>{itemChild?.name}</td>
-                           <td className='price'>
-                            {
-                              itemChild.discount > 0 ? 
-                              (   
-                                  <>
-                                    <p style={{textDecoration: 'line-through'}}>{formattedPrice}</p>
-                                    <p>{formattedPriceAfterDiscount}</p>
-                                  </>
-                              ):
-                              <p>{formattedPrice}</p>
-                            }
-                           </td>
-                           <td className='button'>
-                             <button onClick={() => handleDecre(itemChild)}>-</button>
-                             <input type='number' min={1} value={itemChild.amount} />
-                             <button onClick={() => handleIncre(itemChild)}>+</button>
-                           </td>
-                           <td className='total-price'>${formattedTotalPrice}</td>
-                           <td className='button'>
-                             <button onClick={() => handleRemove(itemChild)}>Gỡ</button>
-                           </td>
-                         </tr>
-                       ));
-                     })}
-                   </tbody>
-                 </Table>
-               </div>
-             ))}
+                      let totalPrice = (itemChild.price - (itemChild.price * (itemChild.discount/100))) * itemChild.amount;
+                      let priceAfterDiscount = (itemChild.price - (itemChild.price * (itemChild.discount/100)))
+                      let formattedPriceAfterDiscount = priceAfterDiscount.toLocaleString('vi-VN', {
+                       style: 'currency',
+                       currency: 'VND',
+                     });
+                     let formattedTotalPrice = totalPrice.toLocaleString('vi-VN', {
+                      style: 'currency',
+                      currency: 'VND',
+                    });
+                      return(
+                        <div className="cart" key={itemChild?.id}>
+                          <div className="cart-info">
+                            <input type="checkbox" value={Number(itemChild.id)} name={itemChild.id} checked={cartChecked.includes(itemChild.id)} onChange={handleCheckboxChange}/>
+                            <img src={`${IMG_URL}${itemChild.image}`} alt='Product'/>
+                            <div className='cart-desc'>
+                                <span className='name'>{itemChild?.name}</span>
+                                <div className='price'>
+                                    {
+                                      itemChild.discount > 0 ? 
+                                      (   
+                                          <>
+                                            <p style={{textDecoration: 'line-through'}}>{formattedPrice}</p>
+                                            <p>{formattedTotalPrice}</p>
+                                          </>
+                                      ):
+                                      <p>{formattedTotalPrice}</p>
+                                    }
+                                </div>
+                            </div>  
+                          </div>
+                          <div className="cart-action">
+                            <div className="cart-quantity">
+                              <button onClick={() => handleDecre(itemChild)}>-</button>
+                              <input type='number' min={1} value={itemChild.amount} />
+                              <button onClick={() => handleIncre(itemChild)}>+</button>
+                            </div>
+                              <button onClick={() => handleRemove(itemChild)}><i className="fa-solid fa-trash"></i></button>
+                          </div>
+                      </div>
+                      )
+                    })
+                    })
+                  }
+                </div>
+              ))
+              }
+             </div>
              {cartItems.length === 0 && (
                <div className='cart-empty'>Chưa có sản phẩm nào trong giỏ hàng</div>
              )}
-   
+
+             
+
                <div className='total-container'>
                  <div className='form'>
                    <span className='title'>Cart Total</span>

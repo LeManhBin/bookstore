@@ -28,7 +28,8 @@ const ServiceManagerPage = () => {
   const firstPageIndex = lastPageIndex - limit;
   const currentItems = allService.slice(firstPageIndex, lastPageIndex);
 
-  const totalPage = allService.length
+  const totalPage = allService.filter(data => data.status === 0).length
+
 
 
   const handleAddNewPage = () => {
@@ -51,7 +52,7 @@ const ServiceManagerPage = () => {
   const handleFilterBlog = () => {
     return allService?.filter((service) => {
       return service?.name.toLowerCase().includes(searchTerm.toLowerCase());
-    }).slice(firstPageIndex, lastPageIndex);
+    }).filter(data => data.status === 0).slice(firstPageIndex, lastPageIndex);
   }
   return (
     <div className='manager'>

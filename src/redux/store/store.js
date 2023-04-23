@@ -10,6 +10,7 @@ import cartReducer from "../features/cartSlice/cartSlice";
 import paymentReducer from "../features/paymentSlice/paymentSlice";
 import orderReducer from "../features/orderSlice/orderSlice";
 import evaluateReducer from "../features/evaluateSlice/evaluateSlice";
+import slideReducer from "../features/slideSlice/slideSlice";
 export const store = configureStore({
   reducer: {
     category: categoryReducer,
@@ -23,6 +24,7 @@ export const store = configureStore({
     payment: paymentReducer,
     order: orderReducer,
     evaluate: evaluateReducer,
+    slide: slideReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),

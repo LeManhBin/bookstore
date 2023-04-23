@@ -1,0 +1,106 @@
+.config-container {
+    background-color: #fff;
+    height: 100%;
+    width: 100%;
+    padding: 30px 50px;
+    display: flex;
+    gap: 20px;
+
+    .images-container {
+        flex: 6;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .image {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+
+            img {
+                width: 550px;
+                height: 250px;
+                object-fit: cover;
+                border-radius: 5px;
+            }
+
+            .image-action {
+                display: flex;
+                gap: 10px;
+
+                button {
+                    padding: 5px 10px;
+                    border-radius: 5px;
+                    border: none;
+                    font-weight: bold;
+                    color: #fff;
+                    font-size: 14px;
+                    outline: none;
+                }
+
+                .active-btn {
+                    background-color: #57C5B6;
+                }
+
+                .delete-btn {
+                    background-color: #FF6969;
+                }
+
+                .off-btn {
+                    background-color: #FFBF00;
+                }
+            }
+        }
+    }
+
+    form {
+        flex: 3 ;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 20px;
+
+        .input-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+
+            img {
+                width: 400px;
+                height: 200px;
+                object-fit: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+
+            input[type="file"] {
+                display: none;
+            }
+            
+            #custom-button {
+                padding: 5px 10px;
+                background-color: #007bff;
+                color: #fff;
+                border-radius: 5px;
+                cursor: pointer;
+                text-align: center;
+                // width: 100px;
+            }
+            
+            #custom-button::file-selector-button {
+                content: " ";
+            }
+        }
+
+        .add-btn {
+            padding: 5px 20px;
+            background-color: #57C5B6;
+            font-weight: bold;
+            color: #fff;
+            border: none;
+            outline: none;
+            border-radius: 5px;
+        }
+    }
+}

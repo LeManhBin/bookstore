@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import AdminHeading from '../../components/AdminHeading/AdminHeading'
 import { actFetchServiceById, actUpdateService } from '../../redux/features/serviceSlice/serviceSlide'
 import { IMG_URL } from '../../constants/config'
+import { toast } from 'react-toastify'
 
 
 const UpdateService = () => {
@@ -51,10 +52,15 @@ const UpdateService = () => {
         const formData =  new FormData();
         const formPost = Object.assign({}, formState);
         delete formPost.thumbnailByte;
+        delete formPost.quantityProduct;
         formData.append("object", JSON.stringify(formPost));
         formData.append("file", avatar);
-        dispatch(actUpdateService(service?.id,formData))
-        navigate("/admin/service")
+        if(!formState.name || !formState.price || !formState.expirationDate || !formState.description){
+            toast.warning("Vui lòng nhập đầy đủ thông tin cập nhật!!")
+        }else {
+            dispatch(actUpdateService(service?.id,formData))
+            navigate("/admin/service")
+        }
       }
     
       const handleBack = () => {
@@ -72,19 +78,19 @@ const UpdateService = () => {
         <div className='left'>
             <div className="form-input">
                 <label htmlFor="">Tên gói</label>
-                <input required type="text" name='name' value={formState?.name} onChange={handleOnChange} placeholder='Nhập tên gói'/>
+                <input type="text" name='name' value={formState?.name} onChange={handleOnChange} placeholder='Nhập tên gói'/>
             </div>
             <div className="form-input">
                 <label htmlFor="">Cước gói</label>
-                <input required type="text" name='price' value={formState?.price} onChange={handleOnChange} placeholder='Nhập cước gói'/>
+                <input type="text" name='price' value={formState?.price} onChange={handleOnChange} placeholder='Nhập cước gói'/>
             </div>
             {/* <div className="form-input">
                 <label htmlFor="">Số sản phẩm</label>
-                <input required type="text" name='quantityProduct' value={formState?.quantityProduct} onChange={handleOnChange} placeholder='Nhập số sản phẩm'/>
+                <input type="text" name='quantityProduct' value={formState?.quantityProduct} onChange={handleOnChange} placeholder='Nhập số sản phẩm'/>
             </div> */}
             <div className="form-input">
                 <label htmlFor="">Thời hạn</label>
-                <input required type="number" name='expirationDate' value={formState?.expirationDate} onChange={handleOnChange} placeholder='Nhập thời hạn'/>
+                <input type="number" name='expirationDate' value={formState?.expirationDate} onChange={handleOnChange} placeholder='Nhập thời hạn'/>
             </div>
             <div className="form-input">
                 <label htmlFor="">Chi tiết gói</label>

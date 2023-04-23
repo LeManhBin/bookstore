@@ -13,6 +13,7 @@ import ModalAcces from '../../components/ModalAcces/ModalAcces';
 import Loading from '../../components/Loading/Loading';
 import { IMG_URL } from '../../constants/config';
 import FormData from 'form-data';
+import { toast } from 'react-toastify';
 
 
 
@@ -80,8 +81,14 @@ const CategoryManagerPage = () => {
     const formData =  new FormData();
     formData.append("object", JSON.stringify(values));
     formData.append("file", thumbnail);
-    dispatch(actCreateCategory(formData))
-    reset();
+
+    if(!thumbnail) {
+      toast.warning("Vui lòng chọn hình ảnh")
+    }else {
+      dispatch(actCreateCategory(formData))
+      setThumbnail(null)
+      reset();
+    }
   }
 
   const handleModalDelete = (id) => {
@@ -205,7 +212,7 @@ const CategoryManagerPage = () => {
                           :
                           <>
                             <div className='image-input'>
-                                <img src={`${thumbnail ?  thumbnail.preview : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}`} />
+                                <img src={`${thumbnail ?  thumbnail.preview : 'https://cdn.pixabay.com/photo/2017/11/10/05/24/add-2935429_960_720.png'}`} />
                                 <input type="file" id="file-input" name='thumbnail' onChange={(e) => handlePreviewThumbnail(e) }/>
                                 <label htmlFor="file-input" id="custom-button">Chọn ảnh</label>
                             </div>

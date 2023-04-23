@@ -12,7 +12,11 @@ const Header = () => {
     const {cartItems} = useSelector((state) => state.cart)
     const {user} = useSelector((state) => state.user)
     const [cartSize, setCartSize] = useState(cartItems.length)
+    const [toggle, setToggle] = useState(false)
 
+    const handleToggle = () => {
+        setToggle(!toggle)
+    }
 
     useEffect(() => {
         dispatch(actFetchAllDataCartByIdUser(user?.id))
@@ -39,18 +43,24 @@ const Header = () => {
         navigate('/login-layout')
     }
 
+    const handleHomePage = () => {
+        navigate('/')
+    }
+
   return (
     <div className='header'>
-        <div className='header__left'>
+        <div className='header__left' onClick={handleHomePage}>
             <img src="https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/02/logo-1.svg" alt="" />
         </div>
         <div className='header__center'>
-            <ul className="header__center--links">
-                <li className='link'><NavLink style={styleActive} to={"/"}> Home</NavLink></li>
-                <li className='link'><NavLink style={styleActive} to={"/product"}> Product</NavLink></li>
-                <li className='link'><NavLink style={styleActive} to={"/vendor"}> Vendor</NavLink></li>
-                {/* <li className='link'><NavLink style={styleActive} to={"/blog"}> Blog</NavLink></li> */}
-                <li className='link'><NavLink style={styleActive} to={"/contact"}> Contact</NavLink></li>
+            <ul className={toggle ? "header__center--links open-links" : "header__center--links"}>
+                <span className='close-btn' onClick={handleToggle}><i className="fa-solid fa-xmark"></i></span>
+                <li className='link' onClick={() => setToggle(false)}><NavLink style={styleActive} to={"/"}> Home</NavLink></li>
+                <li className='link' onClick={() => setToggle(false)}><NavLink style={styleActive} to={"/product"}> Product</NavLink></li>
+                <li className='link' onClick={() => setToggle(false)}><NavLink style={styleActive} to={"/vendor"}> Vendor</NavLink></li>
+                {/* <li className='link' onClick={() => setToggle(false)}><NavLink style={styleActive} to={"/blog"}> Blog</NavLink></li> */}
+                <li className='link' onClick={() => setToggle(false)}><NavLink style={styleActive} to={"/contact"}> Contact</NavLink></li>
+                <li className='link logout' onClick={handleLogout}>Đăng xuất</li>
             </ul>
         </div>
         <div className="header__right">
@@ -82,6 +92,7 @@ const Header = () => {
                     <NavLink style={styleActive} to={"/cart"}><i className="fa-solid fa-cart-shopping"></i></NavLink>
                     <span className="quantity">{totalItems}</span>
                 </div>
+                <span className='open-btn' onClick={handleToggle}><i className="fa-solid fa-bars"></i></span>
             </div>
         </div>
     </div>

@@ -4,6 +4,7 @@ import './AddPromotionPage.scss'
 import { DatePicker } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { actCreatePromotion, actFetchBookByIdStore,actFetchBookPromotionsByTime } from '../../redux/features/bookSlice/bookSlice'
+import { toast } from 'react-toastify'
 const AddPromotionPage = () => {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(null);
@@ -75,7 +76,11 @@ const AddPromotionPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        dispatch(actCreatePromotion({...formState, bookIds: productChecked}))
+        if(!formState.name || !formState.discount || !formState.endDate || productChecked.length < 1){
+            toast.warning("Vui lòng nhập đầy đủ thông tin khuyến mãi!!")
+        }else{
+            dispatch(actCreatePromotion({...formState, bookIds: productChecked}))
+        }
     }
   return (
     <div className='add-new-promotion'>

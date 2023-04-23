@@ -63,6 +63,7 @@ import UpdateProductPage from "./pageStore/UpdateProductPage/UpdateProductPage";
 import UpdatePromotionPage from "./pageStore/UpdatePromotionPage/UpdatePromotionPage";
 import AccountAdmin from "./pagesAdmin/AccountManagerPage/AccountAdmin";
 import ConfigSlide from "./pagesAdmin/ConfigSlide/ConfigSlide";
+import AccountLockPage from "./pages/AccountLockPage/AccountLockPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -112,6 +113,7 @@ function App() {
           <Route path="sale-register" element={<SaleRegisterPage />} />
           <Route path="register-service" element={<RegisterServicePage />} />
           <Route path="payment-result" element={<PaymentSuccess />} />
+          <Route path="account-lock" element={<AccountLockPage />} />
           <Route
             path="/admin"
             element={userCurrent.role === 0 ? <ROR404 /> : <AdminLayout />}

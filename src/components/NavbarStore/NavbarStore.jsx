@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { actFetchStoreById } from '../../redux/features/storeSlice/storeSlice'
 import { IMG_URL } from '../../constants/config'
+import { actLogout } from '../../redux/features/userSlice/userSlice'
 const NavbarStore = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -17,6 +18,11 @@ const NavbarStore = () => {
     useEffect(() => {
         dispatch(actFetchStoreById(user.storeId))
     },[user])
+
+    const handleLogOut = () => {
+        dispatch(actLogout())
+        navigate("/login-layout")
+    }
     
   return (
     <div className='navbar-store'>
@@ -27,7 +33,7 @@ const NavbarStore = () => {
             </div>
             <ul className='action'>
                 <li onClick={handleProfile}>Chỉnh sửa thông tin</li>
-                <li>Đăng xuất</li>
+                <li onClick={handleLogOut}>Đăng xuất</li>
             </ul>
         </div>
     </div>

@@ -32,8 +32,10 @@ const LoginPage = () => {
   useEffect(() => {
     if(isLogged === true && user.role === 0) {
       navigate('/')
-    }else if(isLogged === true && user.role === 1) {
+    }else if(isLogged === true && user.role === 1 && user.status === 0) {
       navigate('/admin')
+    } else if(isLogged == true && user.status === 1) {
+      navigate('/account-lock')
     }
   },[isLogged, navigate])
 

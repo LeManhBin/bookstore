@@ -6,6 +6,7 @@ import { actFetchUserById, actUpdateUser } from '../../redux/features/userSlice/
 import FormData from 'form-data'
 import './UpdateAccount.scss'
 import { IMG_URL } from '../../constants/config'
+import { toast } from 'react-toastify'
 const UpdateAccount = () => {
     const navigate = useNavigate()
     const param = useParams()
@@ -64,8 +65,12 @@ const UpdateAccount = () => {
         delete formPost.imageBytes;
         formData.append("object", JSON.stringify(formPost));
         formData.append("file", avatar);
-        dispatch(actUpdateUser(user?.id,formData))
-        navigate('/admin/account-manager')
+
+        if(!formUpdate.fullName || !formUpdate.email || !formUpdate.gender || !formUpdate.address || !formUpdate.phone || !formUpdate.password || !formUpdate.role) {
+            toast.warning("Vui lòng nhập đủ thông tin cần cập nhật!!")
+        }else {
+            dispatch(actUpdateUser(user?.id,formData))
+        }
     }
     const handleBack = () => {
         navigate('/admin/account-manager')
@@ -80,13 +85,13 @@ const UpdateAccount = () => {
             <div className='left'>
                 <div className="form-input">
                     <label htmlFor="">Họ và tên</label>
-                    <input required type="text" name='fullName' placeholder='Nhập họ và tên'
+                    <input type="text" name='fullName' placeholder='Nhập họ và tên'
                         value={formUpdate?.fullName} onChange={handleOnChange}
                     />
                 </div>
                 <div className="form-input">
                     <label htmlFor="">Số điện thoại</label>
-                    <input required type="text" name='phone' placeholder='Nhập số điện thoại'
+                    <input type="text" name='phone' placeholder='Nhập số điện thoại'
                         value={formUpdate?.phone} onChange={handleOnChange}
                     />
                 </div>
@@ -114,19 +119,19 @@ const UpdateAccount = () => {
             <div className='center'>
                 <div className="form-input">
                     <label htmlFor="">Email</label>
-                    <input required type="email" placeholder='Nhập vào email' name='email' 
+                    <input type="email" placeholder='Nhập vào email' name='email' 
                         value={formUpdate?.email} onChange={handleOnChange}
                     />
                 </div>
                 <div className="form-input">
                     <label htmlFor="">Địa chỉ</label>
-                    <input required type="text" name='address'  placeholder='Nhập vào địa chỉ' 
+                    <input type="text" name='address'  placeholder='Nhập vào địa chỉ' 
                     value={formUpdate?.address} onChange={handleOnChange}
                     />
                 </div>
                 <div className="form-input">
                     <label htmlFor="">Password</label>
-                    <input required type="password" placeholder='Nhập vào password' name='password' 
+                    <input type="password" placeholder='Nhập vào password' name='password' 
                     value={formUpdate?.password} onChange={handleOnChange}
                     
                     />

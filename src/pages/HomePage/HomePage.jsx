@@ -19,6 +19,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { actFetchAllBook, actFetchBookBestSelling } from '../../redux/features/bookSlice/bookSlice'
 import { actFetchAllStore } from '../../redux/features/storeSlice/storeSlice'
 import Loading from '../../components/Loading/Loading'
+import { actFetchAllSlide } from '../../redux/features/slideSlice/slideSlice'
+import { IMG_URL } from '../../constants/config'
 const HomePage = () => {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams();
@@ -37,8 +39,8 @@ const HomePage = () => {
       {
         breakpoint: 1200,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 3,
+          slidesToShow: 1,
+          slidesToScroll: 1,
           infinite: true,
           dots: true
         }
@@ -46,8 +48,8 @@ const HomePage = () => {
       {
         breakpoint: 1415,
         settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
+          slidesToShow: 1,
+          slidesToScroll: 1,
           infinite: true,
           dots: true
         }
@@ -55,9 +57,9 @@ const HomePage = () => {
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          initialSlide:1
         }
       },
       {
@@ -85,7 +87,8 @@ const HomePage = () => {
           slidesToShow: 2,
           slidesToScroll: 3,
           infinite: true,
-          dots: true
+          dots: true,
+          with: 800,
         }
       },
       {
@@ -94,7 +97,8 @@ const HomePage = () => {
           slidesToShow: 3,
           slidesToScroll: 3,
           infinite: true,
-          dots: true
+          dots: true,
+          with:  800,
         }
       },
       {
@@ -119,8 +123,13 @@ const HomePage = () => {
   const {allStore} = useSelector((state) => state.store)
   const [searchTerm, setSearchTerm] = useState([])
   const {isLoading} = useSelector((state) => state.book)
-
+  const {allSlide} = useSelector((state) => state.slide)
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isCategory, setIsCategory] = useState(false);
+
+  const handleShowCategory = () => {
+    setIsCategory(!isCategory)
+  }
 
 
   useEffect(() => {
@@ -132,6 +141,7 @@ const HomePage = () => {
 
   useEffect(() => {
     dispatch(actFetchAllStore())
+    dispatch(actFetchAllSlide())
   },[])
 
   useEffect(() => {
@@ -160,7 +170,12 @@ const HomePage = () => {
                     <i className="fa-solid fa-braille"></i>
                     <span>Categories</span>
                   </div>
-                  <span className='icon'><i className="fa-solid fa-angle-up"></i></span>
+                  <span className='icon' onClick={handleShowCategory}><i className="fa-solid fa-angle-up"></i></span>
+                  <div className='category-list'>
+                    {
+                      isCategory && <CategoryList/>
+                    }
+                  </div>
               </div>
               <div className="search">
                   <div className='search-input'>
@@ -173,31 +188,14 @@ const HomePage = () => {
                 <span>Find a Book Store</span>
               </div>
           </div>
-          <div className="homepage-container">
-            <div className='homepage__left'>
-                <div className='homepage__left--category'>
-                    <CategoryList/>
-                </div>
-                <div className='homepage__left--top'>
-                  <TopProduct/>
-                </div>
-                <div className="homepage__left--best">
-                  <BestSeller/>
-                </div>
-                <div className='banner-stand'>
-                  <StandBanner/>
-                </div>
-            </div>
-    
-            <div className="homepage__right">
-                <div className='homepage__right--slide'>
+          <div className='homepage-slide'>
                     {
                       <Slider {...settings}>
                           {
-                            slideData?.map(data => {
+                            allSlide?.filter(slide => slide.status === 1).map(data => {
                               return(
                                 <div key={data.id}>
-                                    <img src={data.img} alt="" />
+                                    <img src={`${IMG_URL}${data.fileName}`} alt="" />
                                 </div>
                               )
                             })
@@ -205,6 +203,23 @@ const HomePage = () => {
                       </Slider>
                     }
                 </div>
+          <div className="homepage-container">
+              {/* <div className='homepage__left'>
+                  <div className='homepage__left--category'>
+                      <CategoryList/>
+                  </div>
+                  <div className='homepage__left--top'>
+                    <TopProduct/>
+                  </div>
+                  <div className="homepage__left--best">
+                    <BestSeller/>
+                  </div>
+                  <div className='banner-stand'>
+                    <StandBanner/>
+                  </div>
+              </div> */}
+    
+            <div className="homepage__right">
                 <div className="homepage__right--product">
                     <div className="heading">
                         <p className='title'>Popular Books</p>
@@ -212,7 +227,7 @@ const HomePage = () => {
                     </div>
                     <div className='product-container'>
                       {
-                        allBook?.data?.filter(book => book.status === 0).slice(0,6).map(data => {
+                        allBook?.data?.filter(book => book.status === 0).slice(0,8).map(data => {
                           return (
                             <div key={data?.id}>
                               <Card data={data}/>
@@ -234,7 +249,7 @@ const HomePage = () => {
                     </div>
                     <div className='product-container'>
                       {
-                        allBook?.data?.filter(book => book.status === 0).filter(card => card.discount > 0).slice(0,6).map(data => {
+                        allBook?.data?.filter(book => book.status === 0).filter(card => card.discount > 0).slice(0,8).map(data => {
                           return (
                             <div key={data?.id}>
                               <Card data={data}/>

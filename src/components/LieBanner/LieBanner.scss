@@ -1,8 +1,10 @@
 .banner-container {
     display: flex;
     align-items: center;
-    gap: 20px;
+    justify-content: center;
+    gap: 50px;
     width: 100%;
+    flex-wrap: wrap;
 
     .banner-left {
        width: 470px;

@@ -5,6 +5,7 @@ import AdminHeading from '../../components/AdminHeading/AdminHeading'
 import { actCreateUser } from '../../redux/features/userSlice/userSlice'
 import FormData from 'form-data'
 import './AddNewAccount.scss'
+import { toast } from 'react-toastify'
 
 const initialState = {
     fullName: '',
@@ -71,8 +72,12 @@ const AddNewAccount = () => {
         const formData =  new FormData();
         formData.append("object", JSON.stringify(formState));
         formData.append("file", dataImg);
-        dispatch(actCreateUser(formData))
-        // navigate("/admin/account-manager")
+
+        if(!formState.fullName || !formState.email || !formState.gender || !formState.address || !formState.phone || !formState.password || !formState.role || !dataImg){
+            toast.warning("Vui lòng điền đầy đủ thông tin người dùng!")
+        }else {
+            dispatch(actCreateUser(formData))
+        }
 
     }
     const handleBack = () => {
@@ -88,11 +93,11 @@ const AddNewAccount = () => {
             <div className='left'>
                 <div className="form-input">
                     <label htmlFor="">Họ và tên</label>
-                    <input required type="text" name='fullName' value={formState.fullName} onChange={handleOnChange} placeholder='Nhập họ và tên'/>
+                    <input type="text" name='fullName' value={formState.fullName} onChange={handleOnChange} placeholder='Nhập họ và tên'/>
                 </div>
                 <div className="form-input">
                     <label htmlFor="">Số điện thoại</label>
-                    <input required type="text" name='phone' value={formState.phone} onChange={handleOnChange} placeholder='Nhập số điện thoại'/>
+                    <input type="text" name='phone' value={formState.phone} onChange={handleOnChange} placeholder='Nhập số điện thoại'/>
                 </div>
                 <div className="form-input">
                     <label htmlFor="">Giới tính</label>
@@ -118,15 +123,15 @@ const AddNewAccount = () => {
             <div className='center'>
                 <div className="form-input">
                     <label htmlFor="">Email</label>
-                    <input required type="email" placeholder='Nhập vào email' name='email' value={formState.email} onChange={handleOnChange}/>
+                    <input type="email" placeholder='Nhập vào email' name='email' value={formState.email} onChange={handleOnChange}/>
                 </div>
                 <div className="form-input">
                     <label htmlFor="">Địa chỉ</label>
-                    <input required type="text" name='address' value={formState.address} onChange={handleOnChange} placeholder='Nhập vào địa chỉ' />
+                    <input type="text" name='address' value={formState.address} onChange={handleOnChange} placeholder='Nhập vào địa chỉ' />
                 </div>
                 <div className="form-input">
                     <label htmlFor="">Password</label>
-                    <input required type="password" placeholder='Nhập vào password' name='password' value={formState.password} onChange={handleOnChange} />
+                    <input type="password" placeholder='Nhập vào password' name='password' value={formState.password} onChange={handleOnChange} />
                 </div>
             </div>
             <div className='right'>

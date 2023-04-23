@@ -3,11 +3,12 @@
     height: 200px;
     display: flex;
     align-items: center;
-    padding: 0px 110px;
+    justify-content: center;
 
 
     h1 {
          font-size: 55px;
          font-weight: bold;
+         white-space: nowrap;
     }
 }
