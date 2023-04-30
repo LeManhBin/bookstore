@@ -19,7 +19,7 @@ const ProductDetailPage = () => {
         dots: true,
         infinite: true,
         speed: 900,
-        slidesToShow: 6,
+        slidesToShow: 5,
         slidesToScroll: 1,
         initialSlide: 0,
         autoplay: true,
@@ -57,7 +57,7 @@ const ProductDetailPage = () => {
             breakpoint: 480,
             settings: {
               slidesToShow: 1,
-              slidesToScroll: 1
+              slidesToScroll: 1,
             }
           }
         ]
@@ -83,6 +83,7 @@ const ProductDetailPage = () => {
         style: 'currency',
         currency: 'VND',
     });
+
     let formattedpriceAfterDiscount = priceAfterDiscount.toLocaleString('vi-VN', {
         style: 'currency',
         currency: 'VND',
@@ -108,6 +109,7 @@ const ProductDetailPage = () => {
     useEffect(() => {
         dispatch(actFetchDataEvaluateByIdBook(book.id))
     },[book])
+
 
 
     useEffect(() => {

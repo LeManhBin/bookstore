@@ -101,12 +101,12 @@
                 .form-input {
                     display: flex;
                     align-items: center;
-                    gap: 20px;
+                    gap: 10px;
 
                     label {
                         font-weight: 20px;
                         font-weight: 500;
-                        width: 100px;
+                        width: 70px;
                     }
 
                     input {
@@ -186,6 +186,7 @@
                     border: 1px solid #FF6464;
                     background-color: #fff;
                     color: #FF6464;
+                    white-space: nowrap;
                 }
             }
         }

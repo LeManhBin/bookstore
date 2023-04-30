@@ -41,6 +41,8 @@
                 flex-direction: column;
                 gap: 5px;
 
+
+
                 label {
                     font-size: 14px;
                     color: #5a5a5a;
@@ -86,6 +88,11 @@
                 flex-direction: column;
                 gap: 5px;
 
+                button {
+                    outline: none;
+                    border: 1px solid #eee;
+                }
+                
                 label {
                     font-size: 14px;
                     color: #5a5a5a;
@@ -96,6 +103,19 @@
                     padding: 5px 10px;
                     border-radius: 5px;
                     border: 1px solid #eee;
+                }
+
+                .input-select {
+                    display: flex;
+                    gap: 5px;
+                    flex-direction: column;
+                    align-items: center;
+
+                    select {
+                        width: 225px;
+                        padding: 2px 3px;
+                        border: 1px solid #eee;
+                    }
                 }
             }
         }

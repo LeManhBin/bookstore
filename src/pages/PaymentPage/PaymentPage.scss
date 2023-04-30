@@ -109,6 +109,26 @@
                         }
                     }
 
+                    .bill-container {
+                        display: flex;
+                        justify-content: flex-end;
+                        padding: 5px 10px;
+                        border: 1px solid #eee;
+
+                        .total-store {
+                            width: 100%;
+                            height: auto;
+                            display: flex;
+                            flex-direction: column;
+
+
+                            p {
+                                margin: 0;
+                            }
+
+                        }
+                    }
+
                     .total-payment {
                         border: 2px solid #f65d4e;
                         display: flex;

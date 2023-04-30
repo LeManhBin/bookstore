@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import {
   fetchAllDataService,
+  fetchConfirmRegisterService,
   fetchCreateService,
   fetchDataServiceById,
   fetchDeleteService,
@@ -38,6 +39,13 @@ export const actFetchRegisterService = createAsyncThunk(
   "service/actFetchRegisterService",
   async (payload) => {
     const data = await fetchRegisterService(payload);
+    return data || {};
+  }
+);
+export const actFetchConfirmRegisterService = createAsyncThunk(
+  "service/actFetchConfirmRegisterService",
+  async ({ idUser, idService }) => {
+    const data = await fetchConfirmRegisterService(idUser, idService);
     return data || {};
   }
 );

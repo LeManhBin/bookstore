@@ -40,7 +40,7 @@ const Widget = ({type, quantity}) => {
           data={
               title: "Doanh thu",
               isMoney: true,
-              amount: 999,
+              amount: quantity,
               icon: <i className="fa-solid fa-sack-dollar" style={{color: '#379237', backgroundColor: '#54B435' }}></i>
           };
           break;

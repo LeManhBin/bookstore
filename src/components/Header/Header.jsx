@@ -11,23 +11,28 @@ const Header = () => {
     const dispatch = useDispatch()
     const {cartItems} = useSelector((state) => state.cart)
     const {user} = useSelector((state) => state.user)
-    const [cartSize, setCartSize] = useState(cartItems.length)
     const [toggle, setToggle] = useState(false)
+    const [totalItems, setTotalItems] = useState(0);
 
+   const userId = user?.id
     const handleToggle = () => {
         setToggle(!toggle)
     }
 
     useEffect(() => {
-        dispatch(actFetchAllDataCartByIdUser(user?.id))
-    },[])
+        if (userId) {
+          dispatch(actFetchAllDataCartByIdUser(userId));
+        }
+      }, [userId])
 
-    let totalItems = 0;
+    useEffect(() => {
+        let newTotalItems = 0;
+        for (let i = 0; i < cartItems.length; i++) {
+            newTotalItems += cartItems[i].cartDetails.length;
+        }
+        setTotalItems(newTotalItems);
+    }, [cartItems])
 
-    for (let i = 0; i < cartItems.length; i++) {
-        totalItems += cartItems[i].cartDetails.length;
-    }
- 
     const styleActive = ({isActive}) => {
         return {
           color: isActive ? '#F65D4E' : '#000'
@@ -60,7 +65,9 @@ const Header = () => {
                 <li className='link' onClick={() => setToggle(false)}><NavLink style={styleActive} to={"/vendor"}> Vendor</NavLink></li>
                 {/* <li className='link' onClick={() => setToggle(false)}><NavLink style={styleActive} to={"/blog"}> Blog</NavLink></li> */}
                 <li className='link' onClick={() => setToggle(false)}><NavLink style={styleActive} to={"/contact"}> Contact</NavLink></li>
-                <li className='link logout' onClick={handleLogout}>Đăng xuất</li>
+                {
+                    isLogged && <li className='link logout' onClick={handleLogout}>Đăng xuất</li>
+                }
             </ul>
         </div>
         <div className="header__right">

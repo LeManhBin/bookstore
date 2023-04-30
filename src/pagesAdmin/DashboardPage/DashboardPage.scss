@@ -1,6 +1,36 @@
 .dashboard-container {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    height: 100vh;
 
+    .select-date {
+        display: flex;
+        align-items: flex-end;
+        gap: 20px;
 
+        .input-date {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+            input {
+                width: 150px;
+                padding: 5px 10px;
+                border: 1px solid #eee;
+                outline: none;
+            }
+        }
+
+        button {
+            padding: 5px 10px;
+            border: none;
+            font-weight: bold;
+            color: #fff;
+            background-color: #19A7CE;
+        }
+
+    }
     .wrapper-container {
         display: flex;
         gap: 20px;

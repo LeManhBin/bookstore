@@ -126,19 +126,21 @@ const AllProductPage = () => {
                         }else {
                           status = <Status text={"Ngừng hoạt động"} className={"stop"}/>
                         }
+                        let formattedPrice = book?.price?.toLocaleString('vi-VN', {
+                          style: 'currency',
+                          currency: 'VND',
+                      });
                         return(
                           <tr key={book?.id}> 
                             <td>{book.id}</td>
                             <td>{book?.name}</td>
                             <td className='img'>
-                                <img src={`${IMG_URL}${book?.images[0]}`} alt="Avatar" />
+                                <img src={`${IMG_URL}${book?.image}`} alt="Avatar" />
                             </td>
                             <td>{book?.author}</td>
-                            {/* <td>{book?.categoryEntity?.name}</td>
-                             */}
-                             <td>{book?.quantity}</td>
-                            <td>{book?.price}</td> 
-                            <td>{book?.discount}</td>
+                            <td>{book?.quantity}</td>
+                            <td>{formattedPrice}</td> 
+                            <td>{book?.discount}%</td>
                             <td>{status}</td>
                             <td className='button'>
                               <button className='edit-btn' onClick={() => handleShowDetailProduct(book?.id)}><i className="fa-solid fa-eye"></i></button>

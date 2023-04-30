@@ -8,6 +8,8 @@ const VendorTitle = ({data}) => {
     const handleShowDetail = (id) => {
         navigate(`/vendor/${id}`)
     }
+
+    console.log(data);
   return (
     <div className='vendor-container'>
         <div className='top' style={{backgroundImage: `url(${IMG_URL}${data.coverImage})`}}>
@@ -19,7 +21,7 @@ const VendorTitle = ({data}) => {
                 <i className="fa-solid fa-star"></i>
                 <i className="fa-solid fa-star"></i>
             </span>
-            <span className='address'>{data?.address}</span>
+            <span className='address'>{data?.address?.fullAddress}</span>
             <div className="phone"><i className="fa-solid fa-phone"></i>{data?.phone}</div>
         </div>
         <div className="bot">

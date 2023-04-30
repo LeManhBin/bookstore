@@ -52,7 +52,7 @@ const ViewStore = () => {
                   <img src={`${IMG_URL}${store?.data?.avatar}`} alt="avatar" />
                   <div className='desc'>
                     <p className='name'>{store?.data?.name}</p>
-                    <p className='address'>{store?.data?.address}</p>
+                    <p className='address'>{store?.data?.address?.fullAddress}</p>
                     <p className='email'>{store?.data?.email}</p>
                     <p className='phone'>{store?.data?.phone}</p>
                   </div>

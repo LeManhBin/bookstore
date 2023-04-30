@@ -41,7 +41,17 @@ const DetailPromotion = () => {
                     {
                       promotion.map((data, index) => {
                         
-                        const priceAfterDiscount = data.price - (data.price * (data.discount/100)) 
+                        const priceAfterDiscount = data?.price - (data?.price * (data.discount/100)) 
+                        const formatPrice = data.price.toLocaleString('vi-VN', {
+                          style: 'currency',
+                          currency: 'VND',
+                      });
+
+                        const formattedPriceAfterDiscount = priceAfterDiscount.toLocaleString('vi-VN', {
+                          style: 'currency',
+                          currency: 'VND',
+                      });
+
                         return(
                           <>
                             <tr key={data?.id}>
@@ -51,8 +61,8 @@ const DetailPromotion = () => {
                                 <img src={`${IMG_URL}${data.image}`} alt="" style={{width: '50px', height: '80px', objectFit: 'cover'}}/>
                               </td>
                               <td>{data.discount}%</td>
-                              <td>{data.price}</td>
-                              <td>{priceAfterDiscount}</td>
+                              <td>{formatPrice}</td>
+                              <td>{formattedPriceAfterDiscount}</td>
                             </tr>
                           </>
                         )

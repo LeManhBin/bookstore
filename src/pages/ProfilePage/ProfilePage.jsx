@@ -7,13 +7,13 @@ import './ProfilePage.scss'
 import FormData from 'form-data'
 import Account from '../../components/Account/Account'
 import { IMG_URL } from '../../constants/config'
+
 const ProfilePage = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const {user} = useSelector((state) => state.user)
   const [formState, setFormState] = useState(user)
   const [avatar, setAvatar] = useState(null)
-
 
   const handlePreviewAvatar = (e) => {
       const file = e.target.files[0]
@@ -45,12 +45,16 @@ const ProfilePage = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     const formData =  new FormData();
-    const formPost = Object.assign({}, formState);
+    const formPost = Object.assign({
+      ...formState,
+      addressId: formState?.address?.id
+    });
     delete formPost.imageBytes;
+    delete formPost.address;
     formData.append("object", JSON.stringify(formPost));
     formData.append("file", avatar);
     dispatch(actUpdateProfile(user?.id,formData, formState))
-  }
+}
 
   const handleChangePhonePage = () => {
     navigate('/account/profile/phone')
@@ -60,6 +64,9 @@ const ProfilePage = () => {
   }
   const handleChangePasswordPage = () => {
     navigate('/account/profile/password')
+  }
+  const handleChangeAddressPage = () => {
+    navigate('/account/profile/address')
   }
   useScrollToTop()
   return (
@@ -79,13 +86,8 @@ const ProfilePage = () => {
                           <input type="file" className='input-img' id='file-upload' onChange={(e) => handlePreviewAvatar(e) }/>
                       </div>
                       <div className='form-input'>
-                          {/* <label htmlFor="">Họ & tên</label> */}
                           <input type="text" name="fullName" id="" value={formState?.fullName} placeholder='Thêm họ và tên' onChange={handleOnChange}/>
                       </div>
-                  </div>
-                  <div className='form-input'>
-                      <label htmlFor="">Địa chỉ</label>
-                      <input type="text"  name="address" id="" value={formState?.address} placeholder='Thêm địa chỉ' onChange={handleOnChange}/>
                   </div>
                   <div className='form-input'>
                       <label htmlFor="">Giới tính</label>
@@ -105,6 +107,16 @@ const ProfilePage = () => {
             </div>
             <div className='profile-security'>
                 <span className='heading'>Số điện thoại & Email</span>
+                <div className='change-container'>
+                    <div className='detail'>
+                      <i className="fa-solid fa-location-dot"></i>
+                      <div className='content'>
+                          <p className='title'>Địa chỉ</p>
+                          <span>{formState.address ? formState.address.fullAddress : 'Thêm địa chỉ'}</span>
+                      </div>
+                    </div>
+                    <button onClick={handleChangeAddressPage}>Cập nhật</button>
+                </div>
                 <div className='change-container'>
                     <div className='detail'>
                       <i className="fa-solid fa-phone"></i>

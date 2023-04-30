@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { actAddToCart, actCreateCart, actFetchAllDataCartByIdUser } from '../../redux/features/cartSlice/cartSlice'
 import './Card.scss'
 import { IMG_URL } from '../../constants/config'
+import { toast } from 'react-toastify'
 const Card = ({data}) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -20,7 +21,7 @@ const Card = ({data}) => {
         style: 'currency',
         currency: 'VND',
     });
-    let formattedpriceAfterDiscount = priceAfterDiscount.toLocaleString('vi-VN', {
+    let formattedPriceAfterDiscount = priceAfterDiscount.toLocaleString('vi-VN', {
         style: 'currency',
         currency: 'VND',
     });
@@ -36,7 +37,11 @@ const Card = ({data}) => {
     },[user])
 
     const handleAddToCard = () => {
-        dispatch(actCreateCart(cartState))
+        if(!user.id) {
+            toast.warning("Vui lòng đăng nhập !!")
+        }else {
+            dispatch(actCreateCart(cartState))
+        }
     }
 
   return (
@@ -49,8 +54,8 @@ const Card = ({data}) => {
             ): (<></>)
         }
         <div className='card-img'>
-        {data.images && data.images.length > 0 && (
-                    <img src={`${IMG_URL}${data?.images[0]}`} alt="Product" />
+        {data.image && data.image.length > 0 && (
+                    <img src={`${IMG_URL}${data?.image}`} alt="Product" />
             )}
 
             <div className='card-action'>
@@ -79,7 +84,7 @@ const Card = ({data}) => {
                 {
                     (data.discount > 0) && <span className='adv-price'>${formattedPrice}</span>
                 }
-                <span className='later-price'>${formattedpriceAfterDiscount}</span>
+                <span className='later-price'>${formattedPriceAfterDiscount}</span>
             </div>
         </div>
     </div>

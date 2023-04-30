@@ -8,15 +8,19 @@ const CardVendor = ({data}) => {
   const navigate = useNavigate()
   const {bookByStore} = useSelector((state) => state.book)
   const dispatch = useDispatch()
-  const [quantityProduct, setQuantityProduct] = useState("")
+  const [quantityProduct, setQuantityProduct] = useState(0)
 
   useEffect(() => {
     dispatch(actFetchBookByIdStore(data.id))
   },[data.id])
 
-  useEffect(() => {
-    setQuantityProduct(bookByStore.length)
-  },[bookByStore])
+  // useEffect(() => {
+  //   if (bookByStore.length > 0) {
+  //     setQuantityProduct(bookByStore.length)
+  //   }
+  // },[bookByStore])
+
+  console.log(data);
 
   const handleClickVendorDetail = (id) => {
     navigate(`/vendor/${id}`)
@@ -32,7 +36,7 @@ const CardVendor = ({data}) => {
         </div>
         <div className='content'>
             <div className="name">{data?.name}</div>
-            <div className="quantity">{quantityProduct} Product</div>
+            {/* <div className="quantity">{quantityProduct} Product</div> */}
         </div>
     </div>
   )

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import AdminHeading from '../../components/AdminHeading/AdminHeading'
 import { actCreateUser } from '../../redux/features/userSlice/userSlice'
 import FormData from 'form-data'
 import './AddNewAccount.scss'
 import { toast } from 'react-toastify'
+import AddressPopup from '../../components/AddressPopup/AddressPopup'
+import { actFetchDataDistrict, actFetchDataProvince, actFetchDataWard } from '../../redux/features/provinceSlice/provinceSlice'
 
 const initialState = {
     fullName: '',
@@ -21,8 +23,117 @@ const AddNewAccount = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [formState, setFormState] = useState(initialState)
-
+    const [isAddress, setIsAddress] = useState(false)
     const [dataImg, setDataImg] = useState(null)
+
+    const initialAddress = {
+        houseNumber: "",
+        provinceName: "",
+        province_id: "",
+        districtName: "",
+        district_id: "",
+        wardName: "",
+        ward_id: "",
+    }
+    const [addressState, setAddressState] = useState(initialAddress)
+    
+    const {province} = useSelector((state) => state.province)
+    const {district} = useSelector((state) => state.province)
+    const {ward} = useSelector((state) => state.province)
+    
+    useEffect(() => {
+        dispatch(actFetchDataProvince())
+    },[])
+    
+    useEffect(() => {
+        if(addressState.province_id) {
+            dispatch(actFetchDataDistrict(addressState.province_id))
+        }
+    },[addressState])
+    
+    useEffect(() => {
+        if(addressState.province_id && addressState.district_id) {
+            dispatch(actFetchDataWard(addressState.district_id))
+        }
+    },[addressState])
+    
+    
+    
+    const handleOnChangeProvince = (e) => {
+        const {value} = e.target
+        let num = "";
+        let text = "";
+        console.log(value);
+        for (let i = 0; i < value.length; i++) {
+            if (isNaN(value[i])) {
+                text += value[i];
+            } else {
+                num += value[i];
+            }
+        }
+        setAddressState({
+            ...addressState,
+            province_id: Number(num),
+            provinceName: text
+        })
+    }
+    const handleOnChangeDistrict = (e) => {
+        const {value} = e.target
+        let num = "";
+        let text = "";
+    
+        for (let i = 0; i < value.length; i++) {
+            if (isNaN(value[i])) {
+                text += value[i];
+            } else {
+                num += value[i];
+            }
+        }
+        setAddressState({
+            ...addressState,
+            district_id: Number(num),
+            districtName: text
+        })
+    }
+    const handleOnChangeWard = (e) => {
+        const {value} = e.target
+        let num = "";
+        let text = "";
+    
+        for (let i = 0; i < value.length; i++) {
+            if (isNaN(value[i])) {
+                text += value[i];
+            } else {
+                num += value[i];
+            }
+        }
+        setAddressState({
+            ...addressState,
+            ward_id: Number(num),
+            wardName: text
+        })
+    }
+    
+    const handelOnChangeNumberHouse = (e) => {
+        const {value} = e.target
+        setAddressState({
+            ...addressState,
+            houseNumber: value
+        })
+    }
+    const data = {
+      provinceId: addressState?.province_id,
+      districtId: addressState?.district_id,
+      wardId: addressState?.ward_id,
+      fullAddress: `${addressState.houseNumber} - ${addressState.provinceName} - ${addressState.districtName} - ${addressState.wardName}`
+    }
+
+    useEffect(() => {
+        setFormState({
+          ...formState,
+          address: data,
+        })
+      },[addressState])
  
     const handlePreviewAvatar = (e) => {
         const file = e.target.files[0]
@@ -73,11 +184,12 @@ const AddNewAccount = () => {
         formData.append("object", JSON.stringify(formState));
         formData.append("file", dataImg);
 
-        if(!formState.fullName || !formState.email || !formState.gender || !formState.address || !formState.phone || !formState.password || !formState.role || !dataImg){
+        if(!formState.fullName || !formState.email || !formState.gender || !formState.phone || !formState.password  || !dataImg){
             toast.warning("Vui lòng điền đầy đủ thông tin người dùng!")
         }else {
             dispatch(actCreateUser(formData))
         }
+        console.log(formState);
 
     }
     const handleBack = () => {
@@ -90,6 +202,9 @@ const AddNewAccount = () => {
             <button onClick={handleBack}>Quay lại</button>
         </div>
         <form onSubmit={handleSubmit}>
+            {
+                isAddress && <AddressPopup setIsAddress={setIsAddress}/>
+            }
             <div className='left'>
                 <div className="form-input">
                     <label htmlFor="">Họ và tên</label>
@@ -125,9 +240,35 @@ const AddNewAccount = () => {
                     <label htmlFor="">Email</label>
                     <input type="email" placeholder='Nhập vào email' name='email' value={formState.email} onChange={handleOnChange}/>
                 </div>
-                <div className="form-input">
-                    <label htmlFor="">Địa chỉ</label>
-                    <input type="text" name='address' value={formState.address} onChange={handleOnChange} placeholder='Nhập vào địa chỉ' />
+                <div className="form-input" style={{width: "225px"}}>
+                  <label htmlFor="">Địa chỉ</label>
+                      <input type="text" placeholder='Nhập số nhà' value={addressState.houseNumber} onChange={handelOnChangeNumberHouse}/>
+                        <div className="input-select">
+                        <select name="province_id" id="" onChange={handleOnChangeProvince}>
+                            <option value="">Chọn tỉnh</option>
+                            {
+                                province.map(data => (
+                                    <option  key={data?.ProvinceID} value={`${data?.ProvinceID}${data?.ProvinceName}`}>{data?.ProvinceName}</option>
+                                ))
+                            }
+                        </select>
+                        <select name="district_id" id="" onChange={handleOnChangeDistrict} >
+                            <option value="">Chọn huyện</option>
+                            {
+                                district.map(data => (
+                                    <option  key={data?.DistrictID} value={`${data?.DistrictID}${data.DistrictName}`}>{data?.DistrictName}</option>
+                                ))
+                            }
+                        </select>
+                        <select name="ward_id" id=""  onChange={handleOnChangeWard}>
+                            <option value="">Chọn quận</option>
+                            {
+                                ward.map(data => (
+                                    <option  key={data?.WardCode} value={`${data?.WardCode}${data?.WardName}`}>{data?.WardName}</option>
+                                ))
+                            }
+                        </select>
+                    </div>
                 </div>
                 <div className="form-input">
                     <label htmlFor="">Password</label>

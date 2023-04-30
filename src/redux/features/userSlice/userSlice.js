@@ -10,6 +10,7 @@ import {
   fetchCreateUser,
   fetchDataUserById,
   fetchDeleteUser,
+  fetchUpdateAddress,
   fetchUpdatePassword,
   fetchUpdateUser,
 } from "../../../apis/userApi";
@@ -309,6 +310,17 @@ export const actUpdatePassword = (id, payload) => async (dispatch) => {
 export const actResetPassword = (payload) => async (dispatch) => {
   try {
     await fetchResetPassword(payload);
+    dispatch(actUpdateLoadingCreate(true));
+  } catch (error) {
+    console.log(error);
+  } finally {
+    dispatch(actUpdateLoadingCreate(false));
+  }
+};
+
+export const actUpdateAddress = (id, address) => async (dispatch) => {
+  try {
+    await fetchUpdateAddress(id, address);
     dispatch(actUpdateLoadingCreate(true));
   } catch (error) {
     console.log(error);

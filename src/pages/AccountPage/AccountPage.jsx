@@ -10,6 +10,7 @@ import PopupCancelOrder from '../../components/PopupCancelOrder/PopupCancelOrder
 import Account from '../../components/Account/Account'
 import { IMG_URL } from '../../constants/config'
 
+
 const AccountPage = () => {
   const [isRating,setIsRating ] = useState(false)
   const [isCancelOrder, setIsCancelOrder] = useState(false)
@@ -112,17 +113,6 @@ const AccountPage = () => {
     setIdtemp(id)
   }
 
-  const handleProfilePage = () => {
-    navigate('/account/profile')
-  }
-
-  const handleRegisterSalePage = () => {
-    navigate('/sale-register')
-  }
-
-  const handleMyStore= () => {
-    navigate('/store')
-  }
 
   
   return (

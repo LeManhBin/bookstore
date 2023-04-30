@@ -22,8 +22,12 @@ const ChangePhoneNumberPage = () => {
   const handleUpdatePhone = (e) => {
     e.preventDefault()
     const formData =  new FormData();
-    const formPost = Object.assign({}, formState);
+    const formPost = Object.assign({
+      ...formState,
+      addressId: formState?.address?.id
+    });
     delete formPost.imageBytes;
+    delete formPost.address;
     formData.append("object", JSON.stringify(formPost));
     formData.append("file", formState.avatar);
     dispatch(actUpdateProfile(user?.id,formData, formState))

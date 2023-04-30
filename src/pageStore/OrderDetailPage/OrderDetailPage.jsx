@@ -29,12 +29,16 @@ const OrderDetailPage = () => {
         discountAmount += discount;
     }
 
-    console.log(order);
+    const formatTotalPrice = totalPrice.toLocaleString('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+    });
+
   return (
     <div className='order-detail'>
         <div className="order-detail-heading">
          <AdminHeading title={`Chi tiết đơn hàng ${param.idOrder}`}/> 
-         <p>Tổng tiền đơn hàng: {totalPrice}</p>
+         <p>Tổng tiền đơn hàng: {formatTotalPrice}</p>
         </div>
         <div className='order-card'>
             <div className="user">
@@ -59,6 +63,15 @@ const OrderDetailPage = () => {
                         {
                             order?.orderDetails?.map((order, index) => {
                                 const priceAfterDiscount = (order.price - (order.price * (order.discount/100)) ) * order.amount
+                                const formatPrice = order?.price.toLocaleString('vi-VN', {
+                                    style: 'currency',
+                                    currency: 'VND',
+                                });
+                                console.log(order);
+                                let formattedPriceAfterDiscount = priceAfterDiscount.toLocaleString('vi-VN', {
+                                    style: 'currency',
+                                    currency: 'VND',
+                                });
                                 return(
                                     <tr key={order.id}>
                                         <td>{order.id}</td>
@@ -69,9 +82,9 @@ const OrderDetailPage = () => {
                                         <td>
                                             {order.amount}
                                         </td>
-                                        <td>{order.price * order.amount}</td>
+                                        <td>{formatPrice}</td>
                                         <td>{order.discount}%</td>
-                                        <td>{priceAfterDiscount}</td>
+                                        <td>{formattedPriceAfterDiscount}</td>
                                     </tr>
                                 )
                             })

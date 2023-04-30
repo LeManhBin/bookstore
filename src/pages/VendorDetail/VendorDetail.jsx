@@ -78,7 +78,7 @@ const VendorDetail = () => {
                                 <img src={`${IMG_URL}${vendorState?.avatar}`} alt="store" />
                             </div>
                             <span className="name">{vendorState?.name}</span>
-                            <span className="address"><i className="fa-solid fa-location-dot"></i>{vendorState?.address}</span>
+                            <span className="address"><i className="fa-solid fa-location-dot"></i>{vendorState?.address?.fullAddress}</span>
                             <span className="phone"><i className="fa-solid fa-phone"></i>{vendorState?.phone}</span>
                             <span className="rating"><i className="fa-regular fa-star"></i>4.00 rating from 30 reviews</span>
                             </div>

@@ -13,17 +13,19 @@ const RegisterServicePage = () => {
     const [formState, setFormState] = useState({
         amount: 0,
         bankCode:"",
-        note:"Đăng ký gói dịch vụ 0001"
+        note:"Đăng ký gói dịch vụ 0001",
+        orderInfor: "",
     });
   
     useEffect(() => {
       dispatch(actFetchAllService());
     }, []);
   
-    const handleRegister = (price) => {
+    const handleRegister = (service) => {
         setFormState({
             ...formState,
-            amount: price
+            amount: service.price,
+            orderInfor: service.id
         })
         setIsRegister(!isRegister)
     };
@@ -50,16 +52,20 @@ const RegisterServicePage = () => {
             <div className='service-container'>
                 {
                     allService.filter(data => data.status === 0).map(service => {
+                        const price = service?.price.toLocaleString('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND',
+                        });
                         return(
                             <div className='service' key={service.id}>
                                 <img className='service-img' src={`${IMG_URL}${service.thumbnail}`} alt="" />
                                 <div className='service-desc'>
                                     <p className='name'>Tên gói: <span>{service?.name}</span></p>
-                                    <p className='price'>Cước phí: <span>{service?.price}</span></p>
+                                    <p className='price'>Cước phí: <span>{price}</span></p>
                                     {/* <p className='quantity'>Số lượng: <span>{service?.quantityProduct}</span></p> */}
                                 </div>
                                 <ul className='service-act'>
-                                    <li onClick={() => handleRegister(service.price)}>Đăng ký</li>
+                                    <li onClick={() => handleRegister(service)}>Đăng ký</li>
                                     <li>Xem chi tiết</li>
                                 </ul>
                             </div>

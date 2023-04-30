@@ -64,6 +64,8 @@ import UpdatePromotionPage from "./pageStore/UpdatePromotionPage/UpdatePromotion
 import AccountAdmin from "./pagesAdmin/AccountManagerPage/AccountAdmin";
 import ConfigSlide from "./pagesAdmin/ConfigSlide/ConfigSlide";
 import AccountLockPage from "./pages/AccountLockPage/AccountLockPage";
+import ChangeAddressPage from "./pages/ChangeAddressPage/ChangeAddressPage";
+import { actFetchStoreById } from "./redux/features/storeSlice/storeSlice";
 
 function App() {
   const dispatch = useDispatch();
@@ -77,6 +79,12 @@ function App() {
   const userCurrent = localStorage.getItem(KEY_USER)
     ? JSON.parse(localStorage.getItem(KEY_USER))
     : {};
+
+  // const { store } = useSelector((state) => state.store);
+
+  // useEffect(() => {
+  //   dispatch(actFetchStoreById(userCurrent?.storeId));
+  // }, []);
 
   return (
     <div className="App">
@@ -102,6 +110,10 @@ function App() {
               element={<ChangePhoneNumberPage />}
             />
             <Route
+              path="account/profile/address"
+              element={<ChangeAddressPage />}
+            />
+            <Route
               path="account/profile/password"
               element={<ChangePasswordPage />}
             />
@@ -110,10 +122,12 @@ function App() {
             <Route path="product/search/" element={<SearchResultPage />} />
             <Route path="payment" element={<PaymentPage />} />
           </Route>
+
           <Route path="sale-register" element={<SaleRegisterPage />} />
           <Route path="register-service" element={<RegisterServicePage />} />
           <Route path="payment-result" element={<PaymentSuccess />} />
           <Route path="account-lock" element={<AccountLockPage />} />
+
           <Route
             path="/admin"
             element={userCurrent.role === 0 ? <ROR404 /> : <AdminLayout />}

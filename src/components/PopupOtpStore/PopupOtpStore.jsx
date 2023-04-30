@@ -6,6 +6,7 @@ import { actCreateStore } from '../../redux/features/storeSlice/storeSlice';
 import { useNavigate } from 'react-router-dom';
 
 const PopupOtpStore = ({formState, otp, setCheckOtp}) => {
+  console.log(formState, "bên otp");
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [formOtp, setFormOtp] = useState("")

@@ -104,7 +104,7 @@ const StoreListPage = () => {
                             </td>
                             <td>{store?.phone}</td>
                             <td>{store?.email}</td>
-                            <td>{store?.address}</td>
+                            <td>{store?.address?.fullAddress}</td>
                             <td>{status}</td>
                             <td className='button'>
                               <button className='edit-btn' onClick={() => handleViewPage(store?.id)}><i className="fa-solid fa-users-viewfinder"></i></button>

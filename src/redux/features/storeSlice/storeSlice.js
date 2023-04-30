@@ -6,6 +6,7 @@ import {
   fetchCreateStore,
   fetchDataStoreById,
   fetchDeleteStore,
+  fetchUpdateStore,
 } from "../../../apis/storeApi";
 
 const initialState = {
@@ -139,6 +140,17 @@ export const actDeleteStore = (id) => async (dispatch) => {
     await fetchDeleteStore(id);
     dispatch(actFetchAllStore());
     toast.success("Xoá thành công");
+  } catch (error) {
+    console.log(error);
+  } finally {
+    dispatch(actUpdateLoadingCreate(false));
+  }
+};
+export const actUpdateStore = (id, payload) => async (dispatch) => {
+  try {
+    await fetchUpdateStore(id, payload);
+    dispatch(actFetchStoreById(id));
+    toast.success("Cập nhật thành công");
   } catch (error) {
     console.log(error);
   } finally {

@@ -1,0 +1,163 @@
+.update-profile-store {
+    background-color: #fff;
+    padding: 20px;
+
+    .heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #fff;
+            background-color: #F16767;
+        }
+    }
+
+    form {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        gap: 20px;
+        background-color: #fff;
+        padding: 50px 10px;
+        height: 500px;
+        position: relative;
+
+        .left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            gap: 10px;
+
+
+            .form-input {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+
+
+
+                label {
+                    font-size: 14px;
+                    color: #5a5a5a;
+                }
+
+                input {
+                    outline: none;
+                    padding: 5px 10px;
+                    border-radius: 5px;
+                    border: 1px solid #eee;
+                }
+
+                .input-select {
+                    display: flex;
+                    gap: 5px;
+                    flex-direction: column;
+                    align-items: center;
+
+                    select {
+                        width: 225px;
+                        padding: 2px 3px;
+                        border: 1px solid #eee;
+                    }
+                }
+            }
+        }
+        .center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+
+            .form-input {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+
+                img {
+                    width: 300px;
+                    height: 200px;
+                    background-color: bisque;
+                    object-fit: cover;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                }
+
+                input[type="file"] {
+                    display: none;
+                }
+                
+                #custom-button {
+                    padding: 5px 10px;
+                    background-color: #007bff;
+                    color: #fff;
+                    border-radius: 4px;
+                    cursor: pointer;
+                }
+                
+                #custom-button::file-selector-button {
+                    content: " ";
+                }
+            }
+        }
+        .right {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+
+            .form-input {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+
+                img {
+                    width: 200px;
+                    height: 200px;
+                    border-radius: 50%;
+                    background-color: bisque;
+                    object-fit: cover;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                }
+
+                input[type="file"] {
+                    display: none;
+                }
+                
+                #custom-button {
+                    padding: 5px 10px;
+                    background-color: #007bff;
+                    color: #fff;
+                    border-radius: 4px;
+                    cursor: pointer;
+                }
+                
+                #custom-button::file-selector-button {
+                    content: " ";
+                }
+            }
+        }
+    }
+    .add-new {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 10px 50px;
+        border-radius: 5px;
+        background-color: #007bff;
+        border: none;
+        font-weight: bold;
+        color: #fff;
+        font-size: 15px;
+    }
+}

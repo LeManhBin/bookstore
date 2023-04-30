@@ -18,7 +18,6 @@ const RevenueStorePage = () => {
   const {bookPromotionByIdStore} = useSelector((state) => state.book)
   const {user} = useSelector((state) => state.user)
   const idStore = user.storeId
-
   // phân trang
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(4)
