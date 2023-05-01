@@ -144,7 +144,7 @@ const PaymentPage = () => {
         const storeId = payment.store.id;
         const cartIds = payment.cartDetails.map(detail => detail.id);
         const note = "Giao hanh nhanh nhanh dum em";
-        for(let i=0; i<payment?.cartDetails?.length; i++){
+        for(let i=0; i < payment?.cartDetails?.length; i++){
           let itemPrice = payment?.cartDetails?.[i].price * payment?.cartDetails?.[i].amount
           let discountAmount = itemPrice * (payment?.cartDetails?.[i].discount/100);
           totalMoney += itemPrice - discountAmount;

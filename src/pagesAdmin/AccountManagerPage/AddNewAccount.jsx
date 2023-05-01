@@ -184,7 +184,7 @@ const AddNewAccount = () => {
         formData.append("object", JSON.stringify(formState));
         formData.append("file", dataImg);
 
-        if(!formState.fullName || !formState.email || !formState.gender || !formState.phone || !formState.password  || !dataImg){
+        if(!formState.fullName || !formState.email || !formState.gender || !formState.phone || !formState.password ){
             toast.warning("Vui lòng điền đầy đủ thông tin người dùng!")
         }else {
             dispatch(actCreateUser(formData))

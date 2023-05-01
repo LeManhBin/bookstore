@@ -118,9 +118,11 @@ const CategoryManagerPage = () => {
     e.preventDefault()
     const data = {
       name: formUpdate.name,
-      thumbnail: thumbnail.preview,
+      thumbnail: formUpdate.thumbnail,
       status: formUpdate.status,
     }
+
+
     const formData =  new FormData();
     formData.append("object", JSON.stringify(data));
     formData.append("file", thumbnail);
@@ -201,7 +203,7 @@ const CategoryManagerPage = () => {
                         }
                       </div>
                       <div className="form-input">
-                        <label htmlFor="">Icon <span className='tick'>*</span></label>
+                        <label htmlFor="">Hình ảnh <span className='tick'>*</span></label>
                          {
                           isEdit ?
                           <div className='image-input'>

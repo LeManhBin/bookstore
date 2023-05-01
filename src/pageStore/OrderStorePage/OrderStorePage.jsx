@@ -12,6 +12,7 @@ const OrderStorePage = () => {
   const [isMoving, setIsMoving] = useState(false)
   const [isComplete, setIsComplete] = useState(false)
   const [isCancel, setIsCancel] = useState(false)
+  const [isCompleted , setIsCompleted ] = useState(false)
 
   const handleIsPending = () => {
     setIsPending(true)
@@ -19,6 +20,7 @@ const OrderStorePage = () => {
     setIsMoving(false)
     setIsComplete(false)
     setIsCancel(false)
+    setIsCompleted(false)
   }
   const handleIsApproved = () => {
     setIsPending(false)
@@ -26,6 +28,7 @@ const OrderStorePage = () => {
     setIsMoving(false)
     setIsComplete(false)
     setIsCancel(false)
+    setIsCompleted(false)
   }
   const handleIsMoving = () => {
     setIsPending(false)
@@ -33,6 +36,7 @@ const OrderStorePage = () => {
     setIsMoving(true)
     setIsComplete(false)
     setIsCancel(false)
+    setIsCompleted(false)
   }
   const handleIsComplete = () => {
     setIsPending(false)
@@ -40,6 +44,7 @@ const OrderStorePage = () => {
     setIsMoving(false)
     setIsComplete(true)
     setIsCancel(false)
+    setIsCompleted(false)
   }
   const handleIsCancel = () => {
     setIsPending(false)
@@ -47,6 +52,15 @@ const OrderStorePage = () => {
     setIsMoving(false)
     setIsComplete(false)
     setIsCancel(true)
+    setIsCompleted(false)
+  }
+  const handleIsCompleted = () => {
+    setIsPending(false)
+    setIsApproved(false)
+    setIsMoving(false)
+    setIsComplete(false)
+    setIsCancel(false)
+    setIsCompleted(true)
   }
 
   const dispatch = useDispatch()
@@ -91,6 +105,7 @@ const OrderStorePage = () => {
     navigate(`/store/order-store/${id}`)
   }
 
+  console.log(orderByIdStore);
 
   return (
     <div className='order-page'>
@@ -101,6 +116,7 @@ const OrderStorePage = () => {
             <li onClick={handleIsMoving} style={isMoving ? {color: '#F65D4E', borderBottom: '2px solid #F65D4E'} : {color: '#000', borderBottom: 'none'} }>Đang vận chuyển</li>
             <li onClick={handleIsComplete} style={isComplete ? {color: '#F65D4E', borderBottom: '2px solid #F65D4E'} : {color: '#000', borderBottom: 'none'} }>Đã giao</li>
             <li onClick={handleIsCancel} style={isCancel ? {color: '#F65D4E', borderBottom: '2px solid #F65D4E'} : {color: '#000', borderBottom: 'none'} }>Đã huỷ</li>
+            <li onClick={handleIsCompleted } style={isCompleted  ? {color: '#F65D4E', borderBottom: '2px solid #F65D4E'} : {color: '#000', borderBottom: 'none'} }>Đã hoàn thành</li>
         </ul>
       </div>
       {
@@ -125,6 +141,10 @@ const OrderStorePage = () => {
                   <tbody>
                       {
                         handleFilterOrder()?.filter(item => item.status === 0).map((order, index) => {
+                          const formatTotalMoney = order?.totalMoney?.toLocaleString('vi-VN', {
+                              style: 'currency',
+                              currency: 'VND',
+                          });
                           let loaiThanhToan;
                           if(order.payment === 1) {
                             loaiThanhToan = <Status text={"Trực tiếp"} className={"active"}/>
@@ -140,7 +160,7 @@ const OrderStorePage = () => {
                                 <br />{order.address}
                               </td>
                               <td style={{verticalAlign: 'middle', textAlign: 'center'}}>{loaiThanhToan}</td>
-                              <td></td>
+                              <td>{formatTotalMoney}</td>
                               <td className='button'>
                                 <button className='edit-btn' onClick={() => handleDetailOrder(order.id)}><i className="fa-solid fa-binoculars"></i></button>
                                 <button className='edit-btn' onClick={() => handleConfirm(order.id)}>Xác nhận</button>
@@ -190,6 +210,10 @@ const OrderStorePage = () => {
                     <tbody>
                         {
                           orderByIdStore?.filter(item => item.status === 1).map((order, index) => {
+                            const formatTotalMoney = order?.totalMoney?.toLocaleString('vi-VN', {
+                                style: 'currency',
+                                currency: 'VND',
+                            });
                             let loaiThanhToan;
                             if(order.payment === 1) {
                               loaiThanhToan = <Status text={"Trực tiếp"} className={"active"}/>
@@ -205,7 +229,7 @@ const OrderStorePage = () => {
                                   <br />{order.address}
                                 </td>
                                 <td>{loaiThanhToan}</td>
-                                <td></td>
+                                <td>{formatTotalMoney}</td>
                                 <td className='button'>
                                   <button className='edit-btn' onClick={() => handleDetailOrder(order.id)}><i className="fa-solid fa-binoculars"></i></button>
                                   <button className='edit-btn' onClick={() => handleTransport(order.id)}>Giao</button>
@@ -254,6 +278,10 @@ const OrderStorePage = () => {
                     <tbody>
                         {
                           orderByIdStore?.filter(item => item.status === 2).map((order, index) => {
+                            const formatTotalMoney = order?.totalMoney?.toLocaleString('vi-VN', {
+                              style: 'currency',
+                              currency: 'VND',
+                            });
                             let loaiThanhToan;
                             if(order.payment === 1) {
                               loaiThanhToan = <Status text={"Trực tiếp"} className={"active"}/>
@@ -269,7 +297,7 @@ const OrderStorePage = () => {
                                   <br />{order.address}
                                 </td>
                                 <td>{loaiThanhToan}</td>
-                                <td></td>
+                                <td>{formatTotalMoney}</td>
                                 <td className='button'>
                                   <button className='edit-btn' onClick={() => handleDetailOrder(order.id)}><i className="fa-solid fa-binoculars"></i></button>
                                   <button className='edit-btn' onClick={() => handleComplete(order.id)}><i className="fa-regular fa-pen-to-square"></i></button>
@@ -318,6 +346,10 @@ const OrderStorePage = () => {
                     <tbody>
                         {
                           orderByIdStore?.filter(item => item.status === 3).map((order, index) => {
+                            const formatTotalMoney = order?.totalMoney?.toLocaleString('vi-VN', {
+                              style: 'currency',
+                              currency: 'VND',
+                            });
                             let loaiThanhToan;
                             if(order.payment === 1) {
                               loaiThanhToan = <Status text={"Trực tiếp"} className={"active"}/>
@@ -333,7 +365,7 @@ const OrderStorePage = () => {
                                   <br />{order.address}
                                 </td>
                                 <td>{loaiThanhToan}</td>
-                                <td></td>
+                                <td>{formatTotalMoney}</td>
                                 <td className='button'>
                                   <button className='edit-btn' onClick={() => handleDetailOrder(order.id)}><i className="fa-solid fa-binoculars"></i></button>
                                   <button className='edit-btn'><i className="fa-regular fa-pen-to-square"></i></button>
@@ -382,6 +414,10 @@ const OrderStorePage = () => {
                     <tbody>
                         {
                           orderByIdStore?.filter(item => item.status === 4).map((order, index) => {
+                            const formatTotalMoney = order?.totalMoney?.toLocaleString('vi-VN', {
+                              style: 'currency',
+                              currency: 'VND',
+                            });
                             let loaiThanhToan;
                             if(order.payment === 1) {
                               loaiThanhToan = <Status text={"Trực tiếp"} className={"active"}/>
@@ -397,7 +433,7 @@ const OrderStorePage = () => {
                                   <br />{order.address}
                                 </td>
                                 <td>{loaiThanhToan}</td>
-                                <td></td>
+                                <td>{formatTotalMoney}</td>
                                 <td className='button'>
                                   <button className='edit-btn' onClick={() => handleDetailOrder(order.id)}><i className="fa-solid fa-binoculars"></i></button>
                                   <button className='edit-btn' ><i className="fa-regular fa-pen-to-square"></i></button>
@@ -422,6 +458,74 @@ const OrderStorePage = () => {
                   </div>
                   {/* --------- */}
               </div>
+            }
+
+            {
+              isCompleted && 
+              <div className='order'>
+                <div className="order-heading">
+                  <input type="text" className='search-input' placeholder='Nhập mã đơn hàng' name="" id="" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
+                </div>
+                {/* ------- */}
+                <div className='order-card'>
+                <div className='table'>
+                  <Table striped bordered hover>
+                    <thead style={{backgroundColor: '#F65D4E', color: '#fff'}}>
+                      <tr>
+                      <th>Mã đơn hàng</th>
+                      <th>Thông tin người nhận</th>
+                      <th>Loại thanh toán</th>
+                      <th>Tổng tiền đơn hàng</th>
+                      <th>Thao Tác</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {
+                          handleFilterOrder()?.filter(item => item.status === 5).map((order, index) => {
+                            const formatTotalMoney = order?.totalMoney?.toLocaleString('vi-VN', {
+                                style: 'currency',
+                                currency: 'VND',
+                            });
+                            let loaiThanhToan;
+                            if(order.payment === 1) {
+                              loaiThanhToan = <Status text={"Trực tiếp"} className={"active"}/>
+                            }else {
+                              loaiThanhToan = <Status text={"Zalo Pay"} className={"primary"}/>
+                            }
+                            return(
+                              <tr key={order.id}>
+                                <td style={{verticalAlign: 'middle', textAlign: 'center'}}>{order.id}</td>
+                                <td style={{textAlign: 'left'}}>
+                                  {order.name}
+                                  <br />{order.phone}
+                                  <br />{order.address}
+                                </td>
+                                <td style={{verticalAlign: 'middle', textAlign: 'center'}}>{loaiThanhToan}</td>
+                                <td>{formatTotalMoney}</td>
+                                <td className='button'>
+                                  <button className='edit-btn' onClick={() => handleDetailOrder(order.id)}><i className="fa-solid fa-binoculars"></i></button>
+                                  <button className='edit-btn' onClick={() => handleConfirm(order.id)}>Xác nhận</button>
+                                  <button className='delete-btn' ><i className="fa-sharp fa-solid fa-trash"></i></button>
+                                </td>
+                              </tr>
+                            )
+                          })
+                        }
+                    </tbody>
+                  </Table>
+                  </div>
+                  <div className='pagination'>
+                      <Pagination
+                      currentPage={currentPage}
+                      limit={limit}
+                      setCurrentPage={setCurrentPage}
+                      totalPage={totalPage}
+                      background={'#AEE2FF'}
+                  />
+                  </div>
+                </div>
+                {/* --------- */}
+            </div>
             }
     </div>
   )

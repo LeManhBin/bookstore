@@ -11,6 +11,7 @@ const PopupOtp = ({formData, otp, setCheckOtp}) => {
       toast.error('Vui lòng nhập mã OTP')
     }else if(otp == formOtp) {
       dispatch(actRegister(formData))
+      console.log("Băn lên đăng ký", formData);
       setCheckOtp(false)
     }else {
       toast.error("Mã xác nhận không chính xác!!")

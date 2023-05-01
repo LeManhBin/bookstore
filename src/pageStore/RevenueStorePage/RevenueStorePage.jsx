@@ -15,6 +15,7 @@ const RevenueStorePage = () => {
   const navigate = useNavigate()
   const {orderByIdStore} = useSelector((state) => state.order)
   const {bookByStore} = useSelector((state) => state.book)
+  const [totalMoney, setTotalMoney] = useState(0)
   const {bookPromotionByIdStore} = useSelector((state) => state.book)
   const {user} = useSelector((state) => state.user)
   const idStore = user.storeId
@@ -36,6 +37,18 @@ const RevenueStorePage = () => {
   const orderQuantity = orderByIdStore.length
   const productQuantity = bookByStore.length
   const promotionQuantity = bookPromotionByIdStore.length
+  const formatToTalMoney = totalMoney?.toLocaleString('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+});
+  const handleTotalMoney = () => {
+    let total = 0
+    const data = orderByIdStore.filter(data => data.status === 3)
+    for(let i = 0; i < data.length; i++) {
+      total += data[i].totalMoney
+    }
+    setTotalMoney(total)
+  }
   
   const handleConfirm = (id) => {
     dispatch(actChangeOrderStatus(id,1, idStore))
@@ -45,6 +58,10 @@ const RevenueStorePage = () => {
   const handleDetailOrder = (id) => {
     navigate(`/store/order-store/${id}`)
   }
+
+  useEffect(() => {
+    handleTotalMoney()
+  })
   
   return (
     <div className='revenue-container'>
@@ -52,12 +69,12 @@ const RevenueStorePage = () => {
         <Widget type="order" quantity={orderQuantity}/>
         <Widget type="product" quantity={productQuantity}/>
         <Widget type="promotion" quantity={promotionQuantity}/>
-        <Widget type="revenueStore"/>
+        <Widget type="revenueStore" quantity={formatToTalMoney}/>
       </div>
       <div className="chart-container">
-        <div className="chart-left">
+        {/* <div className="chart-left">
           <PieChart/>
-        </div>
+        </div> */}
         <div className="chart-right">
           <ChartColumn/>
         </div>

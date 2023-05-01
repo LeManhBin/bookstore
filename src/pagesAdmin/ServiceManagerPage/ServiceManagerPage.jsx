@@ -84,6 +84,10 @@ const ServiceManagerPage = () => {
                   <tbody>
                     {
                       handleFilterBlog().filter(data => data.status === 0).map((service, index) => {
+                        const formatPrice = service?.price?.toLocaleString('vi-VN', {
+                          style: 'currency',
+                          currency: 'VND',
+                      });
                         return(
                           <tr key={service?.id}>
                             <td>{index + 1}</td>
@@ -91,7 +95,7 @@ const ServiceManagerPage = () => {
                             <td className='img'>
                                 <img src={`${IMG_URL}${service?.thumbnail}`} alt="service" />
                             </td>
-                            <td>{service?.price}</td>
+                            <td>{formatPrice}</td>
                             {/* <td>{service?.quantityProduct}</td> */}
                             <td>{service?.expirationDate}</td>
                             {/* <td>{service?.status}</td> */}

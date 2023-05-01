@@ -52,6 +52,14 @@ const Header = () => {
         navigate('/')
     }
 
+    const handleRegisterSalePage = () => {
+        navigate('/sale-register')
+    }
+
+    const handleMyStore= () => {
+        navigate('/store')
+    }
+
   return (
     <div className='header'>
         <div className='header__left' onClick={handleHomePage}>
@@ -60,11 +68,11 @@ const Header = () => {
         <div className='header__center'>
             <ul className={toggle ? "header__center--links open-links" : "header__center--links"}>
                 <span className='close-btn' onClick={handleToggle}><i className="fa-solid fa-xmark"></i></span>
-                <li className='link' onClick={() => setToggle(false)}><NavLink style={styleActive} to={"/"}> Home</NavLink></li>
-                <li className='link' onClick={() => setToggle(false)}><NavLink style={styleActive} to={"/product"}> Product</NavLink></li>
-                <li className='link' onClick={() => setToggle(false)}><NavLink style={styleActive} to={"/vendor"}> Vendor</NavLink></li>
+                <li className='link' onClick={() => setToggle(false)}><NavLink style={styleActive} to={"/"}>Trang chủ</NavLink></li>
+                <li className='link' onClick={() => setToggle(false)}><NavLink style={styleActive} to={"/product"}>Sản Phẩm</NavLink></li>
+                <li className='link' onClick={() => setToggle(false)}><NavLink style={styleActive} to={"/vendor"}>Cửa Hàng</NavLink></li>
                 {/* <li className='link' onClick={() => setToggle(false)}><NavLink style={styleActive} to={"/blog"}> Blog</NavLink></li> */}
-                <li className='link' onClick={() => setToggle(false)}><NavLink style={styleActive} to={"/contact"}> Contact</NavLink></li>
+                <li className='link' onClick={() => setToggle(false)}><NavLink style={styleActive} to={"/contact"}>Liên hệ</NavLink></li>
                 {
                     isLogged && <li className='link logout' onClick={handleLogout}>Đăng xuất</li>
                 }
@@ -74,8 +82,19 @@ const Header = () => {
             <div className='header__right--contact'>
                 <span className='header__right--contact-icon'><i className="fa-solid fa-phone-volume"></i></span>
                 <div className='header__right--contact-detail'>
-                    <span className='phone-number'>+84 365160470</span>
-                    <span className='title'>24/7 Support Center</span>
+
+                    {
+                        (user.storeId !== 0) ? 
+                           <>
+                            <span className='phone-number' onClick={handleMyStore}>Kênh người bán</span>
+                            <span className='title'>Vào kênh bán hàng của bạn </span>
+                           </>
+                        :
+                        <>
+                            <span className='phone-number' onClick={handleRegisterSalePage}>Đăng ký bán hàng</span>
+                            <span className='title'>Đăng ký để bán hàng </span>
+                        </>
+                    }
                 </div>
             </div>
             <div className='header__right--act'>

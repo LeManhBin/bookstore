@@ -92,7 +92,7 @@ const AddNewService = () => {
             </div>
             <div className='right'>
                 <div className='form-input'>
-                    <img src={`${thumbnail ? thumbnail.preview : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}`} />
+                    <img src={`${thumbnail ? thumbnail.preview : 'https://cdn.pixabay.com/photo/2017/11/10/05/24/add-2935429_960_720.png'}`} />
                     <input type="file" id="file-input" name='thumbnail' onChange={(e) => handlePreviewthumbnail(e) }/>
                     <label htmlFor="file-input" id="custom-button">Chọn ảnh</label>
                 </div>

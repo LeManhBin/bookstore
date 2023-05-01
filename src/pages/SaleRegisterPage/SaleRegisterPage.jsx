@@ -13,10 +13,8 @@ const SaleRegisterPage = () => {
 
   const {isOtp} = useSelector((state) => state.store)
   const {otp} = useSelector((state) => state.store)
-  const [checkOtp, setCheckOtp] = useState(isOtp)
+  const [checkOtp, setCheckOtp] = useState(false)
   const {user} = useSelector((state) => state.user)
-  const [isAddress, setIsAddress] = useState(false)
-  const [dataRegister, setDataRegister] = useState({})
   const dispatch = useDispatch()
 
   const initialState = {
@@ -117,10 +115,6 @@ const handelOnChangeNumberHouse = (e) => {
     })
 }
 
-  useEffect(() => {
-    setCheckOtp(isOtp)
-  },[isOtp])
-
   const [formState, setFormState] = useState({
     userId: user?.id,
     name: '',
@@ -128,12 +122,6 @@ const handelOnChangeNumberHouse = (e) => {
     phone: '',
     address: '',
   })
-
-  // useEffect(() => {
-  //   setFormState({
-  //     ...formState,
-  //   })
-  // },[user])
 
   const handleOnChange = (e) => {
     const {name, value} = e.target
@@ -159,12 +147,8 @@ const handelOnChangeNumberHouse = (e) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    dispatch(actFetchCheckEmailStore(formState))
-    if(isOtp) {
-      dispatch(actFetchOtp(formState?.email))
-    }else {
-      toast.warning('Tài khoản email này đã tồn tại !!!')
-    }
+    setCheckOtp(true) 
+    dispatch(actFetchOtp(formState?.email))
   }
   return (
     <div className='sale-register-page'>

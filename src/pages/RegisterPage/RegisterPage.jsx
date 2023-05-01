@@ -43,10 +43,11 @@ const RegisterPage = () => {
   
   const onRegister = (values) => {
       dispatch(actFetchCheckEmailUser(values))
+      console.log("CheckEmail", values);
       setFormData(values)
       console.log(checkOtp, 'checkOtp trong hàm đăng ký');
       if(isOtp) {
-        console.log(values.email);
+        console.log("email fetch OTP",values.email);
         dispatch(actFetchOtp(values?.email))
       }else {
         toast.warning('Tài khoản email này đã tồn tại !!!')
