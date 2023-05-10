@@ -9,9 +9,11 @@ import { actFetchAllTopic } from '../../redux/features/topicSlide/topicSlide';
 import FormData from 'form-data';
 import { actCreateBook } from '../../redux/features/bookSlice/bookSlice';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const StoreAddProductPage = () => {
     const [avatar, setAvatar] = useState([])
+    const navigate = useNavigate()
     const [tagId, setTagId] = useState([])
     const {allCategory} = useSelector((state) => state.category)
     const {allTopic} = useSelector((state) => state.topic)
@@ -98,6 +100,8 @@ const StoreAddProductPage = () => {
             toast.warning("Vui lòng nhập đủ thông tin sản phẩm")
         }else {
             dispatch(actCreateBook(formData))
+            // navigate("/store/all-product")
+    
         }
     }
 

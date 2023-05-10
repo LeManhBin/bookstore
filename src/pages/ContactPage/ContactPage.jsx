@@ -31,18 +31,18 @@ const ContactPage = () => {
   return (
     <div className='contact'>
         <div className='contact-banner'>
-            <Heading title={"Contact Us"}/>
+            <Heading title={"Liên hệ"}/>
         </div>
         <div className='contact-container'>
             <div className='contact__left'>
-                <h3 className='contact__title'>Get in touch</h3>
+                <h3 className='contact__title'>Thông tin liên lạc</h3>
                 <div className='contact__left--desc'>
                     <div className='contact__left--desc--text'>
-                        <span>We are also active in social media. You can find us on below address.</span>
+                        <span>Chúng tôi hoạt động trên nhiều nền tảng. Bạn có thể liên lạc với chúng tôi qua địa chỉ dưới đây.</span>
                     </div>
                     <div className='contact__left--desc--text'>
                         <span><i className="fa-solid fa-location-dot"></i></span>
-                        <span>329 Queens berry Street, North Melbourne VIC 3051, Australia.</span>
+                        <span>03 Quang Trung, Thạch Thang, Hải Châu, Đà Nẵng</span>
                     </div>
                     <div className='contact__left--desc--text'>
                         <span><i className="fa-regular fa-clock"></i></span>
@@ -61,10 +61,10 @@ const ContactPage = () => {
                 </div>
             </div>
             <div className='contact__right'>
-                <h3 className='contact__title'>Send a message</h3>
+                <h3 className='contact__title'>Gửi tin nhắn</h3>
                 <div className='contact__right--desc'>
                     <div className='contact__right--desc-text'>
-                          <span>Do you have anything in your mind to tell us? Please don't hesitate to get in touch to us via our contact form.</span>
+                          <span>Bạn có bất cứ điều gì để nói với chúng tôi? Vui lòng liên hệ với chúng tôi qua biểu mẫu liên hệ.</span>
                     </div>
                     <div className='contact__right--desc--form'>
                           <form onSubmit={handleSubmit}>
@@ -74,7 +74,7 @@ const ContactPage = () => {
                               </div>
                               <input required type="text" placeholder='Subject' name='subject' onChange={handleOnChange}/>
                               <textarea required name="content" id="" cols="30" rows="10" placeholder='Your Massage' onChange={handleOnChange}></textarea>
-                              <button type='submit'>Send Message</button>
+                              <button type='submit'>Gửi tin nhắn</button>
                           </form>
                     </div>
                 </div>

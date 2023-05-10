@@ -38,6 +38,13 @@ const ForgotPassword = () => {
         {
             checkResetOtp ? <PopupOtpReset otp={otp} setCheckResetOtp={setCheckResetOtp}/> : ""
         }
+        <div className='header'>
+            <div className='left'>
+                <img src="https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/02/logo-1.svg" alt="" />
+                <h3>Đặt lại mật khẩu</h3>
+            </div>
+            <span> Bạn cần giúp đỡ gì ?</span>
+        </div>
         <div className='forgot-container'>
             <h3>Quên mật khẩu</h3>
             <form action="">

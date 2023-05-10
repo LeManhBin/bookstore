@@ -18,7 +18,6 @@ const ContactManagerPage = () => {
     const [idTemp, setIdtemp] = useState("")
     const [contactData, setContactData] = useState(contact)
     const [isDelete, setIsDelete] = useState(false)
-
     useEffect(() => {
       dispatch(actFetchAllContact())
     },[])
@@ -33,7 +32,7 @@ const ContactManagerPage = () => {
 
     // phân trang
     const [currentPage, setCurrentPage] = useState(1);
-    const [limit, setLimit] = useState(5)
+    const [limit, setLimit] = useState(8)
     const lastPageIndex = currentPage * limit;
     const firstPageIndex = lastPageIndex - limit;
     const currentItems = allContact.slice(firstPageIndex, lastPageIndex);
@@ -103,7 +102,7 @@ const ContactManagerPage = () => {
                         }else{
                           status = "Đã xem"
                         }
-                        const timestamp = data.createDate;
+                        const timestamp = data?.createDate;
                         const date = new Date(timestamp);
 
                         const day = date.getDate().toString().padStart(2, "0");
@@ -112,16 +111,16 @@ const ContactManagerPage = () => {
 
                         const formattedDate = `${day}-${month}-${year}`;
                         return(
-                          <tr key={data.id}>
+                          <tr key={data?.id}>
                             <td>{index + 1}</td>
-                            <td>{data.name}</td>
-                            <td>{data.gmail}</td>
-                            <td>{data.subject}</td>
+                            <td>{data?.name}</td>
+                            <td>{data?.gmail}</td>
+                            <td>{data?.subject}</td>
                             <td>{formattedDate}</td>
                             <td>{status}</td>
                             <td className='button'>
-                              <button className='edit-btn' onClick={() => handleViewContact(data.id)}>Xem</button>
-                              <button className='delete-btn' onClick={() => handleModalDelete(data.id)}><i className="fa-sharp fa-solid fa-trash"></i></button>
+                              <button className='edit-btn' onClick={() => handleViewContact(data?.id)}>Xem</button>
+                              <button className='delete-btn' onClick={() => handleModalDelete(data?.id)}><i className="fa-sharp fa-solid fa-trash"></i></button>
                             </td>
                           </tr>
                         )

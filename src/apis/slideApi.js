@@ -1,5 +1,6 @@
 import axios from "axios";
 import { BE_URL } from "../constants/config";
+import { toast } from "react-toastify";
 
 export const fetchAllDataSlide = async () => {
   const res = await axios.get(`${BE_URL}slide`);
@@ -8,15 +9,30 @@ export const fetchAllDataSlide = async () => {
 
 export const fetchCreateSlide = async (payload) => {
   const res = await axios.post(`${BE_URL}slide`, payload);
-  return res.data;
+  if (res.status == 200) {
+    toast.success("Thành công !");
+    return res.data;
+  } else {
+    toast.error("Có gì đó không đúng!");
+  }
 };
 
 export const fetchChangeStatus = async (id) => {
   const res = await axios.put(`${BE_URL}slide/${id}`);
-  return res.data;
+  if (res.status == 200) {
+    toast.success("Thành công !");
+    return res.data;
+  } else {
+    toast.error("Có gì đó không đúng!");
+  }
 };
 
 export const fetchDeleteSlide = async (id) => {
   const res = await axios.delete(`${BE_URL}slide/${id}`);
-  return res.data;
+  if (res.status == 200) {
+    toast.success("Thành công !");
+    return res.data;
+  } else {
+    toast.error("Có gì đó không đúng!");
+  }
 };

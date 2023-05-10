@@ -31,8 +31,7 @@ const SelectAddress = () => {
         [name]: value
       })
     }
-  
-    console.log(address);
+
   return (
     <div className='form-input'>
         <label htmlFor="">Địa chỉ</label>

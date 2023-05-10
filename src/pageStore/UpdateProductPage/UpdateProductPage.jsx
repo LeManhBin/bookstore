@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './UpdateProductPage.scss'
 import AdminHeading from '../../components/AdminHeading/AdminHeading'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { actFetchBookById, actUpdateBook } from '../../redux/features/bookSlice/bookSlice'
 import { actFetchAllCategory } from '../../redux/features/categorySlice/categorySlide';
@@ -12,6 +12,7 @@ import { IMG_URL } from '../../constants/config'
 import { toast } from 'react-toastify'
 const UpdateProductPage = () => {
     const param = useParams()
+    const navigate = useNavigate()
     const {allCategory} = useSelector((state) => state.category)
     const {allTopic} = useSelector((state) => state.topic)
     const dispatch = useDispatch()
@@ -156,6 +157,7 @@ const UpdateProductPage = () => {
             toast.warning("Vui lòng nhập đầy đủ thông tin sản phẩm!!")
         }else {
             dispatch(actUpdateBook(book.id,formData))
+            navigate("/store/all-product")
         }
     }
 

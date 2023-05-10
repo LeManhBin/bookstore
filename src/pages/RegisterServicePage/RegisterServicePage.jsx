@@ -47,6 +47,13 @@ const RegisterServicePage = () => {
 
     return (
         <div className='register-service'>
+            <div className='header'>
+                <div className='left'>
+                    <img src="https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/02/logo-1.svg" alt="" />
+                    <h3>Đăng ký gói dịch vụ</h3>
+                </div>
+                <span> Bạn cần giúp đỡ gì ?</span>
+            </div>
             <h2>Đăng ký gói dịch vụ</h2>
             <p>Chào mừng bạn.....</p>
             <div className='service-container'>
@@ -59,15 +66,16 @@ const RegisterServicePage = () => {
                         return(
                             <div className='service' key={service.id}>
                                 <img className='service-img' src={`${IMG_URL}${service.thumbnail}`} alt="" />
-                                <div className='service-desc'>
-                                    <p className='name'>Tên gói: <span>{service?.name}</span></p>
-                                    <p className='price'>Cước phí: <span>{price}</span></p>
-                                    {/* <p className='quantity'>Số lượng: <span>{service?.quantityProduct}</span></p> */}
+                                <div className='g'>
+                                    <div className='service-desc'>
+                                        <p className='name'>Tên gói: <span>{service?.name}</span></p>
+                                        <p className='price'>Cước phí: <span>{price}</span></p>
+                                    </div>
+                                    <ul className='service-act'>
+                                        <li onClick={() => handleRegister(service)}>Đăng ký</li>
+                                        <li>Xem chi tiết</li>
+                                    </ul>
                                 </div>
-                                <ul className='service-act'>
-                                    <li onClick={() => handleRegister(service)}>Đăng ký</li>
-                                    <li>Xem chi tiết</li>
-                                </ul>
                             </div>
                         )
                     })

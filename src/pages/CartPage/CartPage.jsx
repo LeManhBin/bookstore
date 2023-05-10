@@ -179,14 +179,14 @@ const CartPage = () => {
 
                <div className='total-container'>
                  <div className='form'>
-                   <span className='title'>Cart Total</span>
+                   <span className='title'>Tổng tiền</span>
                    <div className='total'>
                      {/* <div className='subtotal'>
                        <span>Subtotal:</span>
                        <span className='price'>$150</span>
                      </div> */}
                      <div className='totalpayment'>
-                       <span>Total:</span>
+                       <span>Thành tiền:</span>
                        <span className='price'>${formattedTotalPayment}</span>
                      </div>
                      <button className='payment-btn' onClick={handleSubmit}>Thanh toán</button>

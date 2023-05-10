@@ -169,7 +169,6 @@ export const userSlice = createSlice({
     builder.addCase(actFetchCheckEmailUser.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isOtp = action.payload;
-      console.log(action.payload, ".............");
     });
 
     //otp
@@ -195,8 +194,6 @@ export const userSlice = createSlice({
     builder.addCase(actFetchLogin.fulfilled, (state, action) => {
       const { user } = action.payload.data;
       const { accessToken } = action.payload.data;
-      console.log(user, " user login bên redux nó ra cái này");
-      console.log(accessToken, " accessToken login bên redux nó ra cái này");
       if (accessToken) {
         state.user = user;
         localStorage.setItem(KEY_USER, JSON.stringify(state.user));
@@ -232,7 +229,6 @@ export const actRegister = (data) => async (dispatch) => {
   try {
     dispatch(actUpdateLoadingCreate(true));
     await fetchRegisterUser(data);
-    console.log(data, "data register bên redux");
   } catch (error) {
     console.log(error);
     toast.error("Đăng ký Thất bại");
@@ -246,7 +242,6 @@ export const actCreateUser = (user) => async (dispatch) => {
     dispatch(actUpdateLoadingCreate(true));
     await fetchCreateUser(user);
     dispatch(actFetchAllUser());
-    toast.success("Thêm mới thành công");
   } catch (error) {
     console.log(error);
   } finally {
@@ -258,7 +253,6 @@ export const actDeleteUser = (id) => async (dispatch) => {
   try {
     await fetchDeleteUser(id);
     dispatch(actFetchAllUser());
-    toast.success("Xoá thành công");
   } catch (error) {
     console.log(error);
   } finally {
@@ -269,11 +263,9 @@ export const actDeleteUser = (id) => async (dispatch) => {
 export const actUpdateUser = (id, payload) => async (dispatch) => {
   try {
     await fetchUpdateUser(id, payload);
-    console.log(payload, "payload nè sss");
     await dispatch(actFetchAllUser());
     await dispatch(actFetchUserById(id));
     dispatch(actUpdateLoadingCreate(true));
-    toast.success("Cập nhật thành công");
   } catch (error) {
     console.log(error);
   } finally {
@@ -287,7 +279,6 @@ export const actUpdateProfile =
       localStorage.setItem(KEY_USER, JSON.stringify(formState));
       await dispatch(actFetchUserById(id));
       dispatch(actUpdateLoadingCreate(true));
-      toast.success("Cập nhật thành công");
     } catch (error) {
       console.log(error);
     } finally {

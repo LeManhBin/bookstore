@@ -272,10 +272,10 @@ const ROR404 = () => {
             </g>
             <path className="st9" d="M320.3 257.8h549.9"/>
             <g id="Text">
-              <text transform="translate(377.037 230.025)" className="st8 st10" font-size="21">
+              <text transform="translate(377.037 230.025)" className="st8 st10" fontSize="21">
                 404
               </text>
-              <text transform="translate(659.5 213.994)" className="st8 st10" font-size="24.025">
+              <text transform="translate(659.5 213.994)" className="st8 st10" fontSize="24.025">
               Page not found.
               </text>
             </g>

@@ -15,17 +15,32 @@ export const fetchDataUserById = async (id) => {
 
 export const fetchCreateUser = async (user) => {
   const res = await axios.post(`${BE_URL}user`, user);
-  return res;
+  if (res.status == 200) {
+    toast.success("Thành công !");
+    return res;
+  } else {
+    toast.error("Có gì đó không đúng!");
+  }
 };
 
 export const fetchDeleteUser = async (id) => {
   const res = await axios.delete(`${BE_URL}user/${id}`);
-  return res;
+  if (res.status == 200) {
+    toast.success("Thành công !");
+    return res;
+  } else {
+    toast.error("Có gì đó không đúng!");
+  }
 };
 
 export const fetchUpdateUser = async (id, payload) => {
   const res = await axios.post(`${BE_URL}user/${id}`, payload);
-  return res;
+  if (res.status == 200) {
+    toast.success("Thành công !");
+    return res;
+  } else {
+    toast.error("Có gì đó không đúng!");
+  }
 };
 
 export const fetchUpdatePassword = async (id, payload) => {

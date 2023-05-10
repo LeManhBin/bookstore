@@ -69,7 +69,7 @@ const Card = ({data}) => {
         </div>
         <div className='card-desc' onClick={() => handleSeeDetail(data?.id)}>
             <p className='card-name'>{data?.name}</p>
-            <div className='rating'>
+            {/* <div className='rating'>
                 <div className='star'>
                     <i className="fa-solid fa-star"></i>
                     <i className="fa-solid fa-star"></i>
@@ -78,7 +78,7 @@ const Card = ({data}) => {
                     <i className="fa-solid fa-star"></i>
                 </div>
                 <span className='quantity'>10</span>
-            </div>
+            </div> */}
             <span className='card-author'>{data?.author}</span>
             <div className='card-price'>
                 {

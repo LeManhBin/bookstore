@@ -55,7 +55,6 @@ const UpdateAccount = () => {
         const {value} = e.target
         let num = "";
         let text = "";
-        console.log(value);
         for (let i = 0; i < value.length; i++) {
             if (isNaN(value[i])) {
                 text += value[i];
@@ -168,7 +167,6 @@ const UpdateAccount = () => {
         }));
     }
 
-    console.log(formUpdate);
 
     const handleUpdate = (e) => {
         e.preventDefault()
@@ -177,7 +175,6 @@ const UpdateAccount = () => {
         delete formPost.imageBytes;
         formData.append("object", JSON.stringify(formPost));
         formData.append("file", avatar);
-        console.log(formUpdate);
         if(!formUpdate.fullName || !formUpdate.email || !formUpdate.gender ||  !formUpdate.phone) {
             toast.warning("Vui lòng nhập đủ thông tin cần cập nhật!!")
         }else {

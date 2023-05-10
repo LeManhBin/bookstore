@@ -56,7 +56,6 @@ const handleOnChangeProvince = (e) => {
     const {value} = e.target
     let num = "";
     let text = "";
-    console.log(value);
     for (let i = 0; i < value.length; i++) {
         if (isNaN(value[i])) {
             text += value[i];

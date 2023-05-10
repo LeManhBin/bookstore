@@ -9,7 +9,6 @@ const VendorTitle = ({data}) => {
         navigate(`/vendor/${id}`)
     }
 
-    console.log(data);
   return (
     <div className='vendor-container'>
         <div className='top' style={{backgroundImage: `url(${IMG_URL}${data.coverImage})`}}>

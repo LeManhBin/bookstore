@@ -46,7 +46,6 @@ const ChangeAddressPage = () => {
         const {value} = e.target
         let num = "";
         let text = "";
-        console.log(value);
         for (let i = 0; i < value.length; i++) {
             if (isNaN(value[i])) {
                 text += value[i];
@@ -115,7 +114,6 @@ const ChangeAddressPage = () => {
         }
 
         dispatch(actUpdateAddress(idAddress,data))
-
     }
   return (
     <div className='change-address-page'>

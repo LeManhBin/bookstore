@@ -51,7 +51,7 @@ const TopicPage = () => {
     resolver: yupResolver(addTopicSchema)
   })
 
-  const {control, handleSubmit, formState: {errors}} = methods
+  const {control, handleSubmit, formState: {errors}, reset} = methods
 
   const onValid = (values) => {
     const payload = {
@@ -59,6 +59,7 @@ const TopicPage = () => {
       icon: values.icon,
     }
     dispatch(actCreateTopic(payload))
+    reset();
   }
 
   const handleModalDelete = (id) => {

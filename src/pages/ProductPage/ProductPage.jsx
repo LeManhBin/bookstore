@@ -34,7 +34,7 @@ const ProductPage = () => {
   const [limit, setLimit] = useState(8)
   const lastPageIndex = currentPage * limit;
   const firstPageIndex = lastPageIndex - limit;
-  const currentItems = allBook?.data?.filter(book => book.status === 0).slice(firstPageIndex, lastPageIndex);
+  const currentItems = allBook?.data?.filter(book => book.status === 0)?.slice(firstPageIndex, lastPageIndex);
   const totalPage = allBook?.data?.length
 
   useEffect(() => {
@@ -49,8 +49,8 @@ const ProductPage = () => {
       {
         isLoaded ? (
           <div className='product-container'>
-          <div className="heading">
-              <Heading title={"Shop"}/>
+          <div className="heading" style={{width: '100%'}}>
+              <Heading title={"Sản phẩm"}/>
           </div>
           <div className='product'>
               <div className='sort'>

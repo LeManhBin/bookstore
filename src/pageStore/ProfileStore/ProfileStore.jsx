@@ -54,7 +54,6 @@ const ProfileStore = () => {
         const {value} = e.target
         let num = "";
         let text = "";
-        console.log(value);
         for (let i = 0; i < value.length; i++) {
             if (isNaN(value[i])) {
                 text += value[i];
@@ -182,10 +181,6 @@ useEffect(() => {
       formData.append("avatar", avatar);
       formData.append("coverimage", coverImg);
       dispatch(actUpdateStore(idStore, formData))
-      console.log(
-        "id store",idStore,
-        "Data", formPost
-      );
 
   }
   return (

@@ -443,8 +443,11 @@ const AccountPage = () => {
                         });
                       })
                     }
-                      {/* <div className='total-payment'>
-                          <p className='total'>Thành tiền: 0</p>
+                      {/* <div className="order-button">
+                          <button onClick={() => handleEvaluate(items.id)}>Đánh giá</button>
+                          {
+                            console.log(items, "items")
+                          }
                       </div> */}
                     </div>
                   )) 

@@ -4,8 +4,8 @@ import { actReplyContact } from '../../redux/features/contactSlice/contactSlice'
 import './ViewContact.scss'
 const ViewContact = ({setIsWatchContact, contactData}) => {
     const initialContact = {
-        name: contactData.name,
-        gmail: contactData.gmail,
+        name: contactData?.name,
+        gmail: contactData?.gmail,
         subject: "",
         content: "",
     }
@@ -39,11 +39,11 @@ const ViewContact = ({setIsWatchContact, contactData}) => {
             ?
             <form onSubmit={handleSubmit}>
                 <div className='input-form'>
-                    <input required type="text" placeholder='Full Name' name='name' value={formContact.name} onChange={handleOnChange} disabled={true}/>
-                    <input   type="email" placeholder='Your Email' name='gmail' value={formContact.gmail} />
+                    <input required type="text" placeholder='Full Name' name='name' value={formContact?.name} onChange={handleOnChange} disabled={true}/>
+                    <input   type="email" placeholder='Your Email' name='gmail' value={formContact?.gmail} />
                 </div>
-                <input required type="text" placeholder='Subject' name='subject' value={formContact.subject} onChange={handleOnChange}/>
-                <textarea required name="content" id="" cols="30" rows="10" placeholder='Your Massage' value={formContact.content} onChange={handleOnChange}></textarea>
+                <input required type="text" placeholder='Subject' name='subject' value={formContact?.subject} onChange={handleOnChange}/>
+                <textarea required name="content" id="" cols="30" rows="10" placeholder='Your Massage' value={formContact?.content} onChange={handleOnChange}></textarea>
                 <button type='submit'>Phản hồi</button>
             </form>
             :
@@ -51,18 +51,18 @@ const ViewContact = ({setIsWatchContact, contactData}) => {
             <div className='contact-detail'>
                 <div className='contact'>
                     <span className='title'>Tiêu đề: </span>
-                    <span className='detail'>{contactData.subject}</span>
+                    <span className='detail'>{contactData?.subject}</span>
                 </div>
                 <div className='contact'>
                     <span className='title'>Họ Tên: </span>
-                    <span className='detail'>{contactData.name}</span>
+                    <span className='detail'>{contactData?.name}</span>
                 </div>
                 <div className='contact'>
                     <span className='title'>Email: </span>
-                    <span className='detail'>{contactData.gmail}</span>
+                    <span className='detail'>{contactData?.gmail}</span>
                 </div>
                 <div className='content'>
-                    <p>{contactData.content}</p>
+                    <p>{contactData?.content}</p>
                 </div>
             </div>
             <button onClick={() => setReply(true)}>Trả lời</button>

@@ -41,7 +41,6 @@ const AddressPopup = ({setIsAddress}) => {
         const {value} = e.target
         let num = "";
         let text = "";
-        console.log(value);
         for (let i = 0; i < value.length; i++) {
             if (isNaN(value[i])) {
                 text += value[i];
@@ -109,9 +108,6 @@ const AddressPopup = ({setIsAddress}) => {
             ward_id: addressState.ward_id,
             full_address: `${addressState.houseNumber} - ${addressState.provinceName} - ${addressState.districtName} - ${addressState.wardName}`
         }
-
-        console.log(data);
-
     }
   return (
     <div className='address-popup'>

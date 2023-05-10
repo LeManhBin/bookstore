@@ -24,7 +24,12 @@ export const fetchOrderByIdStore = async (id) => {
 
 export const fetchChangeOrderStatus = async (id, status) => {
   const res = await axios.put(`${BE_URL}order/${id}/${status}`);
-  return res.data;
+  if (res.status == 200) {
+    toast.success("Thành công !");
+    return res.data;
+  } else {
+    toast.error("Có gì đó không đúng!");
+  }
 };
 
 export const fetchDetailOrder = async (id) => {

@@ -114,7 +114,6 @@ export const storeSlice = createSlice({
     builder.addCase(actFetchCheckEmailStore.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isOtp = action.payload;
-      console.log(action.payload, ".............");
     });
 
     //otp

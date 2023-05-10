@@ -46,7 +46,7 @@ const VendorPage = () => {
         (
           <div className='vendor-page'>
           <div className="heading">
-            <Heading title={"Store List"}/>
+            <Heading title={"Danh sách cửa hàng"}/>
           </div>
           <div className="vendor-list">
               <div className="search-container">

@@ -28,7 +28,7 @@ const Evaluate = ({setIsRating, idTemp}) => {
   const handleEvaluate = () => {
     dispatch(actCreateEvaluate({...evaluateState, star: number}))
     setIsRating(false)
-    // dispatch(actReviewDoneChangeStatus(idTemp, 5, user.id))
+    dispatch(actReviewDoneChangeStatus(idTemp, 5, user.id))
   }
   return (
     <div className='evaluate-container'>

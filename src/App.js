@@ -78,13 +78,7 @@ function App() {
 
   const userCurrent = localStorage.getItem(KEY_USER)
     ? JSON.parse(localStorage.getItem(KEY_USER))
-    : {};
-
-  // const { store } = useSelector((state) => state.store);
-
-  // useEffect(() => {
-  //   dispatch(actFetchStoreById(userCurrent?.storeId));
-  // }, []);
+    : null;
 
   return (
     <div className="App">
@@ -130,7 +124,13 @@ function App() {
 
           <Route
             path="/admin"
-            element={userCurrent.role === 0 ? <ROR404 /> : <AdminLayout />}
+            element={
+              userCurrent?.role === 0 || !userCurrent ? (
+                <ROR404 />
+              ) : (
+                <AdminLayout />
+              )
+            }
           >
             <Route index element={<DashboardPage />} />
             <Route path="store-list" element={<StoreListPage />} />
@@ -158,7 +158,13 @@ function App() {
 
           <Route
             path="/store"
-            element={userCurrent.storeId === 0 ? <ROR404 /> : <StoreLayout />}
+            element={
+              userCurrent?.storeId === 0 || userCurrent == null ? (
+                <ROR404 />
+              ) : (
+                <StoreLayout />
+              )
+            }
           >
             <Route index element={<RevenueStorePage />} />
             <Route path="order-store" element={<OrderStorePage />} />

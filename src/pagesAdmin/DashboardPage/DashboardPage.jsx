@@ -32,8 +32,6 @@ const DashboardPage = () => {
 
   const userQuantity = allUser.filter(user => user.role === 0).length
   const employeeQuantity = allUser.filter(user => user.role === 1).length
-
-  console.log(reportAdmin);
   const formatRevenue = reportAdmin?.sumRevunue?.toLocaleString('vi-VN', {
     style: 'currency',
     currency: 'VND',

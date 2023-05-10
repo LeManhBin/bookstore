@@ -18,7 +18,7 @@ const ChartColumn = () => {
   },[])
 
 
-  const orderCompleted = orderByIdStore?.filter(order => order.status == 3)
+  const orderCompleted = orderByIdStore?.filter(order => order.status == 3 || order.status === 5)
 
   const computedOrderTypeYear = useMemo(() => {
     return orderCompleted.reduce((prevObj, order)=>{
@@ -117,7 +117,7 @@ const ChartColumn = () => {
       return prevObj
     },{})
   }, [orderCompleted])
-
+  
   const computedOrderTypeMonth = useMemo(() => {
     const nowMonth = new Date().getMonth()
     const nowYear = new Date().getFullYear()

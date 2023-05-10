@@ -30,7 +30,6 @@ const PaymentSuccess = () => {
     handleCheckPayment();
   }, []);
 
-  console.log(dataService);
   useEffect(() => {
     dispatch(actFetchConfirmRegisterService(dataService))
   },[])

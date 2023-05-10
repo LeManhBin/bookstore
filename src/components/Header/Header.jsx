@@ -13,7 +13,7 @@ const Header = () => {
     const {user} = useSelector((state) => state.user)
     const [toggle, setToggle] = useState(false)
     const [totalItems, setTotalItems] = useState(0);
-
+    const [isStore, setIsStore] = useState(false)
    const userId = user?.id
     const handleToggle = () => {
         setToggle(!toggle)
@@ -60,6 +60,21 @@ const Header = () => {
         navigate('/store')
     }
 
+    const handleCheckStore = () => {
+        if(!user?.storeId || user?.storeId !==0) {
+            setIsStore(false)
+        }else {
+            setIsStore(true)
+        }
+    }
+
+    useEffect(() => {
+        handleCheckStore()
+    },[user])
+
+
+
+
   return (
     <div className='header'>
         <div className='header__left' onClick={handleHomePage}>
@@ -80,11 +95,11 @@ const Header = () => {
         </div>
         <div className="header__right">
             <div className='header__right--contact'>
-                <span className='header__right--contact-icon'><i className="fa-solid fa-phone-volume"></i></span>
+                {/* <span className='header__right--contact-icon'><i className="fa-solid fa-phone-volume"></i></span> */}
                 <div className='header__right--contact-detail'>
 
                     {
-                        (user.storeId !== 0) ? 
+                        isStore ? 
                            <>
                             <span className='phone-number' onClick={handleMyStore}>Kênh người bán</span>
                             <span className='title'>Vào kênh bán hàng của bạn </span>

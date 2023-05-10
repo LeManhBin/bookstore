@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { actFetchDetailPromotion, actFetchPromotionByIdPromotion, actUpdatePromotion } from '../../redux/features/bookSlice/bookSlice'
 import AdminHeading from '../../components/AdminHeading/AdminHeading'
 import { toast } from 'react-toastify'
@@ -8,6 +8,7 @@ import { toast } from 'react-toastify'
 const UpdatePromotionPage = () => {
     const dispatch = useDispatch()
     const param = useParams()
+    const navigate = useNavigate()
     const {user} = useSelector((state) => state.user)
     const idStore = user.storeId
     const {promotion} = useSelector((state) => state.book )
@@ -62,6 +63,7 @@ const UpdatePromotionPage = () => {
             toast.warning("Vui lòng nhập đủ thông tin !!")
         }else {
             dispatch(actUpdatePromotion(idPromotion, data))
+            navigate("store/list-promotion")
         }
     }
     

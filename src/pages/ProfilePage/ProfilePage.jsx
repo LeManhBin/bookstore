@@ -45,12 +45,11 @@ const ProfilePage = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     const formData =  new FormData();
-    const formPost = Object.assign({
-      ...formState,
-      addressId: formState?.address?.id
-    });
+    const formPost = Object.assign( formState
+      // addressId: formState?.address?.id
+    );
     delete formPost.imageBytes;
-    delete formPost.address;
+    // delete formPost.address;
     formData.append("object", JSON.stringify(formPost));
     formData.append("file", avatar);
     dispatch(actUpdateProfile(user?.id,formData, formState))

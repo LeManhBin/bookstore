@@ -144,10 +144,14 @@ const PaymentPage = () => {
         const storeId = payment.store.id;
         const cartIds = payment.cartDetails.map(detail => detail.id);
         const note = "Giao hanh nhanh nhanh dum em";
+        let shiping = 0
+        shipMoney.forEach((ship) => {
+            shiping += ship?.total
+        })
         for(let i=0; i < payment?.cartDetails?.length; i++){
           let itemPrice = payment?.cartDetails?.[i].price * payment?.cartDetails?.[i].amount
           let discountAmount = itemPrice * (payment?.cartDetails?.[i].discount/100);
-          totalMoney += itemPrice - discountAmount;
+          totalMoney += itemPrice - discountAmount + shiping;
         }
         return { id: storeId, note, cartIds, totalMoney };
       });
@@ -165,14 +169,13 @@ const PaymentPage = () => {
         });
         const shipAndPay = totalPayment + totalShip
         setTotalPayment(shipAndPay);
-
       }
 
 
     
       useEffect(() => {
         handleGetTotal();
-      }, [allPayment]);
+      }, [allPayment, shipMoney]);
     
       useEffect(() => {
           dispatch(actFetchAllDataCartByIdUser(user?.id))
@@ -193,7 +196,7 @@ const PaymentPage = () => {
     useEffect(() => {
         if (clicked) {
             dispatch(actCreateOrder(order))
-    
+            navigate("/")
             const timeoutId = setTimeout(() => {
               setClicked(false);
             }, 1000);

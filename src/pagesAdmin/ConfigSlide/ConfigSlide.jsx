@@ -43,6 +43,7 @@ const ConfigSlide = () => {
       toast.warning("Vui lòng chọn hình ảnh!")
     }else {
       dispatch(actCreateSlide(formData))
+      setSlide(null)
     }
   }
   return (

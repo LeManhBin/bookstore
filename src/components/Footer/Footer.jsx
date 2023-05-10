@@ -9,7 +9,7 @@ const Footer = () => {
             <h4>Contact</h4>
             <p><span>Address: </span>Da Nang, Viet Nam</p>
             <p><span>Phone: </span>0365160470</p>
-            <p><span>Hours: </span>08:30 - 22:00, Mon - Sat</p>
+            <p><span>Hours: </span>08:00 - 22:00, Mon - Sun</p>
             <div className="follow">
                 <h4>Follow</h4>
                 <div className="social">

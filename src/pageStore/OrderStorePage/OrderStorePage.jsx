@@ -105,8 +105,6 @@ const OrderStorePage = () => {
     navigate(`/store/order-store/${id}`)
   }
 
-  console.log(orderByIdStore);
-
   return (
     <div className='order-page'>
       <div className="heading">
@@ -146,25 +144,24 @@ const OrderStorePage = () => {
                               currency: 'VND',
                           });
                           let loaiThanhToan;
-                          if(order.payment === 1) {
+                          if(order?.payment === 1) {
                             loaiThanhToan = <Status text={"Trực tiếp"} className={"active"}/>
                           }else {
                             loaiThanhToan = <Status text={"Zalo Pay"} className={"primary"}/>
                           }
                           return(
-                            <tr key={order.id}>
-                              <td style={{verticalAlign: 'middle', textAlign: 'center'}}>{order.id}</td>
+                            <tr key={order?.id}>
+                              <td style={{verticalAlign: 'middle', textAlign: 'center'}}>{order?.id}</td>
                               <td style={{textAlign: 'left'}}>
-                                {order.name}
-                                <br />{order.phone}
-                                <br />{order.address}
+                                {order?.name}
+                                <br />{order?.phone}
+                                <br />{order?.address}
                               </td>
                               <td style={{verticalAlign: 'middle', textAlign: 'center'}}>{loaiThanhToan}</td>
                               <td>{formatTotalMoney}</td>
                               <td className='button'>
-                                <button className='edit-btn' onClick={() => handleDetailOrder(order.id)}><i className="fa-solid fa-binoculars"></i></button>
-                                <button className='edit-btn' onClick={() => handleConfirm(order.id)}>Xác nhận</button>
-                                <button className='delete-btn' ><i className="fa-sharp fa-solid fa-trash"></i></button>
+                                <button className='edit-btn' onClick={() => handleDetailOrder(order?.id)}><i className="fa-solid fa-expand"></i></button>
+                                <button className='edit-btn' onClick={() => handleConfirm(order?.id)}><i className="fa-solid fa-square-check"></i></button>
                               </td>
                             </tr>
                           )
@@ -209,31 +206,30 @@ const OrderStorePage = () => {
                     </thead>
                     <tbody>
                         {
-                          orderByIdStore?.filter(item => item.status === 1).map((order, index) => {
+                          orderByIdStore?.filter(item => item?.status === 1).map((order, index) => {
                             const formatTotalMoney = order?.totalMoney?.toLocaleString('vi-VN', {
                                 style: 'currency',
                                 currency: 'VND',
                             });
                             let loaiThanhToan;
-                            if(order.payment === 1) {
+                            if(order?.payment === 1) {
                               loaiThanhToan = <Status text={"Trực tiếp"} className={"active"}/>
                             }else {
                               loaiThanhToan = <Status text={"Zalo Pay"} className={"primary"}/>
                             }
                             return(
-                              <tr key={order.id}>
-                                <td>{order.id}</td>
+                              <tr key={order?.id}>
+                                <td>{order?.id}</td>
                                 <td style={{textAlign: 'left'}}>
-                                  {order.name}
-                                  <br />{order.phone}
-                                  <br />{order.address}
+                                  {order?.name}
+                                  <br />{order?.phone}
+                                  <br />{order?.address}
                                 </td>
                                 <td>{loaiThanhToan}</td>
                                 <td>{formatTotalMoney}</td>
                                 <td className='button'>
-                                  <button className='edit-btn' onClick={() => handleDetailOrder(order.id)}><i className="fa-solid fa-binoculars"></i></button>
-                                  <button className='edit-btn' onClick={() => handleTransport(order.id)}>Giao</button>
-                                  <button className='delete-btn' ><i className="fa-sharp fa-solid fa-trash"></i></button>
+                                  <button className='edit-btn' onClick={() => handleDetailOrder(order?.id)}><i className="fa-solid fa-expand"></i></button>
+                                  <button className='edit-btn' onClick={() => handleTransport(order?.id)}><i className="fa-solid fa-square-check"></i></button>
                                 </td>
                               </tr>
                             )
@@ -277,31 +273,30 @@ const OrderStorePage = () => {
                     </thead>
                     <tbody>
                         {
-                          orderByIdStore?.filter(item => item.status === 2).map((order, index) => {
+                          orderByIdStore?.filter(item => item?.status === 2).map((order, index) => {
                             const formatTotalMoney = order?.totalMoney?.toLocaleString('vi-VN', {
                               style: 'currency',
                               currency: 'VND',
                             });
                             let loaiThanhToan;
-                            if(order.payment === 1) {
+                            if(order?.payment === 1) {
                               loaiThanhToan = <Status text={"Trực tiếp"} className={"active"}/>
                             }else {
                               loaiThanhToan = <Status text={"Zalo Pay"} className={"primary"}/>
                             }
                             return(
-                              <tr key={order.id}>
-                                <td>{order.id}</td>
+                              <tr key={order?.id}>
+                                <td>{order?.id}</td>
                                 <td style={{textAlign: 'left'}}>
-                                  {order.name}
-                                  <br />{order.phone}
-                                  <br />{order.address}
+                                  {order?.name}
+                                  <br />{order?.phone}
+                                  <br />{order?.address}
                                 </td>
                                 <td>{loaiThanhToan}</td>
                                 <td>{formatTotalMoney}</td>
                                 <td className='button'>
-                                  <button className='edit-btn' onClick={() => handleDetailOrder(order.id)}><i className="fa-solid fa-binoculars"></i></button>
-                                  <button className='edit-btn' onClick={() => handleComplete(order.id)}><i className="fa-regular fa-pen-to-square"></i></button>
-                                  <button className='delete-btn' ><i className="fa-sharp fa-solid fa-trash"></i></button>
+                                  <button className='edit-btn' onClick={() => handleDetailOrder(order?.id)}><i className="fa-solid fa-expand"></i></button>
+                                  <button className='edit-btn' onClick={() => handleComplete(order?.id)}><i className="fa-solid fa-square-check"></i></button>
                                 </td>
                               </tr>
                             )
@@ -345,31 +340,30 @@ const OrderStorePage = () => {
                     </thead>
                     <tbody>
                         {
-                          orderByIdStore?.filter(item => item.status === 3).map((order, index) => {
+                          orderByIdStore?.filter(item => item.status === 3 || item.status === 5).map((order, index) => {
                             const formatTotalMoney = order?.totalMoney?.toLocaleString('vi-VN', {
                               style: 'currency',
                               currency: 'VND',
                             });
                             let loaiThanhToan;
-                            if(order.payment === 1) {
+                            if(order?.payment === 1) {
                               loaiThanhToan = <Status text={"Trực tiếp"} className={"active"}/>
                             }else {
                               loaiThanhToan = <Status text={"Zalo Pay"} className={"primary"}/>
                             }
                             return(
-                              <tr key={order.id}>
-                                <td>{order.id}</td>
+                              <tr key={order?.id}>
+                                <td>{order?.id}</td>
                                 <td style={{textAlign: 'left'}}>
-                                  {order.name}
-                                  <br />{order.phone}
-                                  <br />{order.address}
+                                  {order?.name}
+                                  <br />{order?.phone}
+                                  <br />{order?.address}
                                 </td>
                                 <td>{loaiThanhToan}</td>
                                 <td>{formatTotalMoney}</td>
                                 <td className='button'>
-                                  <button className='edit-btn' onClick={() => handleDetailOrder(order.id)}><i className="fa-solid fa-binoculars"></i></button>
-                                  <button className='edit-btn'><i className="fa-regular fa-pen-to-square"></i></button>
-                                  <button className='delete-btn' ><i className="fa-sharp fa-solid fa-trash"></i></button>
+                                  <button className='edit-btn' onClick={() => handleDetailOrder(order?.id)}><i className="fa-solid fa-expand"></i></button>
+                                  {/* <button className='edit-btn'><i className="fa-solid fa-square-check"></i></button> */}
                                 </td>
                               </tr>
                             )
@@ -435,9 +429,8 @@ const OrderStorePage = () => {
                                 <td>{loaiThanhToan}</td>
                                 <td>{formatTotalMoney}</td>
                                 <td className='button'>
-                                  <button className='edit-btn' onClick={() => handleDetailOrder(order.id)}><i className="fa-solid fa-binoculars"></i></button>
-                                  <button className='edit-btn' ><i className="fa-regular fa-pen-to-square"></i></button>
-                                  <button className='delete-btn' ><i className="fa-sharp fa-solid fa-trash"></i></button>
+                                  <button className='edit-btn' onClick={() => handleDetailOrder(order.id)}><i className="fa-solid fa-expand"></i></button>
+                                  {/* <button className='edit-btn' ><i className="fa-solid fa-square-check"></i></button> */}
                                 </td>
                               </tr>
                             )
@@ -503,9 +496,8 @@ const OrderStorePage = () => {
                                 <td style={{verticalAlign: 'middle', textAlign: 'center'}}>{loaiThanhToan}</td>
                                 <td>{formatTotalMoney}</td>
                                 <td className='button'>
-                                  <button className='edit-btn' onClick={() => handleDetailOrder(order.id)}><i className="fa-solid fa-binoculars"></i></button>
-                                  <button className='edit-btn' onClick={() => handleConfirm(order.id)}>Xác nhận</button>
-                                  <button className='delete-btn' ><i className="fa-sharp fa-solid fa-trash"></i></button>
+                                  <button className='edit-btn' onClick={() => handleDetailOrder(order.id)}><i className="fa-solid fa-expand"></i></button>
+                                  {/* <button className='edit-btn' onClick={() => handleConfirm(order.id)}>Xác nhận</button> */}
                                 </td>
                               </tr>
                             )

@@ -21,6 +21,7 @@ import { actFetchAllStore } from '../../redux/features/storeSlice/storeSlice'
 import Loading from '../../components/Loading/Loading'
 import { actFetchAllSlide } from '../../redux/features/slideSlice/slideSlice'
 import { IMG_URL } from '../../constants/config'
+
 const HomePage = () => {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams();
@@ -168,7 +169,7 @@ const HomePage = () => {
               <div className='category'>
                   <div className='category-text'>
                     <i className="fa-solid fa-braille"></i>
-                    <span>Categories</span>
+                    <span>Thể loại</span>
                   </div>
                   <span className='icon' onClick={handleShowCategory}><i className="fa-solid fa-angle-up"></i></span>
                   <div className='category-list'>
@@ -185,7 +186,7 @@ const HomePage = () => {
               </div>
               <div className="map">
                 <i className="fa-solid fa-location-dot"></i>
-                <span>Find a Book Store</span>
+                <span>Cửa hàng gần đây</span>
               </div>
           </div>
           <div className='homepage-slide'>
@@ -222,8 +223,8 @@ const HomePage = () => {
             <div className="homepage__right">
                 <div className="homepage__right--product">
                     <div className="heading">
-                        <p className='title'>Popular Books</p>
-                        <button className='view' onClick={handleViewAll}>View All</button>
+                        <p className='title'>Sản phẩm nổi bật</p>
+                        <button className='view' onClick={handleViewAll}>Xem tất cả</button>
                     </div>
                     <div className='product-container'>
                       {
@@ -244,8 +245,8 @@ const HomePage = () => {
     
                 <div className="homepage__right--product">
                     <div className="heading">
-                        <p className='title'>On sale</p>
-                        <button className='view' onClick={handleViewAll}>View All</button>
+                        <p className='title'>Khuyển mãi khủng</p>
+                        <button className='view' onClick={handleViewAll}>Xem tất cả</button>
                     </div>
                     <div className='product-container'>
                       {
@@ -264,8 +265,8 @@ const HomePage = () => {
           <div className='homepage-vendor'>
                 <div className="homepage-vendor--vendor">
                     <div className="heading">
-                        <p className='title'>Top selling vendor</p>
-                        <button className='view' onClick={handleViewAllVendor}>View All</button>
+                        <p className='title'>Cửa hàng nổi bật</p>
+                        <button className='view' onClick={handleViewAllVendor}>Xem tất cả</button>
                     </div>
                     <div className='product-vendor'>
                         {

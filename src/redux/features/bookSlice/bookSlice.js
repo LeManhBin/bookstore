@@ -231,7 +231,6 @@ export const bookSlice = createSlice({
     });
     builder.addCase(actFetchSearchBook.fulfilled, (state, action) => {
       state.isLoading = false;
-      console.log(action.payload, "search");
       state.bookSearch = action.payload || [];
     });
 
@@ -315,6 +314,7 @@ export const actCreateBook = (book) => async (dispatch) => {
     toast.success("Thêm mới thành công");
   } catch (error) {
     console.log(error);
+    toast.error("Thêm thất bại!");
   } finally {
     dispatch(actUpdateLoadingCreate(false));
   }
@@ -335,7 +335,7 @@ export const actDeleteBook = (id) => async (dispatch) => {
 export const actUpdateBook = (id, payload) => async (dispatch) => {
   try {
     await fetchUpdateBook(id, payload);
-    await dispatch(actFetchAllBook());
+    dispatch(actFetchAllBook());
     dispatch(actUpdateLoadingCreate(true));
     toast.success("Cập nhật thành công");
   } catch (error) {

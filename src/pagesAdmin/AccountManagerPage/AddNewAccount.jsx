@@ -63,7 +63,6 @@ const AddNewAccount = () => {
         const {value} = e.target
         let num = "";
         let text = "";
-        console.log(value);
         for (let i = 0; i < value.length; i++) {
             if (isNaN(value[i])) {
                 text += value[i];
@@ -189,8 +188,6 @@ const AddNewAccount = () => {
         }else {
             dispatch(actCreateUser(formData))
         }
-        console.log(formState);
-
     }
     const handleBack = () => {
         navigate('/admin/account-manager')
@@ -212,7 +209,7 @@ const AddNewAccount = () => {
                 </div>
                 <div className="form-input">
                     <label htmlFor="">Số điện thoại</label>
-                    <input type="text" name='phone' value={formState.phone} onChange={handleOnChange} placeholder='Nhập số điện thoại'/>
+                    <input type="number" name='phone' value={formState.phone} onChange={handleOnChange} placeholder='Nhập số điện thoại'/>
                 </div>
                 <div className="form-input">
                     <label htmlFor="">Giới tính</label>

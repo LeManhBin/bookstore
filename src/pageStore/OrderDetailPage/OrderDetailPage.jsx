@@ -67,7 +67,6 @@ const OrderDetailPage = () => {
                                     style: 'currency',
                                     currency: 'VND',
                                 });
-                                console.log(order);
                                 let formattedPriceAfterDiscount = priceAfterDiscount.toLocaleString('vi-VN', {
                                     style: 'currency',
                                     currency: 'VND',

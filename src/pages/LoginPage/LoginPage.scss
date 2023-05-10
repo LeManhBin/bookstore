@@ -75,7 +75,7 @@
                 }
 
                 span:hover {
-                    color: #B99B6B;
+                    color: #F65D4E;
                 }
 
                 .login__btn {
@@ -88,12 +88,12 @@
                         font-weight: 500;
                         font-size: 13px;
                         border-radius: 30px;
-                        border: 1px solid #333;
+                        border: none;
                         cursor: pointer;
                     }
                     &--signin {
                         color: #fff;
-                        background-color: #000;
+                        background-color: #F65D4E;
 
                     }
 

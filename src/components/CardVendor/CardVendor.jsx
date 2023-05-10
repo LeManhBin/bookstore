@@ -20,8 +20,6 @@ const CardVendor = ({data}) => {
   //   }
   // },[bookByStore])
 
-  console.log(data);
-
   const handleClickVendorDetail = (id) => {
     navigate(`/vendor/${id}`)
   }
