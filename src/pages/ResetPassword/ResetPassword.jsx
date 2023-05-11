@@ -35,7 +35,6 @@ const ResetPassword = () => {
         }
         dispatch(actResetPassword(resetData))
         sessionStorage.removeItem('email');
-        toast.success("Thành công")
     }
 
     

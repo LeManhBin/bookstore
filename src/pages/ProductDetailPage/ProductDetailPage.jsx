@@ -14,6 +14,7 @@ import { actFetchDataEvaluateByIdBook } from '../../redux/features/evaluateSlice
 import Loading from '../../components/Loading/Loading'
 import { IMG_URL } from '../../constants/config'
 import Slider from 'react-slick'
+import { toast } from 'react-toastify'
 const ProductDetailPage = () => {
     const settingsVendor = {
         dots: true,
@@ -122,21 +123,27 @@ const ProductDetailPage = () => {
 
 
     useEffect(() => {
-        dispatch(actFetchBookByIdCategory(cardState?.categoryId))
-    },[cardState?.categoryId])
+        if(book?.categoryId > 0) {
+            dispatch(actFetchBookByIdCategory(book?.categoryId))
+        }
+    },[book?.categoryId])
 
     const handleDecrease = () => {
         setQuantity(prev => {
-            if (prev > 1) {
+            if (prev < 2) {
+                toast.warning("Số sản phẩm phải lớn hơn 0")
+            }else {
+                setCartState(prevState => ({
+                    ...prevState,
+                    amount: prevState.amount - 1
+                }))
                 return prev - 1
             }
             return prev
         })
-        setCartState(prevState => ({
-            ...prevState,
-            amount: prevState.amount - 1
-        }))
+        
     }
+    console.log(quantity);
 
     const handleIncrease = () => {
         setQuantity(prev => {
@@ -173,7 +180,7 @@ const ProductDetailPage = () => {
                     <div className="top">
                         <h1 className='name-product'>{cardState?.name}</h1>
                         <div className='author-product'>
-                            <p><span>Author: </span>{cardState?.author}</p>
+                            <p><span>Tác giả: </span>{cardState?.author}</p>
                             <div className='rating'>
                                 <div className='star'>
                                     <i className="fa-solid fa-star"></i>
@@ -213,15 +220,15 @@ const ProductDetailPage = () => {
                     </div>
                     <div className='bot'>
                         <div className='quantity'>
-                            <span>Quantity</span>
+                            <span>Số lượng</span>
                             <div className="quantity-input">
                                 <button className='decrease' onClick={handleDecrease}>-</button>
                                 <input type="number" min={1} value={quantity} onChange={(e) => setQuantity(e.target.value)}/>
                                 <button className='increase' onClick={handleIncrease}>+</button>
                             </div>
                         </div>
-                        <button className='add-cart' onClick={handleAddToCard}> <i className="fa-solid fa-bag-shopping"></i> Add to card</button>
-                        <button className='add-wishlist'>Browse wishlist</button>
+                        <button className='add-cart' onClick={handleAddToCard}> <i className="fa-solid fa-bag-shopping"></i> Thêm vào giỏ hàng</button>
+                        <button className='add-wishlist'>Yêu thích</button>
                     </div>
                 </div>
             </div>
@@ -230,7 +237,7 @@ const ProductDetailPage = () => {
                     <img src={`${IMG_URL}${book?.store?.avatar}`} alt="" className='avatar'/>
                     <div className='info'>
                         <div className="name">{book?.store?.name}</div>
-                        <button className='see-shop' onClick={() => handleWatchShop(book?.store?.id)}>See Shop</button>
+                        <button className='see-shop' onClick={() => handleWatchShop(book?.store?.id)}>Ghé thăm</button>
                     </div>
                 </div>
                 <div className='achievements'>
@@ -249,14 +256,14 @@ const ProductDetailPage = () => {
                 </div>  
             </div>
             <div className='product-detail-desc'>
-                <h2 className='heading'>Description</h2>
+                <h2 className='heading'>Mô tả sản phẩm</h2>
                 <div className='desc-container' dangerouslySetInnerHTML={{__html: cardState?.description}}>
     
                 </div>
             </div>
     
             <div className="product-detail-review">
-                <h2 className='heading'>Review</h2>
+                <h2 className='heading'>Đánh giá</h2>
                 <div className='review-container'>
                     {/* <CommentInput/> */}
                     {
@@ -273,7 +280,7 @@ const ProductDetailPage = () => {
     
             <div className='product-detail-related'>
                 <div className="heading">
-                    <h2>Related products</h2>
+                    <h2>Sản phẩm liên quan</h2>
                 </div>
                 <div className='related'>
                     {

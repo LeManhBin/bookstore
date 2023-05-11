@@ -79,7 +79,6 @@ export const actCreatePayment = (payload) => async (dispatch) => {
   try {
     dispatch(actUpdateLoadingCreate(true));
     await fetchCreatePayment(payload);
-    toast.success("Thành công");
   } catch (error) {
     console.log(error);
   } finally {

@@ -181,8 +181,8 @@ useEffect(() => {
       formData.append("avatar", avatar);
       formData.append("coverimage", coverImg);
       dispatch(actUpdateStore(idStore, formData))
-
   }
+
   return (
     <div className='update-profile-store'>
       <div className="heading">
@@ -210,6 +210,7 @@ useEffect(() => {
               </div>
               <div className="form-input" style={{width: "225px"}}>
                   <label htmlFor="">Địa chỉ</label>
+                    <input type="text" disabled={true} value={formState?.address?.fullAddress}/>
                     <input type="text" placeholder='Nhập số nhà' value={addressState.houseNumber} onChange={handelOnChangeNumberHouse}/>
                     <div className="input-select">
                         <select name="province_id" id="" onChange={handleOnChangeProvince}>

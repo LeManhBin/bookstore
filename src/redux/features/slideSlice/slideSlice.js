@@ -54,7 +54,6 @@ export const actCreateSlide = (payload) => async (dispatch) => {
   try {
     await fetchCreateSlide(payload);
     dispatch(actFetchAllSlide());
-    toast.success("Tạo thành công");
   } catch (error) {
     console.log(error);
   } finally {
@@ -66,7 +65,6 @@ export const actChangeStatusSlide = (id) => async (dispatch) => {
   try {
     await fetchChangeStatus(id);
     dispatch(actFetchAllSlide());
-    toast.success("Thành công");
   } catch (error) {
     console.log(error);
   } finally {
@@ -78,7 +76,6 @@ export const actDeleteSlide = (id) => async (dispatch) => {
   try {
     await fetchDeleteSlide(id);
     dispatch(actFetchAllSlide());
-    toast.success("Thành công");
   } catch (error) {
     console.log(error);
   } finally {

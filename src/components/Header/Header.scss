@@ -6,7 +6,7 @@
     border: 1px solid #eee;
     position: fixed;
     background-color: #fff;
-    z-index: 9999;
+    z-index: 999;
     top: 0;
     right: 0;
     left: 0;
@@ -39,6 +39,7 @@
 
             .link {
                 cursor: pointer;
+                font-weight: bold;
 
                 a {
                     text-decoration: none;
@@ -192,9 +193,10 @@
 
 @media (max-width: 1140px) {
     .header {
-    
+        padding-left: 100px;
+        padding-right: 100px ;
         &__left {
-    
+            
         }
     
         &__center {

@@ -37,11 +37,9 @@ export const cartSlice = createSlice({
       );
       if (itemIndex >= 0) {
         state.cartItems[itemIndex].cartQuantity += 1;
-        toast.info("Tăng số lượng bên giỏ hàng");
       } else {
         const tempProduct = { ...action.payload, cartQuantity: 1 };
         state.cartItems.push(tempProduct);
-        toast.success("Thêm sản phẩm vào giỏ hàng thành công");
       }
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
@@ -51,7 +49,6 @@ export const cartSlice = createSlice({
       );
       state.cartItems = nextCartItems;
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
-      toast.success("Gỡ sản phẩm thành công");
     },
 
     actDecreaseCart: (state, action) => {
@@ -102,7 +99,6 @@ export const actCreateCart = (cart) => async (dispatch) => {
     dispatch(actUpdateLoadingCreate(true));
     await fetchCreateCart(cart);
     dispatch(actFetchAllDataCartByIdUser(cart.userid));
-    toast.success("Thêm mới thành công");
   } catch (error) {
     console.log(error);
   } finally {
@@ -114,7 +110,6 @@ export const actDeleteCart = (cart, idUser) => async (dispatch) => {
     dispatch(actUpdateLoadingCreate(true));
     await fetchDeleteCart(cart.id);
     dispatch(actFetchAllDataCartByIdUser(idUser));
-    toast.success("Gỡ thành công");
   } catch (error) {
     console.log(error);
   } finally {

@@ -10,7 +10,6 @@ export const fetchAllDataCartByIdUser = async (id) => {
 export const fetchUpdateQuantityCart = async (id, amount) => {
   const res = await axios.put(`${BE_URL}cart/${id}?amount=${amount}`);
   if (res.status == 200) {
-    toast.success("Thành công !");
     return res;
   } else {
     toast.error("Có gì đó không đúng!");

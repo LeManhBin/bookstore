@@ -501,6 +501,7 @@
             .heading {
                 justify-content: center;
                 display: flex;
+
                 &-links {
                     margin: 0px;
                     display: flex;
@@ -512,7 +513,9 @@
                     overflow-x: scroll;
                     gap: 20px;
   
-    
+                    li:nth-child(1) {
+                        margin-left:380px;
+                    }
                     li {
                         cursor: pointer;
                         font-weight: 600;

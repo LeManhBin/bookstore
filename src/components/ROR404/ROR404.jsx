@@ -15,8 +15,8 @@ const ROR404 = () => {
         <g id="ocean">
           <path id="sky" className="st0" d="M0 0h1000v203.1H0z"/>
           <linearGradient id="water_1_" gradientUnits="userSpaceOnUse" x1="500" y1="354" x2="500" y2="200.667">
-            <stop offset="0" stop-color="#fff"/>
-            <stop offset="1" stop-color="#b3dcdf"/>
+            <stop offset="0" stopColor="#fff"/>
+            <stop offset="1" stopColor="#b3dcdf"/>
           </linearGradient>
           <path id="water" fill="url(#water_1_)" d="M0 200.7h1000V354H0z"/>
           <path id="land" className="st0" d="M0 273.4h1000V354H0z"/>

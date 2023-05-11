@@ -85,7 +85,7 @@ const SearchBookByCategoryPage = () => {
                     {
                       currentItems?.map(data => {
                         return (
-                          <div key={data?.object?.id}>
+                          <div key={data?.id}>
                             <Card data={data}/>
                           </div>
                         )

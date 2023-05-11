@@ -124,6 +124,11 @@
             font-size: 14px;
             color: #5a5a5a;
             font-weight: 500;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
         }
 
         .card-price {
@@ -153,9 +158,9 @@
     right: 10px;
 }
 
-@media (max-width: 481px) {
+@media (max-width: 480px) {
     .card {
-        width: 180px;
+        width: 170px;
         height: 300px !important;
     
         .discount {

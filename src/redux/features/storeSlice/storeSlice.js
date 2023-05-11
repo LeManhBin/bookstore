@@ -127,7 +127,6 @@ export const storeSlice = createSlice({
 export const actCreateStore = (store) => async (dispatch) => {
   try {
     await fetchCreateStore(store);
-    toast.success("Tạo thành công");
   } catch (error) {
     console.log(error);
   } finally {
@@ -138,7 +137,6 @@ export const actDeleteStore = (id) => async (dispatch) => {
   try {
     await fetchDeleteStore(id);
     dispatch(actFetchAllStore());
-    toast.success("Xoá thành công");
   } catch (error) {
     console.log(error);
   } finally {
@@ -149,7 +147,6 @@ export const actUpdateStore = (id, payload) => async (dispatch) => {
   try {
     await fetchUpdateStore(id, payload);
     dispatch(actFetchStoreById(id));
-    toast.success("Cập nhật thành công");
   } catch (error) {
     console.log(error);
   } finally {

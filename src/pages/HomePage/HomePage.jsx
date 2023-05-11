@@ -171,7 +171,7 @@ const HomePage = () => {
                     <i className="fa-solid fa-braille"></i>
                     <span>Thể loại</span>
                   </div>
-                  <span className='icon' onClick={handleShowCategory}><i className="fa-solid fa-angle-up"></i></span>
+                  <span className={`icon ${isCategory ? `up` : 'down' }`} onClick={handleShowCategory} ><i className="fa-solid fa-angle-up"></i></span>
                   <div className='category-list'>
                     {
                       isCategory && <CategoryList/>
@@ -245,7 +245,7 @@ const HomePage = () => {
     
                 <div className="homepage__right--product">
                     <div className="heading">
-                        <p className='title'>Khuyển mãi khủng</p>
+                        <p className='title'>Khuyển mãi</p>
                         <button className='view' onClick={handleViewAll}>Xem tất cả</button>
                     </div>
                     <div className='product-container'>

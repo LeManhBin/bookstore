@@ -235,8 +235,9 @@ const UpdateAccount = () => {
                 </div>
                 <div className="form-input">
                   <label htmlFor="">Địa chỉ</label>
-                      <input type="text" placeholder='Nhập số nhà' value={addressState.houseNumber} onChange={handelOnChangeNumberHouse}/>
-                        <div className="input-select">
+                    <input type="text" disabled={true} value={formUpdate?.address?.fullAddress}/>
+                    <input type="text" placeholder='Nhập số nhà' value={addressState.houseNumber} onChange={handelOnChangeNumberHouse}/>
+                    <div className="input-select">
                             <select name="province_id" id="" onChange={handleOnChangeProvince}>
                                 <option value="">Chọn tỉnh</option>
                                 {

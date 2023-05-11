@@ -94,6 +94,10 @@ const RevenueStorePage = () => {
               {
                 currentItems.map((order, index) => {
                   let loaiThanhToan;
+                  const formatTotalMoney = order?.totalMoney?.toLocaleString('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND',
+                });
                   if(order.payment === 1) {
                     loaiThanhToan = <Status text={"Trực tiếp"} className={"active"}/>
                   }else {
@@ -108,7 +112,7 @@ const RevenueStorePage = () => {
                         <br />{order.address}
                       </td>
                       <td style={{verticalAlign: 'middle', textAlign: 'center'}}>{loaiThanhToan}</td>
-                      <td></td>
+                      <td>{formatTotalMoney}</td>
                       <td className='button'>
                         <button className='edit-btn' onClick={() => handleDetailOrder(order.id)}><i className="fa-solid fa-binoculars"></i></button>
                         <button className='edit-btn' onClick={() => handleConfirm(order.id)}>Xác nhận</button>

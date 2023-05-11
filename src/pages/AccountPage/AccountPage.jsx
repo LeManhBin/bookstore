@@ -94,13 +94,13 @@ const AccountPage = () => {
 
 
   useEffect(() => {
-    dispatch(actFetchUserById(user.id))
+    dispatch(actFetchUserById(user?.id))
   },[])
 
 
 
   useEffect(() => {
-    dispatch(actFetchOrderUserByStatus(user.id))
+    dispatch(actFetchOrderUserByStatus(user?.id))
   },[user])
 
   const handleCancelOrder = (id) => {

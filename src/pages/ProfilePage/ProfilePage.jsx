@@ -31,7 +31,7 @@ const ProfilePage = () => {
 
 
   useEffect(() => {
-    dispatch(actFetchUserById(user.id))
+    dispatch(actFetchUserById(user?.id))
   },[])
 
   const handleOnChange = (e) => {
@@ -79,7 +79,7 @@ const ProfilePage = () => {
                 <form onSubmit={handleSubmit}>
                   <div className='top'>
                       <div className='form-input'>
-                          <img src={`${avatar ? avatar.preview : `${IMG_URL}${user.avatar}`}`} />
+                          <img src={`${avatar ? avatar?.preview : `${IMG_URL}${user?.avatar}`}`} />
  
                           <label htmlFor="file-upload" className='label-img'><i className="fa-solid fa-pen"></i></label>
                           <input type="file" className='input-img' id='file-upload' onChange={(e) => handlePreviewAvatar(e) }/>

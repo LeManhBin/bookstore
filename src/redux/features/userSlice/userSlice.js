@@ -201,7 +201,6 @@ export const userSlice = createSlice({
         localStorage.setItem(KEY_IS_LOGGER, JSON.parse(true));
         state.isLogged = true;
         localStorage.setItem(KEY_ACCESS_TOKEN, accessToken);
-        toast.success("Đăng nhập thành công");
       }
       state.isLoading = false;
     });
@@ -211,6 +210,7 @@ export const userSlice = createSlice({
 export const actReLogin = (accessToken) => async (dispatch) => {
   try {
     const decodeToken = Jwt.decode(accessToken);
+    console.log(decodeToken, "decodeToken");
     if (decodeToken?.email) {
       const repsInfo = await fetchInforMe(decodeToken.email);
       const infoUser = repsInfo?.[0];

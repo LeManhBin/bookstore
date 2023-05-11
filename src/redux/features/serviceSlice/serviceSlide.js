@@ -110,7 +110,6 @@ export const actCreateService = (service) => async (dispatch) => {
     dispatch(actUpdateLoadingCreate(true));
     await fetchCreateService(service);
     dispatch(actFetchAllService());
-    toast.success("Thêm mới thành công");
   } catch (error) {
     console.log(error);
   } finally {
@@ -122,7 +121,6 @@ export const actDeleteService = (id) => async (dispatch) => {
   try {
     await fetchDeleteService(id);
     dispatch(actFetchAllService());
-    toast.success("Xoá thành công");
   } catch (error) {
     console.log(error);
   } finally {
@@ -135,7 +133,6 @@ export const actUpdateService = (id, payload) => async (dispatch) => {
     await fetchUpdateService(id, payload);
     await dispatch(actFetchAllService());
     dispatch(actUpdateLoadingCreate(true));
-    toast.success("Cập nhật thành công");
   } catch (error) {
     console.log(error);
   } finally {

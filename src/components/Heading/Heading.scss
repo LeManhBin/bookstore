@@ -13,3 +13,21 @@
          white-space: nowrap;
     }
 }
+
+@media (max-width: 480px) {
+    .heading-container {
+        background-color: #eee;
+        height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100vw;
+    
+    
+        h1 {
+             font-size: 30px;
+             font-weight: bold;
+             white-space: nowrap;
+        }
+    }
+}

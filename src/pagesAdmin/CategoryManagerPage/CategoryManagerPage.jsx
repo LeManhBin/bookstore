@@ -64,10 +64,6 @@ const CategoryManagerPage = () => {
     setFormUpdate(category)
   }, [category])
 
- useEffect(() => {
-    dispatch(actFetchCategoryById(idTemp))
- }, [idTemp])
-
   //validate
   const methods = useForm({
     defaultValues: initialFormValue,
@@ -103,6 +99,7 @@ const CategoryManagerPage = () => {
   const handleIsEdit = (data) => {
     setIdtemp(data.id)
     setIsEdit(true)
+    dispatch(actFetchCategoryById(data.id))
   }
 
   const handleOnChange = (e) => {

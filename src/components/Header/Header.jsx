@@ -61,7 +61,7 @@ const Header = () => {
     }
 
     const handleCheckStore = () => {
-        if(!user?.storeId || user?.storeId !==0) {
+        if(!user?.storeId || user?.storeId === 0 || user?.storeId === undefined) {
             setIsStore(false)
         }else {
             setIsStore(true)
@@ -71,8 +71,6 @@ const Header = () => {
     useEffect(() => {
         handleCheckStore()
     },[user])
-
-
 
 
   return (
@@ -117,7 +115,7 @@ const Header = () => {
                     {
                         isLogged ? 
                         <div className='avatar-container'>
-                            <img onClick={handleAccountPage} className='avatar' src={user.avatar ?  `${IMG_URL}${user.avatar}` : 'https://e7.pngegg.com/pngimages/178/595/png-clipart-user-profile-computer-icons-login-user-avatars-monochrome-black.png'} alt=""/>
+                            <img onClick={handleAccountPage} className='avatar' src={user?.avatar ?  `${IMG_URL}${user.avatar}` : 'https://e7.pngegg.com/pngimages/178/595/png-clipart-user-profile-computer-icons-login-user-avatars-monochrome-black.png'} alt=""/>
                             <ul className='avatar-act'>
                                 <li onClick={handleLogout}>Đăng xuất</li>
                             </ul>

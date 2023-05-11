@@ -311,10 +311,8 @@ export const actCreateBook = (book) => async (dispatch) => {
     dispatch(actUpdateLoadingCreate(true));
     await fetchCreateBook(book);
     dispatch(actFetchAllBook());
-    toast.success("Thêm mới thành công");
   } catch (error) {
     console.log(error);
-    toast.error("Thêm thất bại!");
   } finally {
     dispatch(actUpdateLoadingCreate(false));
   }
@@ -324,7 +322,6 @@ export const actDeleteBook = (id) => async (dispatch) => {
   try {
     await fetchDeleteBook(id);
     dispatch(actFetchAllBook());
-    toast.success("Xoá thành công");
   } catch (error) {
     console.log(error);
   } finally {
@@ -337,7 +334,6 @@ export const actUpdateBook = (id, payload) => async (dispatch) => {
     await fetchUpdateBook(id, payload);
     dispatch(actFetchAllBook());
     dispatch(actUpdateLoadingCreate(true));
-    toast.success("Cập nhật thành công");
   } catch (error) {
     console.log(error);
   } finally {
@@ -350,7 +346,6 @@ export const actCreatePromotion = (payload) => async (dispatch) => {
     await fetchCreatePromotion(payload);
     await dispatch(actFetchPromotionByStoreId(payload.storeId));
     dispatch(actUpdateLoadingCreate(true));
-    toast.success("Thêm thành công");
   } catch (error) {
     console.log(error);
   } finally {
@@ -363,7 +358,6 @@ export const actDeletePromotion = (id, storeId) => async (dispatch) => {
     await fetchDeletePromotion(id);
     await dispatch(actFetchPromotionByStoreId(storeId));
     dispatch(actUpdateLoadingCreate(true));
-    toast.success("Thành công");
   } catch (error) {
     console.log(error);
   } finally {
@@ -375,7 +369,6 @@ export const actUpdatePromotion = (id, payload) => async (dispatch) => {
   try {
     await fetchUpdatePromotion(id, payload);
     dispatch(actUpdateLoadingCreate(true));
-    toast.success("Thành công");
   } catch (error) {
     console.log(error);
   } finally {

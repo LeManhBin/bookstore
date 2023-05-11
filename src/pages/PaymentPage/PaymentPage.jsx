@@ -99,7 +99,6 @@ const PaymentPage = () => {
             });
     }, [serviceCodeState]);
 
-
     const initialState = {
         stores: [],
         recipient: {},

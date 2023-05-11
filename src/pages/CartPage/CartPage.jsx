@@ -70,7 +70,14 @@ const CartPage = () => {
     let quantity = item.amount
     quantity--
     dispatch(actChangeQuantity(item, quantity, idUser))
+    if(quantity === 0) {
+      dispatch(actDeleteCart(item, idUser))
+    }
   }
+
+  useEffect(()  =>  {
+    handleGetTotal()
+  },[handleDecre, handleIncre])
 
   const handleCheckboxChange = (event) => {
     const value = event.target.value;

@@ -46,7 +46,7 @@ const ContactPage = () => {
                     </div>
                     <div className='contact__left--desc--text'>
                         <span><i className="fa-regular fa-clock"></i></span>
-                        <span>Opening Hour 8:00 AM - 10:00 PM Monday - Sunday</span>
+                        <span>Opening Hour 24/24 Monday - Sunday</span>
                     </div>
                     <div className='contact__left--desc--text'>
                         <span>Call. <b>(+84) 365160470</b></span>

@@ -111,8 +111,6 @@ export const actCreateOrder = (payload) => async (dispatch) => {
   try {
     dispatch(actUpdateLoadingCreate(true));
     await fetchCreateOrder(payload);
-
-    toast.success("Thành công");
   } catch (error) {
     console.log(error);
   } finally {
@@ -126,7 +124,6 @@ export const actChangeOrderStatus =
       dispatch(actUpdateLoadingCreate(true));
       await fetchChangeOrderStatus(id, status);
       dispatch(actFetchOrderByIdStore(idStore));
-      toast.success("Thành công");
     } catch (error) {
       console.log(error);
     } finally {
@@ -139,7 +136,6 @@ export const actCancelOrder = (id, status, idUser) => async (dispatch) => {
     dispatch(actUpdateLoadingCreate(true));
     await fetchChangeOrderStatus(id, status);
     dispatch(actFetchOrderUserByStatus(idUser));
-    toast.success("Thành công");
   } catch (error) {
     console.log(error);
   } finally {
@@ -152,7 +148,6 @@ export const actReviewDoneChangeStatus =
       dispatch(actUpdateLoadingCreate(true));
       await fetchChangeOrderStatus(id, status);
       dispatch(actFetchOrderUserByStatus(idUser));
-      toast.success("Thành công");
     } catch (error) {
       console.log(error);
     } finally {
