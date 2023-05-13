@@ -25,10 +25,11 @@ import { fetchResetPassword } from "../../../apis/resetPasswordApi";
 
 const initialState = {
   allUser: [],
-  user: localStorage.getItem(KEY_USER)
-    ? JSON.parse(localStorage.getItem(KEY_USER))
-    : {},
-  // user: {},
+  // user: localStorage.getItem(KEY_USER)
+  //   ? JSON.parse(localStorage.getItem(KEY_USER))
+  //   : {},
+  user: {},
+  userById: {},
   isLoading: false,
   isLoadingCreate: false,
   isOtp: false,
@@ -147,7 +148,7 @@ export const userSlice = createSlice({
 
     builder.addCase(actFetchUserById.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.user = action.payload.data.data;
+      state.userById = action.payload.data.data;
     });
 
     //register
@@ -196,7 +197,7 @@ export const userSlice = createSlice({
       const { accessToken } = action.payload.data;
       if (accessToken) {
         state.user = user;
-        localStorage.setItem(KEY_USER, JSON.stringify(state.user));
+        // localStorage.setItem(KEY_USER, JSON.stringify(state.user));
         state.accessToken = accessToken;
         localStorage.setItem(KEY_IS_LOGGER, JSON.parse(true));
         state.isLogged = true;
@@ -210,12 +211,16 @@ export const userSlice = createSlice({
 export const actReLogin = (accessToken) => async (dispatch) => {
   try {
     const decodeToken = Jwt.decode(accessToken);
-    console.log(decodeToken, "decodeToken");
-    if (decodeToken?.email) {
-      const repsInfo = await fetchInforMe(decodeToken.email);
-      const infoUser = repsInfo?.[0];
+    // console.log(decodeToken, "decodeToken");
+    if (decodeToken?.sub) {
+      const repsInfo = await fetchInforMe(decodeToken.sub);
+      const infoUser = repsInfo?.data?.filter(
+        (user) => user.email === decodeToken?.sub
+      );
+      // console.log(repsInfo, "repsInfo");
+      // console.log(infoUser, "infoUser");
       // delete infoUser?.password
-      dispatch(actGetMe(infoUser));
+      dispatch(actGetMe(infoUser[0]));
       dispatch(loginSuccess());
     }
   } catch (error) {
@@ -272,19 +277,18 @@ export const actUpdateUser = (id, payload) => async (dispatch) => {
     dispatch(actUpdateLoadingCreate(false));
   }
 };
-export const actUpdateProfile =
-  (id, payload, formState) => async (dispatch) => {
-    try {
-      await fetchUpdateUser(id, payload);
-      localStorage.setItem(KEY_USER, JSON.stringify(formState));
-      await dispatch(actFetchUserById(id));
-      dispatch(actUpdateLoadingCreate(true));
-    } catch (error) {
-      console.log(error);
-    } finally {
-      dispatch(actUpdateLoadingCreate(false));
-    }
-  };
+export const actUpdateProfile = (id, payload) => async (dispatch) => {
+  try {
+    await fetchUpdateUser(id, payload);
+    // localStorage.setItem(KEY_USER, JSON.stringify(formState));
+    await dispatch(actFetchUserById(id));
+    dispatch(actUpdateLoadingCreate(true));
+  } catch (error) {
+    console.log(error);
+  } finally {
+    dispatch(actUpdateLoadingCreate(false));
+  }
+};
 
 export const actUpdatePassword = (id, payload) => async (dispatch) => {
   try {

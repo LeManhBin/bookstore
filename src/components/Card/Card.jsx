@@ -39,7 +39,9 @@ const Card = ({data}) => {
     const handleAddToCard = () => {
         if(!user.id) {
             toast.warning("Vui lòng đăng nhập !!")
-        }else {
+        }else if(data.quantity < 1){
+            toast.warning("Sản phẩm đã hết hàng")
+        }else{
             dispatch(actCreateCart(cartState))
         }
     }
@@ -54,9 +56,15 @@ const Card = ({data}) => {
             ): (<></>)
         }
         <div className='card-img'>
-        {data.image && data.image.length > 0 && (
-                    <img src={`${IMG_URL}${data?.image}`} alt="Product" />
+            {data.image && data.image.length > 0 && (
+                        <img src={`${IMG_URL}${data?.image}`} alt="Product" />
             )}
+            {
+                data.quantity < 1 && 
+                    (<div className='overlay-card'>
+                        <span>Hết hàng</span>
+                    </div>)
+            }
 
             <div className='card-action'>
                 <div className='add-wish-list'>

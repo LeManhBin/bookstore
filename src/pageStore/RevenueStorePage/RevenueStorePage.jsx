@@ -21,7 +21,7 @@ const RevenueStorePage = () => {
   const idStore = user.storeId
   // phân trang
   const [currentPage, setCurrentPage] = useState(1);
-  const [limit, setLimit] = useState(4)
+  const [limit, setLimit] = useState(2)
   const lastPageIndex = currentPage * limit;
   const firstPageIndex = lastPageIndex - limit;
   const currentItems = orderByIdStore.filter(order => order.status === 0).slice(firstPageIndex, lastPageIndex);

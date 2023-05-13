@@ -15,7 +15,7 @@ const PaymentPage = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const {user} = useSelector((state) => state.user)
-    const idUser = user.id
+    const idUser = user?.id
     const {allPayment} = useSelector((state) => state.payment)
     const [clicked, setClicked] = useState(false);
     const [serviceCodeState, setServiceCodeState] = useState([])
@@ -108,7 +108,7 @@ const PaymentPage = () => {
 
 
     const [recipient, setRecipient] = useState({
-        userId: idUser,
+        userId: user.id,
         name: user.fullName,
         phone: user.phone,
         address: user?.address?.fullAddress,
@@ -116,8 +116,8 @@ const PaymentPage = () => {
     const [payment, setPayment] = useState(0)
 
     useEffect(() => {
-        dispatch(actFetchAllPayment(idUser))
-    },[])
+        dispatch(actFetchAllPayment(user.id))
+    },[user])
     const [totalPayment, setTotalPayment] = useState(0)
 
     let formattedTotalPayment = totalPayment.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'});
@@ -144,14 +144,15 @@ const PaymentPage = () => {
         const cartIds = payment.cartDetails.map(detail => detail.id);
         const note = "Giao hanh nhanh nhanh dum em";
         let shiping = 0
-        shipMoney.forEach((ship) => {
-            shiping += ship?.total
+        shipMoney.forEach((ship, index) => {
+            // shiping += ship?.total
         })
-        for(let i=0; i < payment?.cartDetails?.length; i++){
-          let itemPrice = payment?.cartDetails?.[i].price * payment?.cartDetails?.[i].amount
-          let discountAmount = itemPrice * (payment?.cartDetails?.[i].discount/100);
-          totalMoney += itemPrice - discountAmount + shiping;
+        for(let i = 0; i < payment?.cartDetails?.length; i++){
+            let itemPrice = payment?.cartDetails?.[i].price * payment?.cartDetails?.[i].amount
+            let discountAmount = itemPrice * (payment?.cartDetails?.[i].discount/100);
+            totalMoney += itemPrice - discountAmount ;
         }
+        
         return { id: storeId, note, cartIds, totalMoney };
       });
 
@@ -203,6 +204,7 @@ const PaymentPage = () => {
               clearTimeout(timeoutId);
             };
           }
+        console.log(order);
     },[clicked])
 
   return (

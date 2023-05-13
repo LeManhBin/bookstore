@@ -25,7 +25,7 @@ const StoreListPage = () => {
 
   //phân trang
   const [currentPage, setCurrentPage] = useState(1);
-  const [limit, setLimit] = useState(3)
+  const [limit, setLimit] = useState(6)
   const lastPageIndex = currentPage * limit;
   const firstPageIndex = lastPageIndex - limit;
   const currentItems = allStore.slice(firstPageIndex, lastPageIndex);
@@ -108,7 +108,7 @@ const StoreListPage = () => {
                             <td>{status}</td>
                             <td className='button'>
                               <button className='edit-btn' onClick={() => handleViewPage(store?.id)}><i className="fa-solid fa-users-viewfinder"></i></button>
-                              <button className='delete-btn' onClick={() => handleModalDelete(store?.id)}><i className="fa-sharp fa-solid fa-trash"></i></button>
+                              {/* <button className='delete-btn' onClick={() => handleModalDelete(store?.id)}><i className="fa-sharp fa-solid fa-trash"></i></button> */}
                             </td>
                           </tr>
                         )

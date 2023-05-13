@@ -37,7 +37,10 @@ import ChangePasswordPage from "./pages/ChangePasswordPage/ChangePasswordPage";
 import SaleRegisterPage from "./pages/SaleRegisterPage/SaleRegisterPage";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actReLogin } from "./redux/features/userSlice/userSlice";
+import {
+  actFetchUserById,
+  actReLogin,
+} from "./redux/features/userSlice/userSlice";
 import { KEY_ACCESS_TOKEN, KEY_USER } from "./constants/config";
 import StoreLayout from "./layouts/StoreLayout/StoreLayout";
 import RevenueStorePage from "./pageStore/RevenueStorePage/RevenueStorePage";
@@ -72,18 +75,16 @@ function App() {
   const accessToken = localStorage.getItem(KEY_ACCESS_TOKEN) || null;
   const [isAdmin, setIsAdmin] = useState("");
   const [isStore, setIsStore] = useState("");
+  const { isLogged } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
   useEffect(() => {
     if (accessToken) {
       dispatch(actReLogin(accessToken));
     }
   }, []);
 
-  const userCurrent = localStorage.getItem(KEY_USER)
-    ? JSON.parse(localStorage.getItem(KEY_USER))
-    : null;
-
   const handleCheckAdmin = () => {
-    if (userCurrent?.role === 1) {
+    if (user?.role === 1) {
       setIsAdmin(true);
     } else {
       setIsAdmin(false);
@@ -91,11 +92,7 @@ function App() {
   };
 
   const handleCheckStore = () => {
-    if (
-      userCurrent?.storeId === 0 ||
-      !userCurrent ||
-      userCurrent === undefined
-    ) {
+    if (user?.storeId === 0 || !user || user === undefined) {
       setIsStore(false);
     } else {
       setIsStore(true);
@@ -105,9 +102,7 @@ function App() {
   useEffect(() => {
     handleCheckAdmin();
     handleCheckStore();
-  }, [userCurrent]);
-
-  console.log(isStore);
+  }, [user]);
 
   return (
     <div className="App">
@@ -146,9 +141,18 @@ function App() {
             <Route path="payment" element={<PaymentPage />} />
           </Route>
 
-          <Route path="sale-register" element={<SaleRegisterPage />} />
-          <Route path="register-service" element={<RegisterServicePage />} />
-          <Route path="payment-result" element={<PaymentSuccess />} />
+          <Route
+            path="sale-register"
+            element={isLogged ? <SaleRegisterPage /> : <ROR404 />}
+          />
+          <Route
+            path="register-service"
+            element={isLogged && isStore ? <RegisterServicePage /> : <ROR404 />}
+          />
+          <Route
+            path="payment-result"
+            element={isLogged ? <PaymentSuccess /> : <ROR404 />}
+          />
           <Route path="account-lock" element={<AccountLockPage />} />
 
           <Route path="/admin" element={isAdmin ? <AdminLayout /> : <ROR404 />}>
@@ -207,7 +211,6 @@ function App() {
             <Route path="forgot-password" element={<ForgotPassword />} />
             <Route path="reset-password" element={<ResetPassword />} />
           </Route>
-
           <Route path="/*" element={<ROR404 />} />
         </Routes>
       </BrowserRouter>

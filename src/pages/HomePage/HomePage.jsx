@@ -166,12 +166,12 @@ const HomePage = () => {
         isLoaded ? (
           <div className='homepage'>
           <div className='homepage-heading'>
-              <div className='category'>
+              <div className='category' onClick={handleShowCategory}>
                   <div className='category-text'>
                     <i className="fa-solid fa-braille"></i>
                     <span>Thể loại</span>
                   </div>
-                  <span className={`icon ${isCategory ? `up` : 'down' }`} onClick={handleShowCategory} ><i className="fa-solid fa-angle-up"></i></span>
+                  <span className={`icon ${isCategory ? `up` : 'down' }`} ><i className="fa-solid fa-angle-up"></i></span>
                   <div className='category-list'>
                     {
                       isCategory && <CategoryList/>
@@ -180,7 +180,7 @@ const HomePage = () => {
               </div>
               <div className="search">
                   <div className='search-input'>
-                    <input type="text" placeholder='Search product...' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
+                    <input type="text" placeholder='Tìm kiếm sản phẩm...' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
                     <button onClick={() => handleSearch(searchTerm)}><i className="fa-solid fa-magnifying-glass"></i></button>
                   </div>
               </div>

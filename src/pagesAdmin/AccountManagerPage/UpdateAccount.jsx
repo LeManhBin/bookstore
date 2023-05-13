@@ -13,10 +13,23 @@ const UpdateAccount = () => {
     const navigate = useNavigate()
     const param = useParams()
     const dispatch = useDispatch()
-    const {user} = useSelector((state) => state.user)
-    const [formUpdate, setFormUpdate] = useState(user)
+    const {userById} = useSelector((state) => state.user)
+    const [formUpdate, setFormUpdate] = useState(userById)
     const [avatar, setAvatar] = useState(null)
     const [isAddress, setIsAddress] = useState(false)
+
+
+
+    const idAccount = Number(param.idAccount)
+
+    console.log(idAccount, userById);
+    useEffect(() => {
+        dispatch(actFetchUserById(idAccount))
+    },[idAccount])
+
+    useEffect(() => {
+        setFormUpdate(userById)
+    },[ userById])
 
     const initialAddress = {
         houseNumber: "",
@@ -141,14 +154,6 @@ const UpdateAccount = () => {
 
     },[avatar])
 
-    useEffect(() => {
-        dispatch(actFetchUserById(Number(param.idAccount)))
-    },[param])
-
-    useEffect(() => {
-        setFormUpdate(user)
-    },[user])
-
     const handleOnChange = (e) =>  {
         const name = e.target.name;
         const value = e.target.value;
@@ -178,7 +183,8 @@ const UpdateAccount = () => {
         if(!formUpdate.fullName || !formUpdate.email || !formUpdate.gender ||  !formUpdate.phone) {
             toast.warning("Vui lòng nhập đủ thông tin cần cập nhật!!")
         }else {
-            dispatch(actUpdateUser(user?.id,formData))
+            dispatch(actUpdateUser(userById?.id,formData))
+            navigate('/admin/account-manager/user')
         }
     }
     const handleBack = () => {
@@ -267,7 +273,7 @@ const UpdateAccount = () => {
             </div>
             <div className='right'>
                 <div className='form-input'>
-                    <img src={`${avatar ? avatar.preview : `${IMG_URL}${user?.avatar}`}`} />
+                    <img src={`${avatar ? avatar.preview : `${IMG_URL}${formUpdate?.avatar}`}`} />
                     <input type="file" id="file-input" name='avatar' onChange={(e) => handlePreviewAvatar(e) }/>
                     <label htmlFor="file-input" id="custom-button">Chọn ảnh</label>
                 </div>

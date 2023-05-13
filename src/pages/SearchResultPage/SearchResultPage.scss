@@ -1,6 +1,6 @@
 .product-container {
     margin-top: 112px;
-    width: 100%;
+    width: 100% !important;
     
     .heading {
         padding: 0;
@@ -10,6 +10,7 @@
     .product {
         display: flex;
         flex-direction: column;
+        width: 100% !important;
         gap: 50px;
         padding: 50px 100px;
 
@@ -63,10 +64,9 @@
         }
         .all-product {
             display: flex;
-            align-items: center;
-            justify-content: flex-start;
             gap: 10px;
             flex-wrap: wrap;
+            width: 100%;
         }
 
         .pagination {

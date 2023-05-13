@@ -97,7 +97,7 @@ const ServiceManagerPage = () => {
                             </td>
                             <td>{formatPrice}</td>
                             {/* <td>{service?.quantityProduct}</td> */}
-                            <td>{service?.expirationDate}</td>
+                            <td>{service?.expirationDate} ngày</td>
                             {/* <td>{service?.status}</td> */}
                             <td className='button'>
                               <button className='edit-btn' onClick={() => handleUpdatePage(service?.id)}><i className="fa-regular fa-pen-to-square"></i></button>

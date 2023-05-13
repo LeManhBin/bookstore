@@ -5,10 +5,11 @@ import FormData from 'form-data'
 import { toast } from 'react-toastify'
 import { actUpdatePassword } from '../../redux/features/userSlice/userSlice'
 import Account from '../../components/Account/Account'
+import { useNavigate } from 'react-router-dom'
 const ChangePasswordPage = () => {
     const [isShowPass, setIsShowPass] = useState(false)
     const [isShowNewPass, setShowNewPass] = useState(false)
-
+    const navigate = useNavigate()
     const handleShowPass = () => {
         setIsShowPass(!isShowPass)
     };
@@ -42,6 +43,7 @@ const ChangePasswordPage = () => {
             toast.warning('Vui lòng nhập đủ thông tin!')
         }else {
             dispatch(actUpdatePassword(user.id, formState))
+            navigate('/account/profile')
         }
     }
   return (

@@ -63,7 +63,7 @@ const UpdatePromotionPage = () => {
             toast.warning("Vui lòng nhập đủ thông tin !!")
         }else {
             dispatch(actUpdatePromotion(idPromotion, data))
-            navigate("store/list-promotion")
+            navigate("/store/list-promotion")
         }
     }
     

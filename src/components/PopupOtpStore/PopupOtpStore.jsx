@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { actCreateStore } from '../../redux/features/storeSlice/storeSlice';
 import { useNavigate } from 'react-router-dom';
-
+import "./PopupOtpStore.scss"
 const PopupOtpStore = ({formState, otp, setCheckOtp}) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -29,9 +29,17 @@ const PopupOtpStore = ({formState, otp, setCheckOtp}) => {
     <div className='otp-modal'>
         <div className="title">Nhập mã xác nhận <span onClick={handleClose}><i className="fa-solid fa-xmark"></i></span></div>
         <p>Mã OTP đã được gửi về email của bạn</p>
-        <input type="text" value={formOtp} onChange={(e) => setFormOtp(e.target.value)}/>
-        <div className='button'>
+        <div className='input-otp'>
+            <input type="text" value={formOtp} onChange={(e) => setFormOtp(e.target.value)}/>
             <button className='continue-btn' style={{backgroundColor: `#159895`}} onClick={handleSubmit} >Xác nhận</button>
+        </div>
+        <div className='class'>
+          <span >Bạn không nhận được mã xác nhận ?</span>
+          <div className='again'>
+            <span>Vui lòng nhấn</span>
+            <button>Gửi lại mã</button>
+          </div>
+          <p>Hoặc <span style={{color: '#F65D4E', cursor: 'pointer'}}>báo lỗi không gửi được tin nhắn</span> </p>
         </div>
     </div>
   )

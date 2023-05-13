@@ -32,7 +32,7 @@ const ViewContact = ({setIsWatchContact, contactData}) => {
     <div className='view-contact'>
         <span className='close-btn' onClick={() => setIsWatchContact(false)}><i className="fa-solid fa-xmark"></i></span>
         <div className="heading">
-            <h3>Chi tiết liên hệ</h3>
+            <h3>{reply ? "Phản hồi" : "Chi tiết liên hệ"}</h3>
         </div>
         {
             reply
@@ -47,26 +47,15 @@ const ViewContact = ({setIsWatchContact, contactData}) => {
                 <button type='submit'>Phản hồi</button>
             </form>
             :
-            <div className="contact-container">
-            <div className='contact-detail'>
-                <div className='contact'>
-                    <span className='title'>Tiêu đề: </span>
-                    <span className='detail'>{contactData?.subject}</span>
+            <form>
+                <div className='input-form'>
+                    <input required type="text" placeholder='Full Name' name='name' value={contactData?.name} disabled={true} />
+                    <input   type="email" placeholder='Your Email' name='gmail' value={contactData?.name} disabled={true}/>
                 </div>
-                <div className='contact'>
-                    <span className='title'>Họ Tên: </span>
-                    <span className='detail'>{contactData?.name}</span>
-                </div>
-                <div className='contact'>
-                    <span className='title'>Email: </span>
-                    <span className='detail'>{contactData?.gmail}</span>
-                </div>
-                <div className='content'>
-                    <p>{contactData?.content}</p>
-                </div>
-            </div>
-            <button onClick={() => setReply(true)}>Trả lời</button>
-        </div>
+                <input required type="text" placeholder='Subject' name='subject' value={contactData?.subject}  disabled={true}/>
+                <textarea required name="content" id="" cols="30" rows="10"  value={contactData?.content} disabled={true} ></textarea>
+                <button onClick={() => setReply(true)}>Trả lời</button>
+            </form>
         }
 
     </div>

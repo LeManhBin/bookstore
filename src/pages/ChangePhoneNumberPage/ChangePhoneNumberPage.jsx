@@ -1,15 +1,19 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './ChangePhoneNumberPage.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { actUpdateProfile } from '../../redux/features/userSlice/userSlice'
 import FormData from 'form-data'
 import Account from '../../components/Account/Account'
+import { useNavigate } from 'react-router-dom'
 const ChangePhoneNumberPage = () => {
-
+  const navigate = useNavigate()
   const {user} = useSelector((state) => state.user)
   const [formState, setFormState] = useState(user)
   const dispatch = useDispatch()
 
+  useEffect(() => {
+    setFormState(user)
+  },[user])
   const handleOnChange = (e) => {
     const {name, value} = e.target
     setFormState({
@@ -22,15 +26,14 @@ const ChangePhoneNumberPage = () => {
   const handleUpdatePhone = (e) => {
     e.preventDefault()
     const formData =  new FormData();
-    const formPost = Object.assign({
-      ...formState,
-      addressId: formState?.address?.id
-    });
+    const formPost = Object.assign( formState
+      // addressId: formState?.address?.id
+    );
     delete formPost.imageBytes;
-    delete formPost.address;
     formData.append("object", JSON.stringify(formPost));
     formData.append("file", formState.avatar);
-    dispatch(actUpdateProfile(user?.id,formData, formState))
+    dispatch(actUpdateProfile(user?.id,formData))
+    navigate('/account/profile')
   }
   return (
     <div className='change-phone-page'>
@@ -43,7 +46,7 @@ const ChangePhoneNumberPage = () => {
               <form action="" onSubmit={handleUpdatePhone}>
                   <div className="form-input">
                       <i className="fa-solid fa-phone"></i>
-                      <input required type="text" placeholder='Nhập số điện thoại' name='phone' value={formState.phone} onChange={handleOnChange}/>
+                      <input required type="text" placeholder='Nhập số điện thoại' name='phone' value={formState?.phone} onChange={handleOnChange}/>
                   </div>
                   <span className='attention'>Mã xác thực (OTP) sẽ được gửi đến số điện thoại này để xác minh số điện thoại là của bạn</span>
                   <button type='submit'>Lưu thay đổi</button>

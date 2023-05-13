@@ -60,6 +60,10 @@ const Header = () => {
         navigate('/store')
     }
 
+    const onLoginPage = () => {
+        navigate('/login-layout')
+    }
+
     const handleCheckStore = () => {
         if(!user?.storeId || user?.storeId === 0 || user?.storeId === undefined) {
             setIsStore(false)
@@ -104,7 +108,7 @@ const Header = () => {
                            </>
                         :
                         <>
-                            <span className='phone-number' onClick={handleRegisterSalePage}>Đăng ký bán hàng</span>
+                            <span className='phone-number' onClick={isLogged ? handleRegisterSalePage : onLoginPage}>Đăng ký bán hàng</span>
                             <span className='title'>Đăng ký để bán hàng </span>
                         </>
                     }

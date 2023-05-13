@@ -4,8 +4,10 @@ import './ChangeAddressPage.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { actFetchDataDistrict, actFetchDataProvince, actFetchDataWard } from '../../redux/features/provinceSlice/provinceSlice'
 import { actUpdateAddress } from '../../redux/features/userSlice/userSlice'
+import { useNavigate } from 'react-router-dom'
 const ChangeAddressPage = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const initialState = {
         houseNumber: "",
         provinceName: "",
@@ -114,6 +116,7 @@ const ChangeAddressPage = () => {
         }
 
         dispatch(actUpdateAddress(idAddress,data))
+        navigate('/account/profile')
     }
   return (
     <div className='change-address-page'>

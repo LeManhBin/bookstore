@@ -15,9 +15,11 @@ export const fetchDataUserById = async (id) => {
 
 export const fetchCreateUser = async (user) => {
   const res = await axios.post(`${BE_URL}user`, user);
-  if (res.status == 200) {
+  if (res.status === 200) {
     toast.success("Thành công !");
     return res;
+  } else if (res.status == 409) {
+    toast.warning("Tài khoản đã tồn tại");
   } else {
     toast.error("Có gì đó không đúng!");
   }
@@ -48,11 +50,17 @@ export const fetchUpdatePassword = async (id, payload) => {
   if (res.data.data === false) {
     toast.warning("Password không chính xác");
   } else if (res.data.status === 200) {
+    toast.success("Thành công");
     return res;
   }
 };
 
 export const fetchUpdateAddress = async (id, address) => {
   const res = await axios.put(`${BE_URL}address/${id}`, address);
-  return res.data;
+  if (res.status == 200) {
+    toast.success("Thành công !");
+    return res.data;
+  } else {
+    toast.error("Có gì đó không đúng!");
+  }
 };

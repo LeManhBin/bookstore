@@ -15,6 +15,10 @@ const ProfilePage = () => {
   const [formState, setFormState] = useState(user)
   const [avatar, setAvatar] = useState(null)
 
+  useEffect(() => {
+    setFormState(user)
+  },[user])
+
   const handlePreviewAvatar = (e) => {
       const file = e.target.files[0]
       file.preview = URL.createObjectURL(file)
@@ -52,7 +56,7 @@ const ProfilePage = () => {
     // delete formPost.address;
     formData.append("object", JSON.stringify(formPost));
     formData.append("file", avatar);
-    dispatch(actUpdateProfile(user?.id,formData, formState))
+    dispatch(actUpdateProfile(user?.id,formData))
 }
 
   const handleChangePhonePage = () => {
@@ -67,6 +71,7 @@ const ProfilePage = () => {
   const handleChangeAddressPage = () => {
     navigate('/account/profile/address')
   }
+
   useScrollToTop()
   return (
     <div className='profile'>

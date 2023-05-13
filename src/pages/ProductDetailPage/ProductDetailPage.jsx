@@ -143,7 +143,6 @@ const ProductDetailPage = () => {
         })
         
     }
-    console.log(quantity);
 
     const handleIncrease = () => {
         setQuantity(prev => {
@@ -160,7 +159,13 @@ const ProductDetailPage = () => {
     }
 
     const handleAddToCard = () => {
-        dispatch(actCreateCart(cartState))
+        if(!user.id) {
+            toast.warning("Vui lòng đăng nhập !!")
+        }else if(book?.quantity < 1){
+            toast.warning("Sản phẩm đã hết hàng")
+        }else{
+            dispatch(actCreateCart(cartState))
+        }
     }
 
     
@@ -174,6 +179,12 @@ const ProductDetailPage = () => {
                 {cardState.images && cardState.images.length > 0 && (
                         <img src={`${IMG_URL}${book?.images[0]}`} alt="Product" />
                 )}
+                {
+                    book?.quantity < 1 && 
+                        (<div className='overlay-card'>
+                            <span>Hết hàng</span>
+                        </div>)
+                }
                 </div>
     
                 <div className="right">

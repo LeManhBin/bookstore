@@ -11,6 +11,7 @@ import ModalDelete from '../../components/Modal/ModalDelete';
 import ModalAcces from '../../components/ModalAcces/ModalAcces';
 import { IMG_URL } from '../../constants/config';
 import Status from '../../components/Status/Status';
+import { toast } from 'react-toastify';
 
 
 const AccountManagerPage = () => {
@@ -21,12 +22,12 @@ const AccountManagerPage = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const {allUser} = useSelector((state) => state.user)
-
+  const {user} = useSelector((state) => state.user)
   const userCurrent = localStorage.getItem("user")
 
   // phân trang
   const [currentPage, setCurrentPage] = useState(1);
-  const [limit, setLimit] = useState(8)
+  const [limit, setLimit] = useState(6)
   const lastPageIndex = currentPage * limit;
   const firstPageIndex = lastPageIndex - limit;
   const currentItems = allUser.slice(firstPageIndex, lastPageIndex);
@@ -47,8 +48,12 @@ const AccountManagerPage = () => {
   }
 
   const handleModalDelete = (id) => {
-    setIsDelete(true)
-    setIdtemp(id)
+    if(user?.id === id) {
+      toast.warning("Không thể xoá tài khoản đang hoạt động")
+    }else {
+      setIsDelete(true)
+      setIdtemp(id)
+    }
   }
 
   const handleDelete = (id) => {
