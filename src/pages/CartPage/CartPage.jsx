@@ -60,6 +60,8 @@ const CartPage = () => {
         dispatch(actFetchAllDataCartByIdUser(user?.id))
     },[])
 
+    console.log("-----------------",cartItems);
+
   const handleIncre = (item) => {
     let quantity = item.amount
     quantity++

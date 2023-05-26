@@ -113,8 +113,16 @@ const AccountPage = () => {
     setIdtemp(id)
   }
 
+  const handleFormat = (price) => {
+    const result = price.toLocaleString('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+    });
+    return result;
+  }
 
-  
+
+
   return (
     <div className='account-page'>
           {
@@ -163,26 +171,14 @@ const AccountPage = () => {
                     </div>
                     {
                       items.map((item) => {
-                        let totalPrice = 0;
-                        let totalPriceAfterDiscount = 0;
-
                         return item?.orderDetails?.map((itemChild) => {
                           const price = itemChild?.price || 0;
-                          const discount = itemChild?.discount || 0;
                           const amount = itemChild?.amount || 0;
-
-                          totalPrice += price * amount;
-                          totalPriceAfterDiscount += (price - (price * (discount / 100))) * amount;
-
+                          const totalPrice = price * amount
                           const formattedTotalPrice = totalPrice.toLocaleString('vi-VN', {
                             style: 'currency',
                             currency: 'VND',
                           });
-                          const formattedAfterDiscount = totalPriceAfterDiscount.toLocaleString('vi-VN', {
-                            style: 'currency',
-                            currency: 'VND',
-                          });
-
                           return (
                             <>
                               <div className='pending-card'>
@@ -195,31 +191,26 @@ const AccountPage = () => {
                                   </div>
                                 </div>
                                 <div className="price-card">
-                                  {discount > 0 ? 
-                                    <>
-                                      <p className='cost'>{formattedTotalPrice}</p>
-                                      <p className="real-price">{formattedAfterDiscount}</p>
-                                    </>
-                                  :
-                                    <p className="real-price">{formattedAfterDiscount}</p>
-                                  }
+                                  <p className="real-price">{formattedTotalPrice}</p>
                                 </div>
-                              </div>
-                              <div className="order-button">
-                                <button onClick={() => handleCancelOrder(item.id)}>Huỷ đơn hàng</button>
                               </div>
                             </>
                           );
                         });
                       })
                     }
-                    {/* <div className='total-payment'>
-                        <p className='total'>Thành tiền: $0</p>
-                    </div> */}
+                    <div>
+                      Phí vận chuyển: {handleFormat(items[0]?.transportFee)}
+                    </div>
+                    <div className='total-payment'>
+                        <p className='total'>Thành tiền: {handleFormat(items[0]?.totalMoney + items[0]?.transportFee)}</p>
+                    </div>
+                    <div className="order-button" style={{marginTop: '20px'}}>
+                        <button onClick={() => handleCancelOrder(items[0].id)}>Huỷ đơn hàng</button>
+                    </div>
                   </div>
                 )) 
               }
-
             </div>
           }
 
@@ -243,26 +234,14 @@ const AccountPage = () => {
                     </div>
                     {
                       items.map((item) => {
-                        let totalPrice = 0;
-                        let totalPriceAfterDiscount = 0;
-
                         return item?.orderDetails?.map((itemChild) => {
                           const price = itemChild?.price || 0;
-                          const discount = itemChild?.discount || 0;
                           const amount = itemChild?.amount || 0;
-
-                          totalPrice += price * amount;
-                          totalPriceAfterDiscount += (price - (price * (discount / 100))) * amount;
-
+                          const totalPrice = price * amount
                           const formattedTotalPrice = totalPrice.toLocaleString('vi-VN', {
                             style: 'currency',
                             currency: 'VND',
                           });
-                          const formattedAfterDiscount = totalPriceAfterDiscount.toLocaleString('vi-VN', {
-                            style: 'currency',
-                            currency: 'VND',
-                          });
-
                           return (
                             <>
                               <div className='approved-card'>
@@ -275,14 +254,7 @@ const AccountPage = () => {
                                   </div>
                                 </div>
                                 <div className="price-card">
-                                  {discount > 0 ? 
-                                    <>
-                                      <p className='cost'>{formattedTotalPrice}</p>
-                                      <p className="real-price">{formattedAfterDiscount}</p>
-                                    </>
-                                  :
-                                    <p className="real-price">{formattedAfterDiscount}</p>
-                                  }
+                                  <p className="real-price">{formattedTotalPrice}</p>
                                 </div>
                               </div>
                             </>
@@ -290,9 +262,12 @@ const AccountPage = () => {
                         });
                       })
                     }
-                      {/* <div className='total-payment'>
-                          <p className='total'>Thành tiền: 0</p>
-                      </div> */}
+                      <div>
+                        Phí vận chuyển: {handleFormat(items[0]?.transportFee)}
+                      </div>
+                      <div className='total-payment'>
+                          <p className='total'>Thành tiền: {handleFormat(items[0]?.totalMoney + items[0]?.transportFee)}</p>
+                      </div>
                     </div>
                   )) 
                 }
@@ -318,22 +293,11 @@ const AccountPage = () => {
                     </div>
                     {
                       items.map((item) => {
-                        let totalPrice = 0;
-                        let totalPriceAfterDiscount = 0;
-
                         return item?.orderDetails?.map((itemChild) => {
                           const price = itemChild?.price || 0;
-                          const discount = itemChild?.discount || 0;
                           const amount = itemChild?.amount || 0;
-
-                          totalPrice += price * amount;
-                          totalPriceAfterDiscount += (price - (price * (discount / 100))) * amount;
-
+                          const totalPrice = price * amount
                           const formattedTotalPrice = totalPrice.toLocaleString('vi-VN', {
-                            style: 'currency',
-                            currency: 'VND',
-                          });
-                          const formattedAfterDiscount = totalPriceAfterDiscount.toLocaleString('vi-VN', {
                             style: 'currency',
                             currency: 'VND',
                           });
@@ -350,14 +314,7 @@ const AccountPage = () => {
                                   </div>
                                 </div>
                                 <div className="price-card">
-                                  {discount > 0 ? 
-                                    <>
-                                      <p className='cost'>{formattedTotalPrice}</p>
-                                      <p className="real-price">{formattedAfterDiscount}</p>
-                                    </>
-                                  :
-                                    <p className="real-price">{formattedAfterDiscount}</p>
-                                  }
+                                  <p className="real-price">{formattedTotalPrice}</p>
                                 </div>
                               </div>
                             </>
@@ -365,9 +322,12 @@ const AccountPage = () => {
                         });
                       })
                     }
-                      {/* <div className='total-payment'>
-                          <p className='total'>Thành tiền: 0</p>
-                      </div> */}
+                      <div>
+                        Phí vận chuyển: {handleFormat(items[0]?.transportFee)}
+                      </div>
+                      <div className='total-payment'>
+                          <p className='total'>Thành tiền: {handleFormat(items[0]?.totalMoney + items[0]?.transportFee)}</p>
+                      </div>
                     </div>
                   )) 
                 }
@@ -377,7 +337,7 @@ const AccountPage = () => {
             {
             isComplete &&
               <div className='pending'>
- { 
+                  { 
                 Object?.entries(
                   orderByStatus.filter(order => order?.status === 3).reduce((acc, item) => {
                     if(!acc[item?.store?.name]) {
@@ -393,25 +353,15 @@ const AccountPage = () => {
                     </div>
                     {
                       items.map((item) => {
-                        let totalPrice = 0;
-                        let totalPriceAfterDiscount = 0;
-
                         return item?.orderDetails?.map((itemChild) => {
                           const price = itemChild?.price || 0;
-                          const discount = itemChild?.discount || 0;
                           const amount = itemChild?.amount || 0;
-
-                          totalPrice += price * amount;
-                          totalPriceAfterDiscount += (price - (price * (discount / 100))) * amount;
-
+                          const totalPrice = price * amount
                           const formattedTotalPrice = totalPrice.toLocaleString('vi-VN', {
                             style: 'currency',
                             currency: 'VND',
                           });
-                          const formattedAfterDiscount = totalPriceAfterDiscount.toLocaleString('vi-VN', {
-                            style: 'currency',
-                            currency: 'VND',
-                          });
+
 
                           return (
                             <>
@@ -425,30 +375,23 @@ const AccountPage = () => {
                                   </div>
                                 </div>
                                 <div className="price-card">
-                                  {discount > 0 ? 
-                                    <>
-                                      <p className='cost'>{formattedTotalPrice}</p>
-                                      <p className="real-price">{formattedAfterDiscount}</p>
-                                    </>
-                                  :
-                                    <p className="real-price">{formattedAfterDiscount}</p>
-                                  }
+                                  <p className="real-price">{formattedTotalPrice}</p>
                                 </div>
                               </div>
-                              <div className="order-button">
-                                <button onClick={() => handleEvaluate(item.id)}>Đánh giá</button>
-                            </div>
                             </>
                           );
                         });
                       })
                     }
-                      {/* <div className="order-button">
-                          <button onClick={() => handleEvaluate(items.id)}>Đánh giá</button>
-                          {
-                            console.log(items, "items")
-                          }
-                      </div> */}
+                      <div>
+                        Phí vận chuyển: {handleFormat(items[0]?.transportFee)}
+                      </div>
+                      <div className='total-payment'>
+                          <p className='total'>Thành tiền: {handleFormat(items[0]?.totalMoney + items[0]?.transportFee)}</p>
+                      </div>
+                      <div className="order-button" style={{marginTop: '20px'}}>
+                          <button onClick={() => handleEvaluate(items[0].id)}>Đánh giá</button>
+                      </div>
                     </div>
                   )) 
                 }
@@ -508,8 +451,9 @@ const AccountPage = () => {
                                 <div className="price-card">
                                   {discount > 0 ? 
                                     <>
-                                      <p className='cost'>{formattedTotalPrice}</p>
-                                      <p className="real-price">{formattedAfterDiscount}</p>
+                                      {/* <p className='cost'>{formattedTotalPrice}</p>
+                                      <p className="real-price">{formattedAfterDiscount}</p> */}
+                                      <p className="real-price">{formattedTotalPrice}</p>
                                     </>
                                   :
                                     <p className="real-price">{formattedAfterDiscount}</p>
@@ -583,8 +527,9 @@ const AccountPage = () => {
                                 <div className="price-card">
                                   {discount > 0 ? 
                                     <>
-                                      <p className='cost'>{formattedTotalPrice}</p>
-                                      <p className="real-price">{formattedAfterDiscount}</p>
+                                      {/* <p className='cost'>{formattedTotalPrice}</p>
+                                      <p className="real-price">{formattedAfterDiscount}</p> */}
+                                      <p className="real-price">{formattedTotalPrice}</p>
                                     </>
                                   :
                                     <p className="real-price">{formattedAfterDiscount}</p>

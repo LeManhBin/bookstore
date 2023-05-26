@@ -98,7 +98,7 @@ export const actCreateCart = (cart) => async (dispatch) => {
   try {
     dispatch(actUpdateLoadingCreate(true));
     await fetchCreateCart(cart);
-    dispatch(actFetchAllDataCartByIdUser(cart.userid));
+    dispatch(actFetchAllDataCartByIdUser(cart.userId));
   } catch (error) {
     console.log(error);
   } finally {

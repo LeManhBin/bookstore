@@ -34,6 +34,14 @@ const RevenueStorePage = () => {
     dispatch(actFetchPromotionByStoreId(idStore))
   },[idStore])
 
+  const handleTotalMoney = () => {
+    let total = 0
+    const data = orderByIdStore.filter(data => data.status === 3 || data.status === 5)
+    for(let i = 0; i < data.length; i++) {
+      total += data[i].totalMoney
+    }
+    setTotalMoney(total)
+  }
   const orderQuantity = orderByIdStore.length
   const productQuantity = bookByStore.length
   const promotionQuantity = bookPromotionByIdStore.length
@@ -41,14 +49,7 @@ const RevenueStorePage = () => {
     style: 'currency',
     currency: 'VND',
 });
-  const handleTotalMoney = () => {
-    let total = 0
-    const data = orderByIdStore.filter(data => data.status === 3)
-    for(let i = 0; i < data.length; i++) {
-      total += data[i].totalMoney
-    }
-    setTotalMoney(total)
-  }
+
   
   const handleConfirm = (id) => {
     dispatch(actChangeOrderStatus(id,1, idStore))

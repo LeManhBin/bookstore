@@ -11,6 +11,7 @@ const DetailProductStorePage = () => {
   const dispatch = useDispatch()
   const {book} = useSelector((state) => state.book)
 
+  console.log(book);
   useEffect(() => {
     dispatch(actFetchBookById(Number(param.idBook)))
   },[param]);

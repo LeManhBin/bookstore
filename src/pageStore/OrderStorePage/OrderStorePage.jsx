@@ -85,6 +85,7 @@ const OrderStorePage = () => {
     }).slice(firstPageIndex, lastPageIndex);
   }
 
+  console.log(orderByIdStore);
   useEffect(() => {
     dispatch(actFetchOrderByIdStore(idStore))
   },[idStore])
@@ -129,20 +130,33 @@ const OrderStorePage = () => {
                 <Table striped bordered hover>
                   <thead style={{backgroundColor: '#F65D4E', color: '#fff'}}>
                     <tr>
-                    <th>Mã đơn hàng</th>
-                    <th>Thông tin người nhận</th>
-                    <th>Loại thanh toán</th>
-                    <th>Tổng tiền đơn hàng</th>
-                    <th>Thao Tác</th>
+                      <th>Mã đơn hàng</th>
+                      <th>Thông tin người nhận</th>
+                      <th>Giá</th>
+                      <th>Phí vận chuyển</th>
+                      <th>Tổng tiền đơn hàng</th>
+                      <th>Loại thanh toán</th>
+                      <th>Thao Tác</th>
                     </tr>
                   </thead>
                   <tbody>
                       {
                         handleFilterOrder()?.filter(item => item.status === 0).map((order, index) => {
-                          const formatTotalMoney = order?.totalMoney?.toLocaleString('vi-VN', {
+                          const formatMoney = order?.totalMoney?.toLocaleString('vi-VN', {
                               style: 'currency',
                               currency: 'VND',
                           });
+                          const formatTransportFee = order?.transportFee?.toLocaleString('vi-VN', {
+                              style: 'currency',
+                              currency: 'VND',
+                          });
+
+                          const formatTotalMoney = (order?.totalMoney + order?.transportFee).toLocaleString('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND',
+                        });
+
+
                           let loaiThanhToan;
                           if(order?.payment === 1) {
                             loaiThanhToan = <Status text={"Trực tiếp"} className={"active"}/>
@@ -157,8 +171,10 @@ const OrderStorePage = () => {
                                 <br />{order?.phone}
                                 <br />{order?.address}
                               </td>
-                              <td style={{verticalAlign: 'middle', textAlign: 'center'}}>{loaiThanhToan}</td>
+                              <td>{formatMoney}</td>
+                              <td>{formatTransportFee}</td>
                               <td>{formatTotalMoney}</td>
+                              <td style={{verticalAlign: 'middle', textAlign: 'center'}}>{loaiThanhToan}</td>
                               <td className='button'>
                                 <button className='edit-btn' onClick={() => handleDetailOrder(order?.id)}><i className="fa-solid fa-expand"></i></button>
                                 <button className='edit-btn' onClick={() => handleConfirm(order?.id)}><i className="fa-solid fa-square-check"></i></button>
@@ -195,22 +211,33 @@ const OrderStorePage = () => {
                   <div className='order-card'>
                   <div className='table'>
                   <Table striped bordered hover>
-                    <thead style={{backgroundColor: '#F65D4E', color: '#fff'}}>
-                      <tr>
+           <thead style={{backgroundColor: '#F65D4E', color: '#fff'}}>
+                    <tr>
                       <th>Mã đơn hàng</th>
                       <th>Thông tin người nhận</th>
-                      <th>Loại thanh toán</th>
+                      <th>Giá</th>
+                      <th>Phí vận chuyển</th>
                       <th>Tổng tiền đơn hàng</th>
+                      <th>Loại thanh toán</th>
                       <th>Thao Tác</th>
-                      </tr>
-                    </thead>
+                    </tr>
+                  </thead>
                     <tbody>
                         {
                           orderByIdStore?.filter(item => item?.status === 1).map((order, index) => {
-                            const formatTotalMoney = order?.totalMoney?.toLocaleString('vi-VN', {
+                            const formatMoney = order?.totalMoney?.toLocaleString('vi-VN', {
+                              style: 'currency',
+                              currency: 'VND',
+                            });
+                            const formatTransportFee = order?.transportFee?.toLocaleString('vi-VN', {
                                 style: 'currency',
                                 currency: 'VND',
                             });
+
+                            const formatTotalMoney = (order?.totalMoney + order?.transportFee).toLocaleString('vi-VN', {
+                              style: 'currency',
+                              currency: 'VND',
+                          });
                             let loaiThanhToan;
                             if(order?.payment === 1) {
                               loaiThanhToan = <Status text={"Trực tiếp"} className={"active"}/>
@@ -219,14 +246,16 @@ const OrderStorePage = () => {
                             }
                             return(
                               <tr key={order?.id}>
-                                <td>{order?.id}</td>
-                                <td style={{textAlign: 'left'}}>
-                                  {order?.name}
-                                  <br />{order?.phone}
-                                  <br />{order?.address}
-                                </td>
-                                <td>{loaiThanhToan}</td>
-                                <td>{formatTotalMoney}</td>
+                                 <td style={{verticalAlign: 'middle', textAlign: 'center'}}>{order?.id}</td>
+                                  <td style={{textAlign: 'left'}}>
+                                    {order?.name}
+                                    <br />{order?.phone}
+                                    <br />{order?.address}
+                                  </td>
+                                  <td>{formatMoney}</td>
+                                  <td>{formatTransportFee}</td>
+                                  <td>{formatTotalMoney}</td>
+                                  <td style={{verticalAlign: 'middle', textAlign: 'center'}}>{loaiThanhToan}</td>
                                 <td className='button'>
                                   <button className='edit-btn' onClick={() => handleDetailOrder(order?.id)}><i className="fa-solid fa-expand"></i></button>
                                   <button className='edit-btn' onClick={() => handleTransport(order?.id)}><i className="fa-solid fa-square-check"></i></button>
@@ -262,22 +291,33 @@ const OrderStorePage = () => {
                   <div className='order-card'>
                   <div className='table'>
                   <Table striped bordered hover>
-                    <thead style={{backgroundColor: '#F65D4E', color: '#fff'}}>
-                      <tr>
-                      <th>Mã đơn hàng</th>
-                      <th>Thông tin người nhận</th>
-                      <th>Loại thanh toán</th>
-                      <th>Tổng tiền đơn hàng</th>
-                      <th>Thao Tác</th>
-                      </tr>
-                    </thead>
+                  <thead style={{backgroundColor: '#F65D4E', color: '#fff'}}>
+                    <tr>
+                    <th>Mã đơn hàng</th>
+                    <th>Thông tin người nhận</th>
+                    <th>Giá</th>
+                    <th>Phí vận chuyển</th>
+                    <th>Tổng tiền đơn hàng</th>
+                    <th>Loại thanh toán</th>
+                    <th>Thao Tác</th>
+                    </tr>
+                  </thead>
                     <tbody>
                         {
                           orderByIdStore?.filter(item => item?.status === 2).map((order, index) => {
-                            const formatTotalMoney = order?.totalMoney?.toLocaleString('vi-VN', {
+                            const formatMoney = order?.totalMoney?.toLocaleString('vi-VN', {
                               style: 'currency',
                               currency: 'VND',
                             });
+                            const formatTransportFee = order?.transportFee?.toLocaleString('vi-VN', {
+                                style: 'currency',
+                                currency: 'VND',
+                            });
+
+                            const formatTotalMoney = (order?.totalMoney + order?.transportFee).toLocaleString('vi-VN', {
+                              style: 'currency',
+                              currency: 'VND',
+                          });
                             let loaiThanhToan;
                             if(order?.payment === 1) {
                               loaiThanhToan = <Status text={"Trực tiếp"} className={"active"}/>
@@ -286,14 +326,16 @@ const OrderStorePage = () => {
                             }
                             return(
                               <tr key={order?.id}>
-                                <td>{order?.id}</td>
-                                <td style={{textAlign: 'left'}}>
-                                  {order?.name}
-                                  <br />{order?.phone}
-                                  <br />{order?.address}
-                                </td>
-                                <td>{loaiThanhToan}</td>
-                                <td>{formatTotalMoney}</td>
+                                <td style={{verticalAlign: 'middle', textAlign: 'center'}}>{order?.id}</td>
+                                  <td style={{textAlign: 'left'}}>
+                                    {order?.name}
+                                    <br />{order?.phone}
+                                    <br />{order?.address}
+                                  </td>
+                                  <td>{formatMoney}</td>
+                                  <td>{formatTransportFee}</td>
+                                  <td>{formatTotalMoney}</td>
+                                  <td style={{verticalAlign: 'middle', textAlign: 'center'}}>{loaiThanhToan}</td>
                                 <td className='button'>
                                   <button className='edit-btn' onClick={() => handleDetailOrder(order?.id)}><i className="fa-solid fa-expand"></i></button>
                                   <button className='edit-btn' onClick={() => handleComplete(order?.id)}><i className="fa-solid fa-square-check"></i></button>
@@ -329,19 +371,30 @@ const OrderStorePage = () => {
                   <div className='order-card'>
                   <div className='table'>
                   <Table striped bordered hover>
-                    <thead style={{backgroundColor: '#F65D4E', color: '#fff'}}>
-                      <tr>
+           <thead style={{backgroundColor: '#F65D4E', color: '#fff'}}>
+                    <tr>
                       <th>Mã đơn hàng</th>
                       <th>Thông tin người nhận</th>
-                      <th>Loại thanh toán</th>
+                      <th>Giá</th>
+                      <th>Phí vận chuyển</th>
                       <th>Tổng tiền đơn hàng</th>
+                      <th>Loại thanh toán</th>
                       <th>Thao Tác</th>
-                      </tr>
-                    </thead>
+                    </tr>
+                  </thead>
                     <tbody>
                         {
                           orderByIdStore?.filter(item => item.status === 3 || item.status === 5).map((order, index) => {
-                            const formatTotalMoney = order?.totalMoney?.toLocaleString('vi-VN', {
+                            const formatMoney = order?.totalMoney?.toLocaleString('vi-VN', {
+                              style: 'currency',
+                              currency: 'VND',
+                            });
+                            const formatTransportFee = order?.transportFee?.toLocaleString('vi-VN', {
+                                style: 'currency',
+                                currency: 'VND',
+                            });
+
+                            const formatTotalMoney = (order?.totalMoney + order?.transportFee).toLocaleString('vi-VN', {
                               style: 'currency',
                               currency: 'VND',
                             });
@@ -353,14 +406,16 @@ const OrderStorePage = () => {
                             }
                             return(
                               <tr key={order?.id}>
-                                <td>{order?.id}</td>
+                                <td style={{verticalAlign: 'middle', textAlign: 'center'}}>{order?.id}</td>
                                 <td style={{textAlign: 'left'}}>
-                                  {order?.name}
-                                  <br />{order?.phone}
-                                  <br />{order?.address}
+                                    {order?.name}
+                                    <br />{order?.phone}
+                                    <br />{order?.address}
                                 </td>
-                                <td>{loaiThanhToan}</td>
+                                <td>{formatMoney}</td>
+                                <td>{formatTransportFee}</td>
                                 <td>{formatTotalMoney}</td>
+                                <td style={{verticalAlign: 'middle', textAlign: 'center'}}>{loaiThanhToan}</td>
                                 <td className='button'>
                                   <button className='edit-btn' onClick={() => handleDetailOrder(order?.id)}><i className="fa-solid fa-expand"></i></button>
                                   {/* <button className='edit-btn'><i className="fa-solid fa-square-check"></i></button> */}
@@ -396,19 +451,30 @@ const OrderStorePage = () => {
                   <div className='order-card'>
                   <div className='table'>
                   <Table striped bordered hover>
-                    <thead style={{backgroundColor: '#F65D4E', color: '#fff'}}>
-                      <tr>
-                      <th>Mã đơn hàng</th>
-                      <th>Thông tin người nhận</th>
-                      <th>Loại thanh toán</th>
-                      <th>Tổng tiền đơn hàng</th>
-                      <th>Thao Tác</th>
-                      </tr>
-                    </thead>
+           <thead style={{backgroundColor: '#F65D4E', color: '#fff'}}>
+                    <tr>
+                    <th>Mã đơn hàng</th>
+                    <th>Thông tin người nhận</th>
+                    <th>Giá</th>
+                    <th>Phí vận chuyển</th>
+                    <th>Tổng tiền đơn hàng</th>
+                    <th>Loại thanh toán</th>
+                    <th>Thao Tác</th>
+                    </tr>
+                  </thead>
                     <tbody>
                         {
                           orderByIdStore?.filter(item => item.status === 4).map((order, index) => {
-                            const formatTotalMoney = order?.totalMoney?.toLocaleString('vi-VN', {
+                            const formatMoney = order?.totalMoney?.toLocaleString('vi-VN', {
+                              style: 'currency',
+                              currency: 'VND',
+                            });
+                            const formatTransportFee = order?.transportFee?.toLocaleString('vi-VN', {
+                                style: 'currency',
+                                currency: 'VND',
+                            });
+
+                            const formatTotalMoney = (order?.totalMoney + order?.transportFee).toLocaleString('vi-VN', {
                               style: 'currency',
                               currency: 'VND',
                             });
@@ -420,14 +486,16 @@ const OrderStorePage = () => {
                             }
                             return(
                               <tr key={order.id}>
-                                <td>{order.id}</td>
+                                 <td style={{verticalAlign: 'middle', textAlign: 'center'}}>{order?.id}</td>
                                 <td style={{textAlign: 'left'}}>
-                                  {order.name}
-                                  <br />{order.phone}
-                                  <br />{order.address}
+                                    {order?.name}
+                                    <br />{order?.phone}
+                                    <br />{order?.address}
                                 </td>
-                                <td>{loaiThanhToan}</td>
+                                <td>{formatMoney}</td>
+                                <td>{formatTransportFee}</td>
                                 <td>{formatTotalMoney}</td>
+                                <td style={{verticalAlign: 'middle', textAlign: 'center'}}>{loaiThanhToan}</td>
                                 <td className='button'>
                                   <button className='edit-btn' onClick={() => handleDetailOrder(order.id)}><i className="fa-solid fa-expand"></i></button>
                                   {/* <button className='edit-btn' ><i className="fa-solid fa-square-check"></i></button> */}
@@ -463,21 +531,32 @@ const OrderStorePage = () => {
                 <div className='order-card'>
                 <div className='table'>
                   <Table striped bordered hover>
-                    <thead style={{backgroundColor: '#F65D4E', color: '#fff'}}>
-                      <tr>
-                      <th>Mã đơn hàng</th>
-                      <th>Thông tin người nhận</th>
-                      <th>Loại thanh toán</th>
-                      <th>Tổng tiền đơn hàng</th>
-                      <th>Thao Tác</th>
-                      </tr>
-                    </thead>
+           <thead style={{backgroundColor: '#F65D4E', color: '#fff'}}>
+                    <tr>
+                    <th>Mã đơn hàng</th>
+                    <th>Thông tin người nhận</th>
+                    <th>Giá</th>
+                    <th>Phí vận chuyển</th>
+                    <th>Tổng tiền đơn hàng</th>
+                    <th>Loại thanh toán</th>
+                    <th>Thao Tác</th>
+                    </tr>
+                  </thead>
                     <tbody>
                         {
                           handleFilterOrder()?.filter(item => item.status === 5).map((order, index) => {
-                            const formatTotalMoney = order?.totalMoney?.toLocaleString('vi-VN', {
+                            const formatMoney = order?.totalMoney?.toLocaleString('vi-VN', {
+                              style: 'currency',
+                              currency: 'VND',
+                            });
+                            const formatTransportFee = order?.transportFee?.toLocaleString('vi-VN', {
                                 style: 'currency',
                                 currency: 'VND',
+                            });
+
+                            const formatTotalMoney = (order?.totalMoney + order?.transportFee).toLocaleString('vi-VN', {
+                              style: 'currency',
+                              currency: 'VND',
                             });
                             let loaiThanhToan;
                             if(order.payment === 1) {
@@ -487,14 +566,16 @@ const OrderStorePage = () => {
                             }
                             return(
                               <tr key={order.id}>
-                                <td style={{verticalAlign: 'middle', textAlign: 'center'}}>{order.id}</td>
+                                <td style={{verticalAlign: 'middle', textAlign: 'center'}}>{order?.id}</td>
                                 <td style={{textAlign: 'left'}}>
-                                  {order.name}
-                                  <br />{order.phone}
-                                  <br />{order.address}
+                                    {order?.name}
+                                    <br />{order?.phone}
+                                    <br />{order?.address}
                                 </td>
-                                <td style={{verticalAlign: 'middle', textAlign: 'center'}}>{loaiThanhToan}</td>
+                                <td>{formatMoney}</td>
+                                <td>{formatTransportFee}</td>
                                 <td>{formatTotalMoney}</td>
+                                <td style={{verticalAlign: 'middle', textAlign: 'center'}}>{loaiThanhToan}</td>
                                 <td className='button'>
                                   <button className='edit-btn' onClick={() => handleDetailOrder(order.id)}><i className="fa-solid fa-expand"></i></button>
                                   {/* <button className='edit-btn' onClick={() => handleConfirm(order.id)}>Xác nhận</button> */}

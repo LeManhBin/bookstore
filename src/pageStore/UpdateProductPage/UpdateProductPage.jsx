@@ -124,6 +124,8 @@ const UpdateProductPage = () => {
         }
     };  
 
+    console.log(formState);
+
       
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -156,10 +158,11 @@ const UpdateProductPage = () => {
         if(!formState.name || !formState.author || !formState.categoryId || !formState.height || !formState.length || !formState.pageNumber || !formState.price || !formState.publishing || !formState.publishingYear || !formState.quantity || !formState.width || !formState.weight || avatar.length < 1){
             toast.warning("Vui lòng nhập đầy đủ thông tin sản phẩm!!")
         }else {
-            dispatch(actUpdateBook(book.id,formData))
+            dispatch(actUpdateBook(book.id,formData)) 
             navigate("/store/all-product")
         }
     }
+    console.log(formState.category);
 
 
   return (
@@ -203,7 +206,7 @@ const UpdateProductPage = () => {
                 </div>
                 <div className="form-input">
                     <label htmlFor="" className='label'><span className='tick'>(*)</span>Thể loại</label>
-                    <select name='categoryId' onChange={HandleOnChangeCategory}>
+                    <select name='categoryId' value={formState.categoryId} onChange={HandleOnChangeCategory}>
                         {
                             allCategory.map(category => {
                                 return(

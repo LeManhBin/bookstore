@@ -80,6 +80,8 @@ const ProductDetailPage = () => {
 
     const priceAfterDiscount = book.price - (book.price * (book.discount/100)) 
 
+    console.log(evaluate,"evaluate");
+    
     let formattedPrice = book?.price?.toLocaleString('vi-VN', {
         style: 'currency',
         currency: 'VND',

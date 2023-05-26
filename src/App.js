@@ -77,6 +77,7 @@ function App() {
   const [isStore, setIsStore] = useState("");
   const { isLogged } = useSelector((state) => state.user);
   const { user } = useSelector((state) => state.user);
+
   useEffect(() => {
     if (accessToken) {
       dispatch(actReLogin(accessToken));
@@ -139,6 +140,10 @@ function App() {
             <Route path="cart" element={<CartPage />} />
             <Route path="product/search/" element={<SearchResultPage />} />
             <Route path="payment" element={<PaymentPage />} />
+            <Route
+              path="sale-register"
+              element={isLogged ? <SaleRegisterPage /> : <ROR404 />}
+            />
           </Route>
 
           <Route
@@ -149,6 +154,7 @@ function App() {
             path="register-service"
             element={isLogged && isStore ? <RegisterServicePage /> : <ROR404 />}
           />
+
           <Route
             path="payment-result"
             element={isLogged ? <PaymentSuccess /> : <ROR404 />}

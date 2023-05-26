@@ -89,7 +89,7 @@ const SearchResultPage = () => {
               </div>
               <div className="all-product">
                   {
-                      (searchData.length == 0) ? <div style={{fontSize: '18px', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '300px', width: '100%'}}>
+                      (currentItems.length === 0) ? <div style={{fontSize: '18px', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '300px', width: '100%'}}>
                           Không tìm thấy sản phẩm nào</div>
                       :
                       <>

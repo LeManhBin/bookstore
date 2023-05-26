@@ -14,16 +14,22 @@ const Header = () => {
     const [toggle, setToggle] = useState(false)
     const [totalItems, setTotalItems] = useState(0);
     const [isStore, setIsStore] = useState(false)
-   const userId = user?.id
+    const [userId, setUserId] = useState(null);
     const handleToggle = () => {
         setToggle(!toggle)
     }
 
     useEffect(() => {
+        if (user?.id) {
+          setUserId(user.id);
+        }
+      }, [user]);
+      
+      useEffect(() => {
         if (userId) {
           dispatch(actFetchAllDataCartByIdUser(userId));
         }
-      }, [userId])
+      }, [userId]);
 
     useEffect(() => {
         let newTotalItems = 0;

@@ -318,9 +318,11 @@ export const actCreateBook = (book) => async (dispatch) => {
   }
 };
 
-export const actDeleteBook = (id) => async (dispatch) => {
+export const actDeleteBook = (id, idStore) => async (dispatch) => {
   try {
     await fetchDeleteBook(id);
+    actFetchBookByIdStore(idStore);
+    console.log(idStore);
     dispatch(actFetchAllBook());
   } catch (error) {
     console.log(error);
@@ -332,8 +334,9 @@ export const actDeleteBook = (id) => async (dispatch) => {
 export const actUpdateBook = (id, payload) => async (dispatch) => {
   try {
     await fetchUpdateBook(id, payload);
-    dispatch(actFetchAllBook());
-    dispatch(actUpdateLoadingCreate(true));
+    await dispatch(actFetchAllBook());
+    await dispatch(actFetchBookById(id));
+    await dispatch(actUpdateLoadingCreate(true));
   } catch (error) {
     console.log(error);
   } finally {

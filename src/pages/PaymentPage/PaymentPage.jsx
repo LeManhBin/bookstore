@@ -10,6 +10,7 @@ import { actCreateOrder } from '../../redux/features/orderSlice/orderSlice'
 import { useNavigate } from 'react-router-dom'
 import { IMG_URL } from '../../constants/config'
 import { actFetchServiceCode } from '../../redux/features/provinceSlice/provinceSlice'
+import loading from "../../assets/loading.gif"
 import axios from 'axios'
 const PaymentPage = () => {
     const navigate = useNavigate()
@@ -22,7 +23,18 @@ const PaymentPage = () => {
     const userDistrict = user?.address?.districtId;
     const [shipMoney, setShipMoney] = useState([])
     const token = "9f6af25c-c0a6-11ed-be76-3233f989b8f3";
+    const {isLoadingCreate} = useSelector((state) => state.order)
+    const [isNoAddress, setIsNoAddress] = useState(false)
 
+
+    useEffect(() => {
+        if(user.address === null) {
+            setIsNoAddress(true)
+        }else {
+            setIsNoAddress(false)
+        }
+    },[user])
+    console.log(isNoAddress);
     ///service
         useEffect(() => {
         const promises = allPayment.map(p => {
@@ -103,18 +115,28 @@ const PaymentPage = () => {
         stores: [],
         recipient: {},
         payment: 0,
+        transportFee: 0,
     }
     const [order, setOrder] = useState(initialState)
 
 
     const [recipient, setRecipient] = useState({
-        userId: user.id,
-        name: user.fullName,
-        phone: user.phone,
+        userId: user?.id,
+        name: user?.fullName,
+        phone: user?.phone,
         address: user?.address?.fullAddress,
     })
     const [payment, setPayment] = useState(0)
 
+
+    useEffect(() => {
+        setRecipient({
+            userId: user?.id,
+            name: user?.fullName,
+            phone: user?.phone,
+            address: user?.address?.fullAddress,
+        })
+    },[user])
     useEffect(() => {
         dispatch(actFetchAllPayment(user.id))
     },[user])
@@ -138,22 +160,19 @@ const PaymentPage = () => {
 
 
     
-    const stores = allPayment.map(payment => {
+    const stores = allPayment.map((payment, index) => {
         let totalMoney = 0;
+        let transportFee = shipMoney[index]?.total || 0;
         const storeId = payment.store.id;
         const cartIds = payment.cartDetails.map(detail => detail.id);
         const note = "Giao hanh nhanh nhanh dum em";
-        let shiping = 0
-        shipMoney.forEach((ship, index) => {
-            // shiping += ship?.total
-        })
         for(let i = 0; i < payment?.cartDetails?.length; i++){
             let itemPrice = payment?.cartDetails?.[i].price * payment?.cartDetails?.[i].amount
             let discountAmount = itemPrice * (payment?.cartDetails?.[i].discount/100);
             totalMoney += itemPrice - discountAmount ;
         }
         
-        return { id: storeId, note, cartIds, totalMoney };
+        return { id: storeId, note, cartIds, totalMoney, transportFee };
       });
 
       const handleGetTotal = () => {
@@ -193,10 +212,11 @@ const PaymentPage = () => {
     }
 
 
+
     useEffect(() => {
         if (clicked) {
             dispatch(actCreateOrder(order))
-            navigate("/")
+            dispatch(actFetchAllDataCartByIdUser(user?.id))
             const timeoutId = setTimeout(() => {
               setClicked(false);
             }, 1000);
@@ -204,11 +224,18 @@ const PaymentPage = () => {
               clearTimeout(timeoutId);
             };
           }
-        console.log(order);
+
+        
     },[clicked])
 
   return (
     <div className='payment-page'>
+        {
+            isLoadingCreate && 
+            <div className='loading1'>
+  <div class="loader"></div>
+        </div>
+        }
         <div className="heading">
           <Heading title={"Thanh toán"}/>
         </div>
@@ -283,7 +310,7 @@ const PaymentPage = () => {
                                     </tbody>
                                 </Table>
                                 <div className='ship-money' style={{textAlign: "right"}}>
-                                    <p>Phí giao hàng: {formatShipMoney}</p>
+                                    <p>Phí giao hàng: {formatShipMoney || '0 vnd'}</p>
                                 </div>
                                 </div>
                             )
@@ -304,7 +331,11 @@ const PaymentPage = () => {
                         <input type="text" name='phone' placeholder='Nhập số điện thoại' value={recipient.phone} onChange={handleOnChange}/>
                     </div>
                     <div className="form-input">
-                        <label htmlFor="">Địa chỉ</label>
+                        <label htmlFor="">Địa chỉ 
+                            {
+                                isNoAddress && <span style={{color: 'red', fontSize: '12px', marginLeft: '15px'}}>Vui lòng thêm địa chỉ để mua hàng!</span>
+                            }
+                        </label>
                         <input type="text" name='address' placeholder='Nhập địa chỉ nhận hàng' value={recipient?.address} disabled={true} onChange={handleOnChange}/>
                     </div>
                     <div className="payment-methods">
@@ -315,12 +346,13 @@ const PaymentPage = () => {
                         </div>
                         <div className='method'>
                             <input  type="radio" id="zalo" name="payment" value="2" onChange={handleChangePayment}/>
-                            <img src="https://img.websosanh.vn/v2/users/financial/images/ypa8r8jf575ck.jpg?compress=85" alt="" />
+                            {/* <img src="https://img.websosanh.vn/v2/users/financial/images/ypa8r8jf575ck.jpg?compress=85" alt="" /> */}
+                            <label htmlFor="payment">Thanh toán trực tuyến</label>
                         </div>
                     </div>
 
                     <div className="payment-btn">
-                        <button onClick={handlePayment}>Thanh toán</button>
+                        <button onClick={handlePayment} disabled={isNoAddress}>Thanh toán</button>
                     </div>
                 </form>
             </div>

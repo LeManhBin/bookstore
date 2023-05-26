@@ -187,7 +187,7 @@ const AddNewAccount = () => {
             toast.warning("Vui lòng điền đầy đủ thông tin người dùng!")
         }else {
             dispatch(actCreateUser(formData))
-            navigate('/account-manager/user')
+            navigate('/admin/account-manager/user')
         }
     }
     const handleBack = () => {

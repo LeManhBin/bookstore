@@ -3,6 +3,7 @@ import './Comment.scss'
 import { IMG_URL } from '../../constants/config';
 const Comment = ({data}) => {
 
+    console.log(data,"đánh giá");
   return (
     <div className='comment'>
         <img src={`${IMG_URL}${data.avatar}`} alt="avatar"  className='avatar'/>  

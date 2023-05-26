@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { IMG_URL } from '../../constants/config'
 import Status from '../../components/Status/Status'
 import ModalAcces from '../../components/ModalAcces/ModalAcces'
+import ModalDeleteBook from '../../components/ModalDeleteBook/ModalDeleteBook'
 const AllProductPage = () => {
   const navigate = useNavigate()
   const {bookByStore} = useSelector((state) => state.book)
@@ -29,7 +30,7 @@ const AllProductPage = () => {
 
   useEffect(() => {
     dispatch(actFetchBookByIdStore(idStore))
-  },[idStore])
+  },[idStore, bookByStore])
 
   const handleShowDetailProduct = (id) => {
     navigate(`/store/detail-product/${id}`)
@@ -45,8 +46,8 @@ const AllProductPage = () => {
     setIdtemp(id)
   }
 
-  const handleDelete = (id) => {
-    dispatch(actDeleteBook(id))
+  const handleDelete = (id, idStore) => {
+    dispatch(actDeleteBook(id, idStore))
   }
 
   const handleOnChangeSelect = (e) => {
@@ -58,7 +59,7 @@ const AllProductPage = () => {
     if(isSelect == 1) {
       return bookByStore?.filter((book) => { 
         return book?.name?.toLowerCase()?.includes(searchTerm.toLowerCase());
-      }).slice(firstPageIndex, lastPageIndex);
+      }).filter(product => product.status === 0).slice(firstPageIndex, lastPageIndex);
     }else if (isSelect == 2) {
       return bookByStore?.filter((book) => {
         return book?.name?.toLowerCase()?.includes(searchTerm.toLowerCase());
@@ -78,12 +79,13 @@ const AllProductPage = () => {
     <div className='all-product-page'>
           {
             isDelete && 
-            <ModalAcces
+            <ModalDeleteBook
               setIsDelete={setIsDelete} 
               title={"Bạn có chắc muốn xoá!"} 
               color={"#F65D4E"}
               handleDelete={handleDelete}
               idTemp={idTemp}
+              idStore={idStore}
             />
           }
         <div className='heading'>

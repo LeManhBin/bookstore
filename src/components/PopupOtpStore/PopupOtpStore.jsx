@@ -1,11 +1,12 @@
 import FormData from 'form-data';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import { actCreateStore } from '../../redux/features/storeSlice/storeSlice';
+import { actCreateStore, actFetchOtp } from '../../redux/features/storeSlice/storeSlice';
 import { useNavigate } from 'react-router-dom';
 import "./PopupOtpStore.scss"
 const PopupOtpStore = ({formState, otp, setCheckOtp}) => {
+  const [isWait, setIsWait] = useState(true)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [formOtp, setFormOtp] = useState("")
@@ -25,6 +26,16 @@ const PopupOtpStore = ({formState, otp, setCheckOtp}) => {
   const handleClose = () => {
     setCheckOtp(false)
   }
+
+  const handleGetOtp = () => {
+    dispatch(actFetchOtp(formState.email))
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsWait(false)
+    },45000)
+  },[otp])
   return (
     <div className='otp-modal'>
         <div className="title">Nhập mã xác nhận <span onClick={handleClose}><i className="fa-solid fa-xmark"></i></span></div>
@@ -37,7 +48,7 @@ const PopupOtpStore = ({formState, otp, setCheckOtp}) => {
           <span >Bạn không nhận được mã xác nhận ?</span>
           <div className='again'>
             <span>Vui lòng nhấn</span>
-            <button>Gửi lại mã</button>
+            <button onClick={handleGetOtp} disabled={isWait}>Gửi lại mã</button>
           </div>
           <p>Hoặc <span style={{color: '#F65D4E', cursor: 'pointer'}}>báo lỗi không gửi được tin nhắn</span> </p>
         </div>

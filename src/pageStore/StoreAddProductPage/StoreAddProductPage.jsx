@@ -19,6 +19,7 @@ const StoreAddProductPage = () => {
     const {allTopic} = useSelector((state) => state.topic)
     const dispatch = useDispatch()
     const {user} = useSelector((state) => state.user)
+    const idStore = user?.storeId
     const initialState = {
         name: '',
         author: '',
@@ -99,8 +100,8 @@ const StoreAddProductPage = () => {
         if(!formState.name || !formState.author || !formState.categoryId || !formState.height || !formState.length || !formState.pageNumber || !formState.price || !formState.publishing || !formState.publishingYear || !formState.quantity || !formState.width || !formState.weight || avatar.length < 4 ) {
             toast.warning("Vui lòng nhập đủ thông tin sản phẩm")
         }else {
-            dispatch(actCreateBook(formData))
-            // navigate("/store/all-product")
+            dispatch(actCreateBook(formData, idStore))
+            navigate("/store/all-product")
     
         }
     }

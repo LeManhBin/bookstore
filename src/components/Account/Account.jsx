@@ -1,11 +1,14 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import './Account.scss'
 import { IMG_URL } from '../../constants/config'
+import { actFetchUserById } from '../../redux/features/userSlice/userSlice'
 const Account = () => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const {user} = useSelector((state) => state.user)
+    
 
     const handleProfilePage = () => {
         navigate('/account/profile')
@@ -34,7 +37,7 @@ const Account = () => {
             </div>
         </div>
         <ul>
-        <li>Tài Khoản Của Tôi</li>
+        <li onClick={handleProfilePage}>Tài Khoản Của Tôi</li>
         {
             (user?.storeId !== 0) ? 
             <li onClick={handleMyStore}>Cửa hàng của tôi</li>

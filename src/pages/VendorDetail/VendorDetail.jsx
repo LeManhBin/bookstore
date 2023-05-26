@@ -34,7 +34,7 @@ const VendorDetail = () => {
     const lastPageIndex = currentPage * limit;
     const firstPageIndex = lastPageIndex - limit;
     const currentItems = bookByStore.slice(firstPageIndex, lastPageIndex);
-    
+    const [searchTerm, setSearchTerm] = useState("");
     const totalPage = bookByStore.length
 
     useEffect(() => {
@@ -47,6 +47,11 @@ const VendorDetail = () => {
         dispatch(actFetchBookByIdStore(store?.data?.id))
     },[store])
 
+    const handleFilterAccount = () => {
+        return bookByStore?.filter((book) => {
+          return book?.name?.toLowerCase()?.includes(searchTerm.toLowerCase());
+        }).slice(firstPageIndex, lastPageIndex);
+    }
 
   return (
     <>
@@ -102,7 +107,7 @@ const VendorDetail = () => {
                         </div>
                         <div className='search-container'>
                             <div className='search-input'>
-                                <input type="text" />
+                                <input type="text" placeholder='Nhập tên sản phẩm...' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
                                 <i className="fa-solid fa-magnifying-glass"></i>
                             </div>
                             <select name="" id="">
@@ -113,7 +118,7 @@ const VendorDetail = () => {
                         </div>
                         <div className='product'>
                             {
-                                currentItems.map(data => {
+                                handleFilterAccount()?.map(data => {
                                     return (
                                         <div key={data?.id}>
                                             <Card data={data}/>

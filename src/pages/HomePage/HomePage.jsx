@@ -160,6 +160,7 @@ const HomePage = () => {
     navigate(`/product/search?payload=${searchTerm}`);
   }
 
+
   return  (
     <>
       {

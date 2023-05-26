@@ -149,6 +149,7 @@ export const userSlice = createSlice({
     builder.addCase(actFetchUserById.fulfilled, (state, action) => {
       state.isLoading = false;
       state.userById = action.payload.data.data;
+      state.user = action.payload.data.data;
     });
 
     //register
@@ -280,8 +281,8 @@ export const actUpdateUser = (id, payload) => async (dispatch) => {
 export const actUpdateProfile = (id, payload) => async (dispatch) => {
   try {
     await fetchUpdateUser(id, payload);
-    // localStorage.setItem(KEY_USER, JSON.stringify(formState));
     await dispatch(actFetchUserById(id));
+    await dispatch(actFetchAllUser());
     dispatch(actUpdateLoadingCreate(true));
   } catch (error) {
     console.log(error);

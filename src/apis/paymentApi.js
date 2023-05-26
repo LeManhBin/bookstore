@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 export const fetchCreatePayment = async (payload) => {
   const res = await axios.post(`${BE_URL}carts/pay`, payload);
   if (res.status == 200) {
-    toast.success("Thành công");
     return res;
   } else {
     toast.error("Thất bại");

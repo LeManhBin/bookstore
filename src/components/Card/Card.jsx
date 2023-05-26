@@ -43,6 +43,7 @@ const Card = ({data}) => {
             toast.warning("Sản phẩm đã hết hàng")
         }else{
             dispatch(actCreateCart(cartState))
+            console.log(cartState);
         }
     }
 
@@ -87,7 +88,8 @@ const Card = ({data}) => {
                 </div>
                 <span className='quantity'>10</span>
             </div> */}
-            <span className='card-author'>{data?.author}</span>
+            <span className='card-author'>Tác giả: {data?.author}</span>
+            <span className='card-author'>Cửa hàng: {data?.storeName}</span>
             <div className='card-price'>
                 {
                     (data.discount > 0) && <span className='adv-price'>${formattedPrice}</span>

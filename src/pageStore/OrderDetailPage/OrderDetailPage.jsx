@@ -34,11 +34,22 @@ const OrderDetailPage = () => {
         currency: 'VND',
     });
 
+    const handleFormat = (price) => {
+        const result = price.toLocaleString('vi-VN', {
+          style: 'currency',
+          currency: 'VND',
+        });
+        return result;
+    }
+    console.log(order, "-----");
   return (
     <div className='order-detail'>
         <div className="order-detail-heading">
          <AdminHeading title={`Chi tiết đơn hàng ${param.idOrder}`}/> 
-         <p>Tổng tiền đơn hàng: {formatTotalPrice}</p>
+        <div>
+            <span>Phí giao hàng: {handleFormat(order?.transportFee)}</span>
+            <p>Tổng tiền đơn hàng: {handleFormat(order?.totalMoney + order?.transportFee)}</p>
+        </div>
         </div>
         <div className='order-card'>
             <div className="user">
@@ -55,8 +66,6 @@ const OrderDetailPage = () => {
                             <th>Hình ảnh</th>
                             <th>Số lượng</th>
                             <th>Giá</th>
-                            <th>Khuyến mãi</th>
-                            <th>Thành tiền</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -81,8 +90,6 @@ const OrderDetailPage = () => {
                                         <td>
                                             {order.amount}
                                         </td>
-                                        <td>{formatPrice}</td>
-                                        <td>{order.discount}%</td>
                                         <td>{formattedPriceAfterDiscount}</td>
                                     </tr>
                                 )

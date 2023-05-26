@@ -9,14 +9,15 @@ const RegisterServicePage = () => {
     const navigate = useNavigate()
     const [isRegister, setIsRegister] = useState(false)
     const { allService, service, payCode } = useSelector((state) => state.service);
-    
+    const {user} = useSelector((state) => state.user)
     const [formState, setFormState] = useState({
+        orderType : 0,
+        storeId: "",
         amount: 0,
         bankCode:"",
-        note:"Đăng ký gói dịch vụ 0001",
-        orderInfor: "",
+        serviceId : "",
     });
-  
+    console.log(user );
     useEffect(() => {
       dispatch(actFetchAllService());
     }, []);
@@ -24,8 +25,9 @@ const RegisterServicePage = () => {
     const handleRegister = (service) => {
         setFormState({
             ...formState,
+            storeId: user?.storeId,
             amount: service.price,
-            orderInfor: service.id
+            serviceId: service.id
         })
         setIsRegister(!isRegister)
     };
@@ -43,6 +45,7 @@ const RegisterServicePage = () => {
         }
     },[payCode] )
 
+    console.log(allService);
 
 
     return (

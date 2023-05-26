@@ -38,7 +38,7 @@ const TopicPage = () => {
 
   //phân trang
   const [currentPage, setCurrentPage] = useState(1);
-  const [limit, setLimit] = useState(8)
+  const [limit, setLimit] = useState(7)
   const lastPageIndex = currentPage * limit;
   const firstPageIndex = lastPageIndex - limit;
   const currentItems = allTopic.slice(firstPageIndex, lastPageIndex);
@@ -92,7 +92,7 @@ const TopicPage = () => {
               <Table striped bordered hover>
                 <thead style={{backgroundColor: '#F65D4E', color: '#fff'}}>
                   <tr>
-                    <th>STT</th>
+                    <th>ID</th>
                     <th>Tên Chủ Đề</th>
                     <th>Action</th>
                   </tr>
@@ -102,7 +102,7 @@ const TopicPage = () => {
                       currentItems.map((tag, index) => {
                         return(
                           <tr key={tag.id}>
-                            <td>{index + 1}</td>
+                            <td>{tag.id}</td>
                             <td>{tag.name}</td>
                             <td className='button'>
                               <button className='edit-btn' onClick={() => handleIsEdit(tag.id)}><i className="fa-regular fa-pen-to-square"></i></button>

@@ -6,6 +6,8 @@ import './StoreLayout.scss'
 import NavbarStore from '../../components/NavbarStore/NavbarStore'
 import { useDispatch, useSelector } from 'react-redux'
 import { actFetchStoreById } from '../../redux/features/storeSlice/storeSlice'
+import moment from 'moment';
+
 const StoreLayout = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -17,8 +19,16 @@ const StoreLayout = () => {
         dispatch(actFetchStoreById(idStore))
     },[user])
 
+
+
+    const currentDate = moment().format('YYYY-MM-DD');
+    const endDate = store?.data?.endDate;
+
+    const isBeforeEndDate = moment(currentDate).isBefore(endDate, 'day');
+
+
     const handleCheckExpired = () => {
-        if(store?.data?.endDate === null) {
+        if(isBeforeEndDate === false) {
             setIsExpired(true)
         }else {
             setIsExpired(false)
@@ -27,6 +37,7 @@ const StoreLayout = () => {
     useEffect(() => {
         handleCheckExpired()
     },[store])
+
 
     const handleRegisterService = () => {
         navigate("/register-service")

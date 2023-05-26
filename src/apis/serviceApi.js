@@ -43,8 +43,12 @@ export const fetchUpdateService = async (id, payload) => {
 };
 
 export const fetchRegisterService = async (payload) => {
-  const res = await axios.post(`http://localhost:8080/vnpay`, payload);
-  return res.data;
+  const res = await axios.post(`http://localhost:8080/vnpay/service`, payload);
+  if (res?.status === 200) {
+    return res.data;
+  } else {
+    toast.warn("Lỗi");
+  }
 };
 
 export const fetchConfirmRegisterService = async (idStore, idService) => {

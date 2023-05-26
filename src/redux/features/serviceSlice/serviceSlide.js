@@ -99,7 +99,6 @@ export const serviceSlice = createSlice({
     //register service
     builder.addCase(actFetchRegisterService.fulfilled, (state, action) => {
       state.isLoading = false;
-      console.log(action.payload.data, "register service");
       state.payCode = action.payload.data;
     });
   },

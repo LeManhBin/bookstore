@@ -19,6 +19,8 @@ const ProfilePage = () => {
     setFormState(user)
   },[user])
 
+  console.log(user,"[[[[");
+
   const handlePreviewAvatar = (e) => {
       const file = e.target.files[0]
       file.preview = URL.createObjectURL(file)

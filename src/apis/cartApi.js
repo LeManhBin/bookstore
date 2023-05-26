@@ -18,11 +18,11 @@ export const fetchUpdateQuantityCart = async (id, amount) => {
 
 export const fetchCreateCart = async (cart) => {
   const res = await axios.post(`${BE_URL}cart`, cart);
-  if (res.status == 200) {
+  if (res?.data?.data == true) {
     toast.success("Thành công !");
     return res;
-  } else {
-    toast.error("Có gì đó không đúng!");
+  } else if (res?.data?.data == false) {
+    toast.error(res?.data?.message);
   }
 };
 

@@ -57,6 +57,7 @@ const ContactManagerPage = () => {
           status: 1,
         }
         dispatch(actUpdateContact(contact?.id, newContact))
+       
         
     }
 
