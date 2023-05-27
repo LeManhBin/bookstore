@@ -17,7 +17,7 @@ const RegisterServicePage = () => {
         bankCode:"",
         serviceId : "",
     });
-    console.log(user );
+
     useEffect(() => {
       dispatch(actFetchAllService());
     }, []);
@@ -30,7 +30,10 @@ const RegisterServicePage = () => {
             serviceId: service.id
         })
         setIsRegister(!isRegister)
+        localStorage.setItem("serviceId", JSON.stringify(service.id))
     };
+
+    console.log(formState);
 
     useEffect(() => {
         if (isRegister) {
@@ -44,8 +47,6 @@ const RegisterServicePage = () => {
             window.open(payCode, '_blank');
         }
     },[payCode] )
-
-    console.log(allService);
 
 
     return (

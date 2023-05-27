@@ -13,13 +13,13 @@ const VendorTitle = ({data}) => {
     <div className='vendor-container'>
         <div className='top' style={{backgroundImage: `url(${IMG_URL}${data.coverImage})`}}>
             <span className='name'>{data?.name}</span>
-            <span className='star'>
+            {/* <span className='star'>
                 <i className="fa-solid fa-star"></i>
                 <i className="fa-solid fa-star"></i>
                 <i className="fa-solid fa-star"></i>
                 <i className="fa-solid fa-star"></i>
                 <i className="fa-solid fa-star"></i>
-            </span>
+            </span> */}
             <span className='address'>{data?.address?.fullAddress}</span>
             <div className="phone"><i className="fa-solid fa-phone"></i>{data?.phone}</div>
         </div>

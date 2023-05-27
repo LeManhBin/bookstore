@@ -9,6 +9,7 @@ import Evaluate from '../../components/Evaluate/Evaluate'
 import PopupCancelOrder from '../../components/PopupCancelOrder/PopupCancelOrder'
 import Account from '../../components/Account/Account'
 import { IMG_URL } from '../../constants/config'
+import Loader from '../../components/Loader/Loader'
 
 
 const AccountPage = () => {
@@ -23,7 +24,7 @@ const AccountPage = () => {
   const [isComplete, setIsComplete] = useState(false)
   const [isCancel, setIsCancel] = useState(false)
   const [isHistory, setIsHistory] = useState(false)
-
+  const {isLoadingCreate} = useSelector((state) => state.order)
   const styleActive = ({isActive}) => {
     return {
       color: isActive ? '#F65D4E' : '#000',
@@ -114,7 +115,7 @@ const AccountPage = () => {
   }
 
   const handleFormat = (price) => {
-    const result = price.toLocaleString('vi-VN', {
+    const result = price?.toLocaleString('vi-VN', {
       style: 'currency',
       currency: 'VND',
     });
@@ -125,6 +126,10 @@ const AccountPage = () => {
 
   return (
     <div className='account-page'>
+      {
+        isLoadingCreate &&
+        <Loader/>
+      }
           {
             isCancelOrder && 
             <PopupCancelOrder

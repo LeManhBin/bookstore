@@ -13,11 +13,13 @@ const PaymentSuccess = () => {
   const { vnp_OrderInfo } = queryString?.parse(location?.search);
   const [isSuccess, setIsSuccess] = useState(false)
   const {user} = useSelector((state) => state.user)
+  
+  const serviceId = localStorage.getItem("serviceId")
   const dataService = {
-    idUser:user?.id,
-    idService: Number(vnp_OrderInfo)
+    storeId:user?.storeId,
+    idService: Number(serviceId)
   }
-
+  console.log(dataService);
   const handleCheckPayment = () => {
     if (vnp_ResponseCode == '00') {
       setIsSuccess(true)
@@ -31,8 +33,10 @@ const PaymentSuccess = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(actFetchConfirmRegisterService(dataService))
-  },[])
+    if(user?.storeId){
+      dispatch(actFetchConfirmRegisterService(dataService))
+    }
+  },[user])
 
 
   return (

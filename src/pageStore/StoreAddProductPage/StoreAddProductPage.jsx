@@ -97,7 +97,7 @@ const StoreAddProductPage = () => {
         formData.append("files", avatar[1]);
         formData.append("files", avatar[2]);
         formData.append("files", avatar[3]);
-        if(!formState.name || !formState.author || !formState.categoryId || !formState.height || !formState.length || !formState.pageNumber || !formState.price || !formState.publishing || !formState.publishingYear || !formState.quantity || !formState.width || !formState.weight || avatar.length < 4 ) {
+        if(!formState.name || !formState.author || !formState.categoryId || !formState.height || !formState.length || !formState.pageNumber || !formState.price || !formState.publishing || !formState.publishingYear || !formState.quantity || !formState.width || !formState.weight || avatar.length < 4  || formState.publishingYear > 2023) {
             toast.warning("Vui lòng nhập đủ thông tin sản phẩm")
         }else {
             dispatch(actCreateBook(formData, idStore))
@@ -201,11 +201,11 @@ const StoreAddProductPage = () => {
                 </div>
                 <div className="form-input">
                     <label htmlFor="" className='label'><span className='tick'>(*)</span>Giá</label>
-                    <input type="text" name='price'value={formState.price} onChange={handleOnChange} />
+                    <input type="number" name='price'value={formState.price} onChange={handleOnChange} />
                 </div>
                 <div className="form-input">
                     <label htmlFor="" className='label'><span className='tick'>(*)</span>Kho hàng</label>
-                    <input type="text" name='quantity' value={formState.quantity} onChange={handleOnChange}/>
+                    <input type="number" name='quantity' value={formState.quantity} onChange={handleOnChange}/>
                 </div>
             </div>
             <div className="add-new-container">
@@ -214,19 +214,19 @@ const StoreAddProductPage = () => {
                 </div>
                 <div className="form-input">
                     <label htmlFor="" className='label'><span className='tick'>(*)</span>Chiều dài</label>
-                    <input type="text" name='height' value={formState.height} onChange={handleOnChange}/>
+                    <input type="number" name='height' value={formState.height} onChange={handleOnChange}/>
                 </div>
                 <div className="form-input">
                     <label htmlFor="" className='label'><span className='tick'>(*)</span>Chiều rộng</label>
-                    <input type="text" name='width' value={formState.width} onChange={handleOnChange}/>
+                    <input type="number" name='width' value={formState.width} onChange={handleOnChange}/>
                 </div>
                 <div className="form-input">
                     <label htmlFor="" className='label'><span className='tick'>(*)</span>Bề dày</label>
-                    <input type="text" name='length' value={formState.length} onChange={handleOnChange}/>
+                    <input type="number" name='length' value={formState.length} onChange={handleOnChange}/>
                 </div>
                 <div className="form-input">
                     <label htmlFor="" className='label'><span className='tick'>(*)</span>Trọng lượng</label>
-                    <input type="text" name='weight' value={formState.weight} onChange={handleOnChange} />
+                    <input type="number" name='weight' value={formState.weight} onChange={handleOnChange} />
                 </div>
             </div>
             <div className='button-btn'>

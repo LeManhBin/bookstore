@@ -7,6 +7,7 @@ import {
 } from "../../../apis/registerApi";
 import {
   fetchAllDataUser,
+  fetchCreateAddress,
   fetchCreateUser,
   fetchDataUserById,
   fetchDeleteUser,
@@ -306,6 +307,18 @@ export const actUpdatePassword = (id, payload) => async (dispatch) => {
 export const actResetPassword = (payload) => async (dispatch) => {
   try {
     await fetchResetPassword(payload);
+    dispatch(actUpdateLoadingCreate(true));
+  } catch (error) {
+    console.log(error);
+  } finally {
+    dispatch(actUpdateLoadingCreate(false));
+  }
+};
+
+export const actCreateAddress = (id, address) => async (dispatch) => {
+  try {
+    await fetchCreateAddress(id, address);
+    await dispatch(actFetchUserById(id));
     dispatch(actUpdateLoadingCreate(true));
   } catch (error) {
     console.log(error);

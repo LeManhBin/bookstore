@@ -55,6 +55,16 @@ export const fetchUpdatePassword = async (id, payload) => {
   }
 };
 
+export const fetchCreateAddress = async (id, address) => {
+  const res = await axios.post(`${BE_URL}address/${id}`, address);
+  if (res.status == 200) {
+    toast.success("Thành công !");
+    return res.data;
+  } else {
+    toast.error("Có gì đó không đúng!");
+  }
+};
+
 export const fetchUpdateAddress = async (id, address) => {
   const res = await axios.put(`${BE_URL}address/${id}`, address);
   if (res.status == 200) {

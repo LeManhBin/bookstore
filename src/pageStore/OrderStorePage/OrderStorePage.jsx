@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { actChangeOrderStatus, actFetchOrderByIdStore } from '../../redux/features/orderSlice/orderSlice'
 import { useNavigate } from 'react-router-dom'
 import Status from '../../components/Status/Status'
+import Loader from '../../components/Loader/Loader'
 const OrderStorePage = () => {
   const [isPending, setIsPending] = useState(true)
   const [isApproved, setIsApproved] = useState(false)
@@ -66,6 +67,7 @@ const OrderStorePage = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const {orderByIdStore} = useSelector((state) => state.order)
+  const {isLoadingCreate} = useSelector((state) => state.order)
   const {user} = useSelector((state) => state.user)
   const idStore = user.storeId
 
@@ -85,7 +87,7 @@ const OrderStorePage = () => {
     }).slice(firstPageIndex, lastPageIndex);
   }
 
-  console.log(orderByIdStore);
+
   useEffect(() => {
     dispatch(actFetchOrderByIdStore(idStore))
   },[idStore])
@@ -108,6 +110,10 @@ const OrderStorePage = () => {
 
   return (
     <div className='order-page'>
+      {
+        isLoadingCreate &&
+        <Loader/>
+      }
       <div className="heading">
         <ul className='heading-links'>
             <li onClick={handleIsPending} style={isPending ? {color: '#F65D4E', borderBottom: '2px solid #F65D4E'} : {color: '#000', borderBottom: 'none'} }>Chờ duyệt</li>
@@ -186,7 +192,7 @@ const OrderStorePage = () => {
                   </tbody>
                 </Table>
                 </div>
-                <div className='pagination'>
+                {/* <div className='pagination'>
                     <Pagination
                     currentPage={currentPage}
                     limit={limit}
@@ -194,7 +200,7 @@ const OrderStorePage = () => {
                     totalPage={totalPage}
                     background={'#AEE2FF'}
                 />
-                </div>
+                </div> */}
               </div>
               {/* --------- */}
           </div>
@@ -267,7 +273,7 @@ const OrderStorePage = () => {
                     </tbody>
                   </Table>
                   </div>
-                  <div className='pagination'>
+                  {/* <div className='pagination'>
                       <Pagination
                       currentPage={currentPage}
                       limit={limit}
@@ -275,7 +281,7 @@ const OrderStorePage = () => {
                       totalPage={totalPage}
                       background={'#AEE2FF'}
                   />
-                  </div>
+                  </div> */}
                   </div>
                   {/* --------- */}
               </div>
@@ -347,7 +353,7 @@ const OrderStorePage = () => {
                     </tbody>
                   </Table>
                   </div>
-                  <div className='pagination'>
+                  {/* <div className='pagination'>
                     <Pagination
                     currentPage={currentPage}
                     limit={limit}
@@ -355,7 +361,7 @@ const OrderStorePage = () => {
                     totalPage={totalPage}
                     background={'#AEE2FF'}
                   />
-                  </div>
+                  </div> */}
                   </div>
                   {/* --------- */}
               </div>
@@ -427,7 +433,7 @@ const OrderStorePage = () => {
                     </tbody>
                   </Table>
                   </div>
-                  <div className='pagination'>
+                  {/* <div className='pagination'>
                     <Pagination
                     currentPage={currentPage}
                     limit={limit}
@@ -435,7 +441,7 @@ const OrderStorePage = () => {
                     totalPage={totalPage}
                     background={'#AEE2FF'}
                   />
-                  </div>
+                  </div> */}
                   </div>
                   {/* --------- */}
               </div>
@@ -507,7 +513,7 @@ const OrderStorePage = () => {
                     </tbody>
                   </Table>
                   </div>
-                  <div className='pagination'>
+                  {/* <div className='pagination'>
                     <Pagination
                     currentPage={currentPage}
                     limit={limit}
@@ -515,7 +521,7 @@ const OrderStorePage = () => {
                     totalPage={totalPage}
                     background={'#AEE2FF'}
                   />
-                  </div>
+                  </div> */}
                   </div>
                   {/* --------- */}
               </div>
@@ -587,7 +593,7 @@ const OrderStorePage = () => {
                     </tbody>
                   </Table>
                   </div>
-                  <div className='pagination'>
+                  {/* <div className='pagination'>
                       <Pagination
                       currentPage={currentPage}
                       limit={limit}
@@ -595,7 +601,7 @@ const OrderStorePage = () => {
                       totalPage={totalPage}
                       background={'#AEE2FF'}
                   />
-                  </div>
+                  </div> */}
                 </div>
                 {/* --------- */}
             </div>

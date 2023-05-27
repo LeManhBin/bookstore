@@ -12,6 +12,7 @@ import { IMG_URL } from '../../constants/config'
 import { actFetchServiceCode } from '../../redux/features/provinceSlice/provinceSlice'
 import loading from "../../assets/loading.gif"
 import axios from 'axios'
+import Loader from '../../components/Loader/Loader'
 const PaymentPage = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -34,7 +35,7 @@ const PaymentPage = () => {
             setIsNoAddress(false)
         }
     },[user])
-    console.log(isNoAddress);
+
     ///service
         useEffect(() => {
         const promises = allPayment.map(p => {
@@ -232,9 +233,10 @@ const PaymentPage = () => {
     <div className='payment-page'>
         {
             isLoadingCreate && 
-            <div className='loading1'>
-  <div class="loader"></div>
-        </div>
+//             <div className='loading1'>
+//   <div class="loader"></div>
+//         </div>
+            <Loader/>
         }
         <div className="heading">
           <Heading title={"Thanh toán"}/>

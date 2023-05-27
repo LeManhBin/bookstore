@@ -152,7 +152,7 @@ function App() {
           />
           <Route
             path="register-service"
-            element={isLogged && isStore ? <RegisterServicePage /> : <ROR404 />}
+            element={isLogged ? <RegisterServicePage /> : <ROR404 />}
           />
 
           <Route

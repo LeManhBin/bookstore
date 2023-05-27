@@ -44,8 +44,8 @@ export const actFetchRegisterService = createAsyncThunk(
 );
 export const actFetchConfirmRegisterService = createAsyncThunk(
   "service/actFetchConfirmRegisterService",
-  async ({ idUser, idService }) => {
-    const data = await fetchConfirmRegisterService(idUser, idService);
+  async ({ storeId, idService }) => {
+    const data = await fetchConfirmRegisterService(storeId, idService);
     return data || {};
   }
 );

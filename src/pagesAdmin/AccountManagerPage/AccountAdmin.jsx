@@ -120,7 +120,7 @@ const AccountAdmin = () => {
                             <td>{active}</td>
                             <td className='button'>
                               <button className='edit-btn' onClick={() => handleModalUpdate(data?.id)}><i className="fa-regular fa-pen-to-square"></i></button>
-                              <button className='delete-btn' onClick={() => handleModalDelete(data?.id)}><i className="fa-sharp fa-solid fa-trash"></i></button>
+                              <button className='delete-btn' onClick={() => handleModalDelete(data?.id)}><i className="fa-solid fa-lock"></i></button>
                             </td>
                         </tr>
                         )

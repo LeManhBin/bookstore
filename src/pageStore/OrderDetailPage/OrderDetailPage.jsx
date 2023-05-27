@@ -35,7 +35,7 @@ const OrderDetailPage = () => {
     });
 
     const handleFormat = (price) => {
-        const result = price.toLocaleString('vi-VN', {
+        const result = price?.toLocaleString('vi-VN', {
           style: 'currency',
           currency: 'VND',
         });

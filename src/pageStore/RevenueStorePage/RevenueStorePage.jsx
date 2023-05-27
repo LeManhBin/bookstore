@@ -117,7 +117,7 @@ const RevenueStorePage = () => {
                       <td className='button'>
                         <button className='edit-btn' onClick={() => handleDetailOrder(order.id)}><i className="fa-solid fa-binoculars"></i></button>
                         <button className='edit-btn' onClick={() => handleConfirm(order.id)}>Xác nhận</button>
-                        <button className='delete-btn' ><i className="fa-sharp fa-solid fa-trash"></i></button>
+                        {/* <button className='delete-btn' ><i className="fa-sharp fa-solid fa-trash"></i></button> */}
                       </td>
                     </tr>
                   )

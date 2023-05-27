@@ -43,8 +43,7 @@ const ChangePasswordPage = () => {
             toast.warning('Vui lòng nhập đủ thông tin!')
         }else {
             dispatch(actUpdatePassword(user.id, formState))
-            // navigate('/account/profile')
-            console.log(formState);
+            navigate('/account/profile')
         }
     }
   return (

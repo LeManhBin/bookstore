@@ -59,7 +59,7 @@ const ViewStore = () => {
                 </div>
             </div>
             <div className='information'>
-                <div className='_left'>
+                {/* <div className='_left'>
                     <div className='content'>
                       <i className="fa-solid fa-box"></i>
                       <p>Sản Phẩm: <span>{productStore}</span></p>
@@ -72,13 +72,13 @@ const ViewStore = () => {
                 <div className='_right'>
                     <div className='content'>
                       <i className="fa-solid fa-box"></i>
-                      <p>Người Theo Dõi: <span>10</span></p>
+                      <p>Người Theo Dõi: <span>0</span></p>
                     </div>
                     <div className='content'>
                       <i className="fa-solid fa-box"></i>
                       <p>Đánh Giá: <span>10</span></p>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
         <div className='bottom'>

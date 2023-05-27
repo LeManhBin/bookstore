@@ -60,12 +60,16 @@ const CartPage = () => {
         dispatch(actFetchAllDataCartByIdUser(user?.id))
     },[])
 
-    console.log("-----------------",cartItems);
 
   const handleIncre = (item) => {
     let quantity = item.amount
     quantity++
-    dispatch(actChangeQuantity(item, quantity, idUser))
+    if(quantity > 10) {
+      toast.warning("Số mua lớn, vui lòng liên hệ cửa hàng")
+    }else {
+      dispatch(actChangeQuantity(item, quantity, idUser))
+    }
+    
   }
 
   const handleDecre = (item) => {

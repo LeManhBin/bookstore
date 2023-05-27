@@ -80,7 +80,7 @@ const ProductDetailPage = () => {
 
     const priceAfterDiscount = book.price - (book.price * (book.discount/100)) 
 
-    console.log(evaluate,"evaluate");
+
     
     let formattedPrice = book?.price?.toLocaleString('vi-VN', {
         style: 'currency',
@@ -148,12 +148,17 @@ const ProductDetailPage = () => {
 
     const handleIncrease = () => {
         setQuantity(prev => {
-            return prev + 1
+            if (prev > 9) {
+                toast.warning("Số mua lớn, vui lòng liên hệ cửa hàng")
+            }else {
+                setCartState(prevState => ({
+                    ...prevState,
+                    amount: prevState.amount + 1
+                }))
+                return prev + 1
+            }
+            return prev
         })
-        setCartState(prevState => ({
-            ...prevState,
-            amount: prevState.amount + 1
-        }))
     }
 
     const handleWatchShop = (id) => {
@@ -220,6 +225,7 @@ const ProductDetailPage = () => {
                             <p>Thể Loại: <span>{book?.category}</span></p>
                             <p>Nhà xuất bản: <span>{book?.publishing}</span></p>
                             <p>Số lượng: <span>{book?.quantity}</span></p>
+                            <p>Đã bán: <span>{book?.quantitySold}</span></p>
                             <p className='tags-container'>
                                 {
                                     book?.tags?.map(tag => {
@@ -241,7 +247,7 @@ const ProductDetailPage = () => {
                             </div>
                         </div>
                         <button className='add-cart' onClick={handleAddToCard}> <i className="fa-solid fa-bag-shopping"></i> Thêm vào giỏ hàng</button>
-                        <button className='add-wishlist'>Yêu thích</button>
+                        {/* <button className='add-wishlist'>Yêu thích</button> */}
                     </div>
                 </div>
             </div>
@@ -253,20 +259,20 @@ const ProductDetailPage = () => {
                         <button className='see-shop' onClick={() => handleWatchShop(book?.store?.id)}>Ghé thăm</button>
                     </div>
                 </div>
-                <div className='achievements'>
+                {/* <div className='achievements'>
                     <div className='text'>
                         <span>Đánh Giá</span>
-                        <span>616</span>
+                        <span>0</span>
                     </div>
                     <div className='text'>
                         <span>Sản Phẩm</span>
-                        <span>616</span>
+                        <span>0</span>
                     </div>
                     <div className='text'>
                         <span>Người Theo Dõi</span>
-                        <span>616</span>
+                        <span>0</span>
                     </div>
-                </div>  
+                </div>   */}
             </div>
             <div className='product-detail-desc'>
                 <h2 className='heading'>Mô tả sản phẩm</h2>

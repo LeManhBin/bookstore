@@ -22,7 +22,6 @@ const UpdateAccount = () => {
 
     const idAccount = Number(param.idAccount)
 
-    console.log(idAccount, userById);
     useEffect(() => {
         dispatch(actFetchUserById(idAccount))
     },[idAccount])
