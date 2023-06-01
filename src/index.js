@@ -20,7 +20,6 @@ root.render(
         rtl={false}
         draggable
         theme="light"
-        limit={1}
       />
       <App />
     </Provider>

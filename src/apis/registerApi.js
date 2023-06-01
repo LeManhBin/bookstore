@@ -15,8 +15,8 @@ export const fetchRegisterUser = async (data) => {
 export const fetchCheckEmailUser = async (data) => {
   try {
     const res = await axios.post(`${BE_URL}checkemail`, data);
-    if (res.status === 200) {
-      toast.success("Ok");
+    if (res.data.status === 200) {
+      toast.success("Tài khoản hợp lệ");
       return true;
     } else {
       toast.warning("Tài khoản đã có người sử dụng");

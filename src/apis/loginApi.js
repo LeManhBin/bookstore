@@ -3,10 +3,7 @@ import { BE_URL } from "../constants/config";
 import { toast } from "react-toastify";
 
 export const fetchLoginUser = async (data) => {
-  const res = await axios.post(
-    `http://localhost:8080/BookStore/api/login`,
-    data
-  );
+  const res = await axios.post(`${BE_URL}login`, data);
   if (res.status == 200) {
     toast.success("Thành công !");
     return res.data;

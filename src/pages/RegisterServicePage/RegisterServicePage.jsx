@@ -48,11 +48,14 @@ const RegisterServicePage = () => {
         }
     },[payCode] )
 
+    const onHomePage = () => {
+        navigate("/")
+    }
 
     return (
         <div className='register-service'>
             <div className='header'>
-                <div className='left'>
+                <div className='left' onClick={onHomePage}>
                     <img src="https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/02/logo-1.svg" alt="" />
                     <h3>Đăng ký gói dịch vụ</h3>
                 </div>

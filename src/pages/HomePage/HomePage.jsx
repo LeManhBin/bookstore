@@ -194,10 +194,10 @@ const HomePage = () => {
                     {
                       <Slider {...settings}>
                           {
-                            allSlide?.filter(slide => slide.status === 1).map(data => {
+                            allSlide?.filter(slide => slide?.status === 1).map(data => {
                               return(
                                 <div key={data.id}>
-                                    <img src={`${IMG_URL}${data.fileName}`} alt="" />
+                                    <img src={`${IMG_URL}${data?.fileName}`} alt="" />
                                 </div>
                               )
                             })
@@ -246,7 +246,7 @@ const HomePage = () => {
     
                 <div className="homepage__right--product">
                     <div className="heading">
-                        <p className='title'>Khuyển mãi</p>
+                        <p className='title'>Khuyến mãi</p>
                         <button className='view' onClick={handleViewAll}>Xem tất cả</button>
                     </div>
                     <div className='product-container'>

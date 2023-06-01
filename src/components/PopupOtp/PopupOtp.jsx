@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import { actRegister } from '../../redux/features/userSlice/userSlice';
+import { actFetchOtp, actRegister } from '../../redux/features/userSlice/userSlice';
 import './PopupOtp.scss'
 const PopupOtp = ({formData, otp, setCheckOtp}) => {
   const dispatch = useDispatch()
@@ -16,6 +16,10 @@ const PopupOtp = ({formData, otp, setCheckOtp}) => {
     }else {
       toast.error("Mã xác nhận không chính xác!!")
     }
+  }
+
+  const handleGetOtp = () => {
+    dispatch(actFetchOtp(formData?.email))
   }
 
   const handleClose = () => {
@@ -33,7 +37,7 @@ const PopupOtp = ({formData, otp, setCheckOtp}) => {
           <span >Bạn không nhận được mã xác nhận ?</span>
           <div className='again'>
             <span>Vui lòng nhấn</span>
-            <button>Gửi lại mã</button>
+            <button onClick={handleGetOtp}>Gửi lại mã</button>
           </div>
           <p>Hoặc <span style={{color: '#F65D4E', cursor: 'pointer'}}>báo lỗi không gửi được tin nhắn</span> </p>
         </div>

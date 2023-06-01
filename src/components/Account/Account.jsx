@@ -4,18 +4,24 @@ import { useNavigate } from 'react-router-dom'
 import './Account.scss'
 import { IMG_URL } from '../../constants/config'
 import { actFetchUserById } from '../../redux/features/userSlice/userSlice'
+import { toast } from 'react-toastify'
 const Account = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const {user} = useSelector((state) => state.user)
-    
+    const {isLogged} = useSelector((state) => state.user)
 
     const handleProfilePage = () => {
         navigate('/account/profile')
     }
 
     const handleRegisterSalePage = () => {
-        navigate('/sale-register')
+        if(isLogged){
+            navigate('/sale-register')
+        }else {
+            toast.warning("Vui lòng đăng nhập trước!")
+        }
+        
     }
 
     const handleMyStore= () => {
