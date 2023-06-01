@@ -15,12 +15,13 @@ export const fetchRegisterUser = async (data) => {
 export const fetchCheckEmailUser = async (data) => {
   try {
     const res = await axios.post(`${BE_URL}checkemail`, data);
+    console.log(res, "-------");
     if (res.data.status === 200) {
+      toast.warning("Tài khoản đã tồn tại");
+      return false;
+    } else {
       toast.success("Tài khoản hợp lệ");
       return true;
-    } else {
-      toast.warning("Tài khoản đã có người sử dụng");
-      return false;
     }
   } catch (error) {
     console.error(error);
