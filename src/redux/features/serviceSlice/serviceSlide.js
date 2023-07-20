@@ -39,6 +39,7 @@ export const actFetchRegisterService = createAsyncThunk(
   "service/actFetchRegisterService",
   async (payload) => {
     const data = await fetchRegisterService(payload);
+    console.log(payload, "----");
     return data || {};
   }
 );
